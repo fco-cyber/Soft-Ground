@@ -1,0 +1,45 @@
+{
+  "name": "Soft Ground — a companion for anxiety",
+  "short_name": "Soft Ground",
+  "description": "A quiet, offline companion for people living with severe anxiety. Understand what is happening in your body, take the fear apart, and find a way back. Nothing you write leaves your device.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "any",
+  "background_color": "#faf6ed",
+  "theme_color": "#faf6ed",
+  "lang": "en-AU",
+  "dir": "ltr",
+  "categories": ["health", "lifestyle", "education"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Slow breathing",
+      "short_name": "Breathe",
+      "description": "Go straight to the breathing exercise",
+      "url": "./#practices",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Today's reflection",
+      "short_name": "Reflection",
+      "description": "Open the reflection for today",
+      "url": "./#reflections",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "A letter for today",
+      "short_name": "Letters",
+      "description": "Read something for the day you are having",
+      "url": "./#letters",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

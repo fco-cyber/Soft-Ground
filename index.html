@@ -1,0 +1,2327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Soft Ground — somewhere to stand when everything is loud</title>
+<meta name="description" content="A gentle companion for anyone living with severe anxiety. Understand what is happening to you, take the fear apart, and find a way back. Nothing you write is stored or sent anywhere.">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#faf6ed" id="metaTheme">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Soft Ground">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   SOFT GROUND
+   A single-file companion. No storage, no network, no tracking.
+   ============================================================ */
+
+:root{
+  /* display only — big, sparing, never body copy */
+  --serif: 'Cormorant Garamond','Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  /* built for reading at length */
+  --serif-text: 'Source Serif 4','Iowan Old Style',Charter,'Bitstream Charter','Palatino Linotype',Georgia,serif;
+  --sans: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --measure: 40rem;   /* == panel inner width, so prose fills it */
+  --page: 44rem;      /* measure + panel padding */
+  --fs: 16px;
+  --lh: 1.7;
+}
+
+/* ---------- PALETTES -------------------------------------------
+   Each is a coherent world, not a hue rotation. Surfaces, tints,
+   grain behaviour and vignette all move together.
+   ---------------------------------------------------------------- */
+
+/* 1 · UNDERSTORY — forest floor at night. The original. */
+:root, [data-palette="understory"]{
+  --ink:#161c26; --ink-2:#1c2430; --ink-3:#232c3a; --ink-line:#2f3a4a;
+  --bone:#ece6d9; --bone-2:#c3bcae; --bone-3:#8b8477;
+  --brass:#c9a86c; --brass-dim:#8a7444; --label:#9a824c;
+  --sage:#8fa896; --blush:#d8a09a; --violet:#8681ab;
+  --field-line:#2b3444;
+  --panel-a:rgba(36,42,52,.60); --panel-b:rgba(29,35,45,.35);
+  --nav-a:rgba(22,28,38,.94);   --nav-b:rgba(22,28,38,.80);
+  --input-bg:rgba(13,19,29,.65); --rung-bg:rgba(28,34,44,.45);
+  --tint:rgba(201,168,108,.08);
+  --vignette:rgba(0,0,0,.30);
+  --grain-op:.026; --grain-blend:screen;
+  --strong:#f5efe2;
+}
+
+/* 2 · NOCTURNE — celestial, cool, very low luminance. */
+[data-palette="nocturne"]{
+  --ink:#121829; --ink-2:#182034; --ink-3:#1f2942; --ink-line:#2a3552;
+  --bone:#e3e7f2; --bone-2:#a9b3c9; --bone-3:#78839b;
+  --brass:#9fb6e8; --brass-dim:#5b6d97; --label:#7182a9;
+  --sage:#7fa8b5; --blush:#bda6db; --violet:#8b8fd0;
+  --field-line:#1c2540;
+  --panel-a:rgba(32,38,55,.60); --panel-b:rgba(25,31,48,.35);
+  --nav-a:rgba(18,24,41,.94);    --nav-b:rgba(18,24,41,.80);
+  --input-bg:rgba(9,15,32,.65);  --rung-bg:rgba(24,30,47,.45);
+  --tint:rgba(159,182,232,.08);
+  --vignette:rgba(0,0,0,.32);
+  --grain-op:.022; --grain-blend:screen;
+  --strong:#f2f5fc;
+}
+
+/* 3 · PEONY — light. Blush paper, deep rose, soft green. */
+[data-palette="peony"]{
+  --ink:#fdf5f4; --ink-2:#f8ecea; --ink-3:#f2e3e1; --ink-line:#e3d0ce;
+  --bone:#33222a; --bone-2:#5f4750; --bone-3:#846971;
+  --brass:#a8455f; --brass-dim:#b97d8a; --label:#a8455f;
+  --sage:#5c775c; --blush:#b05169; --violet:#7c6395;
+  --field-line:#eddad8;
+  --panel-a:rgba(255,254,253,.60); --panel-b:rgba(255,249,248,.35);
+  --nav-a:rgba(253,245,244,.94);   --nav-b:rgba(253,245,244,.80);
+  --input-bg:rgba(255,255,255,.65); --rung-bg:rgba(255,253,252,.45);
+  --tint:rgba(168,69,95,.08);
+  --vignette:rgba(150,100,110,.07);
+  --grain-op:.022; --grain-blend:multiply;
+  --strong:#1d1016;
+}
+
+/* 4 · MULBERRY — dark. Deep plum, rose gold, lilac. */
+[data-palette="mulberry"]{
+  --ink:#1c1422; --ink-2:#241a2c; --ink-3:#2d2137; --ink-line:#3c2d48;
+  --bone:#f2e7ef; --bone-2:#c3aebd; --bone-3:#937a8c;
+  --brass:#e0a9ae; --brass-dim:#9c6d76; --label:#e0a9ae;
+  --sage:#93b0a4; --blush:#e5a3bb; --violet:#b79ada;
+  --field-line:#332540;
+  --panel-a:rgba(42,34,48,.60); --panel-b:rgba(35,27,41,.35);
+  --nav-a:rgba(28,20,34,.94);    --nav-b:rgba(28,20,34,.80);
+  --input-bg:rgba(19,11,25,.65); --rung-bg:rgba(34,26,40,.45);
+  --tint:rgba(224,169,174,.08);
+  --vignette:rgba(0,0,0,.30);
+  --grain-op:.026; --grain-blend:screen;
+  --strong:#fbf3f8;
+}
+
+/* 5 · VELLUM — light. Old botanical paper, ink and oxblood. */
+[data-palette="vellum"]{
+  --ink:#faf6ed; --ink-2:#f3ede0; --ink-3:#ebe3d2; --ink-line:#d9cfba;
+  --bone:#2b2418; --bone-2:#564b39; --bone-3:#756a58;
+  --brass:#8a6320; --brass-dim:#8f7440; --label:#81683a;
+  --sage:#56725c; --blush:#a2564e; --violet:#6a5f8a;
+  --field-line:#dbd0ba;
+  --panel-a:rgba(255,255,246,.60); --panel-b:rgba(254,250,241,.35);
+  --nav-a:rgba(250,246,237,.94);   --nav-b:rgba(250,246,237,.80);
+  --input-bg:rgba(255,255,248,.65); --rung-bg:rgba(255,254,245,.45);
+  --tint:rgba(138,99,32,.09);
+  --vignette:rgba(120,100,60,.07);
+  --grain-op:.022; --grain-blend:multiply;
+  --strong:#171208;
+}
+
+/* 6 · TIDAL — light, cool, quiet. Sea glass and slate. */
+[data-palette="tidal"]{
+  --ink:#f4f8f7; --ink-2:#eaf1ef; --ink-3:#e0e9e7; --ink-line:#cbd8d5;
+  --bone:#14201f; --bone-2:#3e514e; --bone-3:#60706e;
+  --brass:#1f6f70; --brass-dim:#4d8887; --label:#427575;
+  --sage:#46775e; --blush:#9d5551; --violet:#57678d;
+  --field-line:#d3dedb;
+  --panel-a:rgba(253,255,255,.60); --panel-b:rgba(248,252,251,.35);
+  --nav-a:rgba(244,248,247,.94);   --nav-b:rgba(244,248,247,.80);
+  --input-bg:rgba(255,255,255,.65); --rung-bg:rgba(252,255,255,.45);
+  --tint:rgba(31,111,112,.08);
+  --vignette:rgba(40,80,80,.06);
+  --grain-op:.018; --grain-blend:multiply;
+  --strong:#08100f;
+}
+
+*{box-sizing:border-box;}
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; font-size:var(--fs); }
+body{
+  margin:0; background:var(--ink); color:var(--bone);
+  font-family:var(--sans); font-weight:400; font-size:1rem; line-height:var(--lh);
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  transition:background .6s var(--ease), color .6s var(--ease);
+}
+
+/* --- film grain + vignette ------------------------------------ */
+.grain{
+  position:fixed; inset:0; pointer-events:none; z-index:9999;
+  opacity:var(--grain-op); mix-blend-mode:var(--grain-blend);
+}
+.vignette{
+  position:fixed; inset:0; pointer-events:none; z-index:9998;
+  background:radial-gradient(120% 90% at 50% 0%, transparent 40%, var(--vignette) 100%);
+}
+
+h1,h2,h3,h4,.display{ font-family:var(--serif); font-weight:500; letter-spacing:.005em; }
+h1{ font-size:clamp(2.1rem,4.6vw,3.05rem); line-height:1.08; margin:0; letter-spacing:-.015em; }
+h2{ font-size:clamp(1.55rem,2.9vw,2.05rem); line-height:1.2; margin:0 0 .5em; letter-spacing:-.01em; }
+h3{ font-size:clamp(1.16rem,1.8vw,1.32rem); line-height:1.32; margin:0 0 .5em; color:var(--bone); }
+h4{ font-size:1.05rem; margin:0 0 .35em; color:var(--brass); letter-spacing:.02em; }
+p{ margin:0 0 1.15em; max-width:var(--measure); }
+a{ color:var(--brass); text-underline-offset:3px; text-decoration-thickness:.5px; }
+em{ font-style:italic; }
+strong{ font-weight:500; color:var(--strong); }
+
+.eyebrow{
+  font-family:var(--sans); font-size:.8rem; letter-spacing:.17em; text-transform:uppercase;
+  color:var(--label); font-weight:600; margin:0 0 1.4em; display:block;
+}
+.lede{ font-family:var(--serif-text); font-size:clamp(1.02rem,1.4vw,1.12rem); line-height:1.66; color:var(--bone-2); font-weight:400; }
+.small{ font-size:.96rem; line-height:1.66; color:var(--bone-3); }
+.hair{ height:1px; background:linear-gradient(90deg,transparent,var(--ink-line) 12%,var(--ink-line) 88%,transparent); border:0; margin:3.5rem 0; }
+
+/* --- layout ---------------------------------------------------- */
+.wrap{ width:min(var(--page),92vw); margin:0 auto; }
+.view{ display:none; animation:rise .7s var(--ease) both; }
+.view.on{ display:block; }
+@keyframes rise{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;} }
+
+/* --- navigation ------------------------------------------------ */
+nav{
+  position:sticky; top:0; z-index:900;
+  backdrop-filter:blur(18px) saturate(1.3); -webkit-backdrop-filter:blur(18px) saturate(1.3);
+  background:linear-gradient(180deg, var(--nav-a), var(--nav-b));
+  border-bottom:1px solid var(--ink-line);
+}
+.navin{
+  width:min(var(--page),94vw); margin:0 auto; display:flex; align-items:center;
+  gap:.4rem 1.1rem; min-height:58px; padding:.35rem 0; flex-wrap:wrap;
+}
+.mark{ display:flex; align-items:center; gap:.55rem; font-family:var(--serif); font-size:1.05rem; white-space:nowrap; letter-spacing:.04em; color:var(--bone); flex:none; }
+.mark svg{ width:20px; height:20px; }
+.navlinks{ display:flex; flex-wrap:wrap; gap:.05rem; margin-left:auto; min-width:0; }
+.navlinks::-webkit-scrollbar{ display:none; }
+.navlinks::after{ content:''; flex:none; width:.3rem; }
+.navlinks::-webkit-scrollbar{ display:none; }
+.navlinks button{
+  background:none; border:0; color:var(--bone-3); font-family:var(--sans);
+  font-size:.76rem; letter-spacing:.05em; text-transform:uppercase; font-weight:500;
+  padding:.5rem .42rem; cursor:pointer; white-space:nowrap; position:relative; transition:color .3s;
+}
+.navlinks button:hover{ color:var(--bone-2); }
+.navlinks button.on{ color:var(--brass); }
+.navlinks button.on::after{
+  content:''; position:absolute; left:.72rem; right:.72rem; bottom:.22rem; height:1px; background:var(--brass); opacity:.6;
+}
+
+/* --- hero ------------------------------------------------------ */
+.hero{ position:relative; min-height:88vh; display:flex; align-items:center; overflow:hidden; }
+#field{ position:absolute; inset:0; width:100%; height:100%; z-index:0; }
+.hero .wrap{ position:relative; z-index:2; padding:6rem 0 4rem; }
+.hero h1 span{ display:block; }
+.hero h1 .it{ font-style:italic; color:var(--brass); }
+.herotext{ max-width:none; }
+
+/* --- buttons --------------------------------------------------- */
+.btn{
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-family:var(--sans); font-size:.81rem; letter-spacing:.13em; text-transform:uppercase; font-weight:500;
+  color:var(--bone); background:transparent; border:1px solid var(--ink-line);
+  padding:.85rem 1.4rem; border-radius:2px; cursor:pointer;
+  transition:border-color .4s var(--ease), color .4s, background .4s, transform .4s var(--ease);
+}
+.btn:hover{ border-color:var(--brass-dim); color:var(--brass); transform:translateY(-1px); }
+.btn.primary{ border-color:var(--brass-dim); color:var(--brass); }
+.btn.primary:hover{ background:var(--tint); }
+.btn.sm{ padding:.58rem .95rem; font-size:.75rem; letter-spacing:.11em; }
+
+/* --- cards / panels -------------------------------------------- */
+.panel{
+  border:1px solid var(--ink-line); background:linear-gradient(160deg, var(--panel-a), var(--panel-b));
+  padding:2rem 2rem 1.7rem; border-radius:3px; position:relative; overflow:hidden;
+}
+.panel::before{
+  content:''; position:absolute; left:0; top:0; width:100%; height:1px;
+  background:linear-gradient(90deg,transparent,var(--brass) 30%,var(--tint) 70%,transparent); opacity:.45;
+}
+.grid{ display:grid; gap:1.1rem; }
+.g2{ grid-template-columns:repeat(auto-fit,minmax(15rem,1fr)); }
+.g3{ grid-template-columns:repeat(auto-fit,minmax(12rem,1fr)); }
+
+.chip{
+  display:inline-block; font-size:.79rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--sage); border:1px solid currentColor; padding:.3rem .65rem; border-radius:2px; margin-bottom:1rem;
+}
+.chip.b{ color:var(--brass); }
+.chip.v{ color:var(--violet); }
+.chip.p{ color:var(--blush); }
+@supports (color: color-mix(in srgb, red 50%, transparent)){
+  .chip{ border-color: color-mix(in srgb, currentColor 38%, transparent); }
+}
+
+/* citation superscripts */
+.cite{
+  font-size:.68em; vertical-align:super; color:var(--label); cursor:pointer;
+  border:0; background:none; padding:0 .12em; font-family:var(--sans); letter-spacing:.02em;
+  transition:color .3s;
+}
+.cite:hover{ color:var(--brass); }
+
+/* --- section heads with botanical rule ------------------------- */
+.sechead{ padding:5.5rem 0 1rem; }
+.botanical{ display:block; margin:0 0 2.6rem; opacity:.5; }
+
+/* --- inputs ---------------------------------------------------- */
+input[type=text], textarea, select{
+  width:100%; background:var(--input-bg); border:1px solid var(--ink-line); color:var(--bone);
+  font-family:var(--sans); font-size:1rem; font-weight:400; padding:.8rem .9rem; border-radius:2px;
+  transition:border-color .35s;
+}
+input[type=text]:focus, textarea:focus, select:focus{ outline:none; border-color:var(--brass-dim); }
+textarea{ resize:vertical; min-height:5.5rem; line-height:1.6; }
+label{ display:block; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase; color:var(--bone-2); margin:0 0 .45rem; font-weight:500; }
+.field{ margin-bottom:1.1rem; }
+input[type=range]{ width:100%; accent-color:var(--brass); background:transparent; }
+
+.out{
+  border-left:1px solid var(--brass-dim); padding:.9rem 0 .9rem 1.2rem; margin-top:1.2rem;
+  font-family:var(--serif-text); font-size:1.12rem; line-height:1.65; color:var(--bone); min-height:2rem;
+}
+.out:empty{ display:none; }
+
+/* --- breathing --------------------------------------------------*/
+.breathstage{ display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.4rem 0 .5rem; max-width:var(--measure); }
+#orb{ width:min(340px,74vw); height:min(340px,74vw); }
+.phase{ font-family:var(--serif); font-size:1.7rem; letter-spacing:.06em; color:var(--bone-2); margin-top:.6rem; min-height:2.4rem; }
+.counter{ font-size:.78rem; letter-spacing:.16em; text-transform:uppercase; color:var(--bone-3); }
+
+/* --- ladder ---------------------------------------------------- */
+.rung{ border:1px solid var(--ink-line); border-radius:3px; padding:1.1rem 1.2rem; margin-bottom:.85rem; background:var(--rung-bg); }
+.rung .top{ display:flex; align-items:baseline; gap:.8rem; }
+.rung .num{ font-family:var(--serif); font-size:1.5rem; color:var(--brass-dim); flex:none; width:1.6rem; }
+.rung .sit{ font-family:var(--serif-text); font-size:1.08rem; line-height:1.5; color:var(--bone); flex:1; }
+.meta{ font-size:.86rem; color:var(--bone-3); margin-top:.5rem; letter-spacing:.01em; line-height:1.6; }
+.delta{ color:var(--sage); }
+.bar{ height:3px; background:var(--ink-line); border-radius:2px; overflow:hidden; margin-top:.55rem; }
+.bar i{ display:block; height:100%; background:linear-gradient(90deg,var(--brass-dim),var(--brass)); }
+.x{ background:none;border:0;color:var(--bone-3);cursor:pointer;font-size:1rem;line-height:1;padding:.2rem .35rem; }
+.x:hover{ color:var(--blush); }
+
+/* --- emotion lexicon ------------------------------------------- */
+.lex{ display:flex; flex-wrap:wrap; gap:.4rem; }
+.lex button{
+  background:transparent; border:1px solid var(--ink-line); color:var(--bone-2);
+  font-family:var(--sans); font-size:.9rem; font-weight:400; padding:.48rem .8rem; border-radius:2px; cursor:pointer;
+  transition:all .3s var(--ease);
+}
+.lex button:hover{ border-color:var(--brass-dim); color:var(--brass); }
+.lex button.on{ border-color:var(--brass); color:var(--ink); background:var(--brass); font-weight:400; }
+
+/* --- stories --------------------------------------------------- */
+.storylist{ display:grid; gap:1px; background:var(--ink-line); border:1px solid var(--ink-line); }
+.storylist button{
+  background:var(--ink-2); border:0; text-align:left; padding:1.5rem 1.6rem; cursor:pointer; color:var(--bone);
+  transition:background .4s;
+}
+.storylist button:hover{ background:var(--ink-3); }
+.storylist .t{ font-family:var(--serif); font-size:1.5rem; display:block; margin-bottom:.25rem; line-height:1.2; }
+.storylist .s{ font-size:.9rem; color:var(--bone-3); line-height:1.55; }
+.story{ font-family:var(--serif-text); font-size:1.07rem; line-height:1.8; color:var(--bone-2); }
+.story p{ max-width:var(--measure); margin-bottom:1.35em; }
+.story p:first-of-type::first-letter{
+  font-size:2.9rem; float:left; line-height:.9; padding:.1em .1em 0 0; color:var(--brass);
+}
+
+/* --- evidence -------------------------------------------------- */
+.ref{ border-bottom:1px solid var(--ink-line); padding:1.1rem 0; display:grid; grid-template-columns:2.2rem 1fr; gap:.9rem; }
+.ref .n{ font-family:var(--serif); color:var(--label); font-size:1.05rem; }
+.ref .t{ font-size:1.02rem; color:var(--bone); line-height:1.55; margin-bottom:.25rem; }
+.ref .m{ font-size:.88rem; color:var(--bone-3); line-height:1.55; }
+.ref.flash{ background:var(--tint); }
+
+/* --- crisis ---------------------------------------------------- */
+.crisis{ border:1px solid var(--blush); background:var(--tint); padding:1.6rem 1.8rem; border-radius:3px; color:var(--blush); }
+.crisis h4{ color:var(--blush); }
+.crisis p{ color:var(--bone-2); }
+@supports (color: color-mix(in srgb, red 50%, transparent)){
+  .crisis{ border-color: color-mix(in srgb, var(--blush) 32%, transparent);
+           background: color-mix(in srgb, var(--blush) 5%, transparent); }
+}
+
+/* ---------- SVG tokens: generated artwork follows the palette ---- */
+.sv-brass{ stroke:var(--brass); }  .sv-sage{ stroke:var(--sage); }
+.sv-violet{ stroke:var(--violet); } .sv-line{ stroke:var(--field-line); }
+.sv-bone{ stroke:var(--bone); }     .sf-brass{ fill:var(--brass); }
+#bg1 .gs-a{ stop-color:var(--brass); } #bg1 .gs-b{ stop-color:var(--sage); }
+#bg1 .gs-c{ stop-color:var(--brass); }
+
+/* ---------- reading comfort ------------------------------------- */
+[data-reading="comfortable"]{ --fs:17px; --lh:1.74; }
+[data-reading="large"]{ --fs:18.6px; --lh:1.78; --measure:37rem; --page:41rem; }
+
+/* ---------- the studio (palette + experience controls) ---------- */
+.studiobtn{
+  flex:none; margin-left:.9rem; display:flex; align-items:center; gap:.55rem; cursor:pointer;
+  background:var(--tint); border:1px solid var(--brass-dim); border-radius:999px;
+  padding:.36rem .5rem; line-height:0;
+  transition:border-color .35s var(--ease), background .35s var(--ease);
+}
+.studiobtn:hover{ border-color:var(--brass); background:var(--ink-3); }
+.studiobtn svg{ width:34px; height:24px; overflow:visible; }
+.studiobtn circle{ stroke:var(--ink); stroke-width:1.6; }
+.studiobtn .a{ fill:var(--brass); } .studiobtn .b{ fill:var(--sage); } .studiobtn .c{ fill:var(--violet); }
+/* a soft pulse on first load so the control is noticed at least once */
+@keyframes swhint{ 0%,88%,100%{ box-shadow:0 0 0 0 transparent; } 94%{ box-shadow:0 0 0 5px var(--tint); } }
+.studiobtn{ animation:swhint 5s ease-in-out 1.2s 2; }
+@media (prefers-reduced-motion: reduce){ .studiobtn{ animation:none; } }
+
+.studio{
+  position:fixed; z-index:950; top:66px; right:max(4vw,1rem); width:min(340px,92vw);
+  border:1px solid var(--ink-line); border-radius:4px;
+  background:linear-gradient(160deg, var(--panel-a), var(--panel-b));
+  backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4);
+  padding:1.5rem 1.5rem 1.3rem; box-shadow:0 24px 60px -20px var(--vignette);
+  opacity:0; transform:translateY(-10px) scale(.985); pointer-events:none;
+  transition:opacity .38s var(--ease), transform .38s var(--ease);
+}
+.studio.on{ opacity:1; transform:none; pointer-events:auto; }
+.studio h5{ font-family:var(--sans); font-size:.79rem; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--bone-3); font-weight:500; margin:0 0 .8rem; }
+.studio .grp + .grp{ margin-top:1.5rem; padding-top:1.4rem; border-top:1px solid var(--ink-line); }
+
+.swatches{ display:grid; grid-template-columns:1fr 1fr; gap:.4rem; }
+.sw{ display:flex; align-items:center; gap:.6rem; background:none; cursor:pointer;
+  border:1px solid transparent; border-radius:3px; padding:.42rem .5rem; text-align:left;
+  transition:border-color .35s, background .35s; }
+.sw:hover{ border-color:var(--ink-line); }
+.sw.on{ border-color:var(--brass); background:var(--tint); }
+.sw .dots{ display:flex; flex:none; }
+.sw .dots i{ width:15px; height:15px; border-radius:999px; display:block; margin-right:-5px;
+  box-shadow:0 0 0 1.5px var(--ink-2); }
+.sw.on{ border-color:var(--brass); background:var(--tint); box-shadow:inset 0 0 0 1px var(--brass); }
+.sw .nm{ font-family:var(--serif-text); font-size:1rem; color:var(--bone-2); line-height:1.2; }
+.sw.on .nm{ color:var(--bone); }
+
+.seg{ display:flex; border:1px solid var(--ink-line); border-radius:3px; overflow:hidden; }
+.seg button{ flex:1; background:none; border:0; cursor:pointer; padding:.5rem .3rem;
+  font-family:var(--sans); font-size:.75rem; letter-spacing:.1em; text-transform:uppercase;
+  font-weight:500; color:var(--bone-3); transition:background .35s, color .35s; }
+.seg button + button{ border-left:1px solid var(--ink-line); }
+.seg button:hover{ color:var(--bone-2); }
+.seg button.on{ background:var(--tint); color:var(--brass); }
+.studio .note{ font-size:.83rem; color:var(--bone-3); line-height:1.5; margin:.8rem 0 0; }
+
+[data-motion="still"] .studiobtn:hover{ transform:none; }
+
+/* --- footer ---------------------------------------------------- */
+footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4rem; }
+
+/* ---------- doors (entry triage) -------------------------------- */
+.door{
+  display:block; text-align:left; cursor:pointer; border-radius:3px;
+  border:1px solid var(--ink-line); background:linear-gradient(160deg,var(--panel-a),var(--panel-b));
+  padding:1.5rem 1.6rem; transition:border-color .45s var(--ease), transform .45s var(--ease), background .45s;
+}
+.door:hover{ border-color:var(--brass-dim); transform:translateY(-2px); }
+.door .dt{ display:block; font-family:var(--serif); font-size:1.4rem; color:var(--bone); margin-bottom:.35rem; line-height:1.2; }
+.door .dd{ display:block; font-size:.99rem; line-height:1.65; color:var(--bone-3); font-family:var(--sans); }
+.door:hover .dt{ color:var(--brass); }
+
+/* ---------- architecture floors --------------------------------- */
+.floor{ padding:1.4rem 0; border-bottom:1px solid var(--ink-line); }
+.floor.last{ border-bottom:0; padding-bottom:.2rem; }
+.floor .fl{ font-family:var(--serif); font-size:1.28rem; color:var(--label); font-style:italic; padding-top:.1rem; }
+.floor h4{ margin-bottom:.3rem; }
+.floor p{ margin-bottom:0; }
+
+/* ---------- plan stages ----------------------------------------- */
+.pcard{
+  border:1px solid var(--ink-line); border-left:2px solid var(--brass-dim); border-radius:3px;
+  background:linear-gradient(160deg,var(--panel-a),var(--panel-b)); padding:1.9rem 2rem 1.6rem; position:relative;
+}
+.pcard .pn{ font-family:var(--sans); font-size:.74rem; letter-spacing:.18em; text-transform:uppercase; color:var(--label); display:block; margin-bottom:.55rem; }
+.pcard .pgoal{ font-family:var(--serif-text); font-size:1.14rem; line-height:1.6; font-style:italic; color:var(--brass); margin-bottom:1.1rem; }
+.plist{ margin:1.2rem 0 0; padding:0; list-style:none; }
+.plist li{ position:relative; padding:0 0 .8rem 1.5rem; font-size:1.02rem; line-height:1.7; color:var(--bone-2); max-width:var(--measure); }
+.plist li::before{ content:''; position:absolute; left:.25rem; top:.72em; width:5px; height:5px; border-radius:999px; background:var(--brass-dim); }
+
+/* ---------- today's checklist ----------------------------------- */
+.check{ display:flex; align-items:flex-start; gap:.85rem; padding:.7rem 0; border-bottom:1px solid var(--ink-line); cursor:pointer; }
+.check:last-of-type{ border-bottom:0; }
+.check .bx{ flex:none; width:17px; height:17px; margin-top:.28rem; border:1px solid var(--brass-dim); border-radius:2px; position:relative; transition:background .3s, border-color .3s; }
+.check.on .bx{ background:var(--brass); border-color:var(--brass); }
+.check.on .bx::after{ content:''; position:absolute; left:5px; top:1px; width:5px; height:10px; border:solid var(--ink); border-width:0 2px 2px 0; transform:rotate(42deg); }
+.check .tx{ font-size:1.03rem; line-height:1.65; color:var(--bone-2); }
+.check.on .tx{ color:var(--bone-3); text-decoration:line-through; text-decoration-color:var(--brass-dim); }
+.done{ font-family:var(--serif-text); font-size:1.1rem; line-height:1.65; color:var(--brass); border-left:1px solid var(--brass-dim); padding-left:1.2rem; margin-top:1.4rem; }
+
+
+/* ================================================================
+   LAYOUT — one column, one axis, no overlaps.
+   Headings sit above their content. Prose fills its container.
+   Nothing is pulled sideways, nothing is nested, nothing sticks.
+   ================================================================ */
+.sechead .eyebrow{ margin-bottom:1.1rem; }
+.sechead .lede{ max-width:var(--measure); }
+
+/* the one place a label column earns its keep: numbered floors.
+   4.5rem, self-contained, never nested inside another rail. */
+.floor{ display:grid; grid-template-columns:4.6rem minmax(0,1fr); gap:0 1.4rem; }
+.floor .fl{ padding-top:.15rem; }
+
+.panel > .chip, .pcard > .pn{ display:inline-block; }
+.panel > h3, .pcard > h3{ margin-bottom:.7rem; }
+
+/* ---------- reflections: lines to keep --------------------------- */
+.lines{ border-left:2px solid var(--brass-dim); padding:1.2rem 0 1.2rem 1.5rem; margin:2.4rem 0 0; }
+.lines .hd{ font-family:var(--sans); font-size:.78rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--label); font-weight:600; margin-bottom:1rem; }
+.lines p{ font-family:var(--serif-text); font-size:1.12rem; line-height:1.7; color:var(--bone);
+  margin:0 0 .85rem; max-width:var(--measure); }
+.lines p:last-child{ margin-bottom:0; }
+.storylist .th{ display:block; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--label); margin-bottom:.4rem; }
+
+
+/* scroll targets must clear the sticky bar, which can wrap to two rows */
+.acc{ scroll-margin-top:calc(var(--navh, 58px) + 2px); }
+/* the drop cap belongs on a full-page letter, not inside a small panel */
+.accinner .story p:first-of-type::first-letter{
+  font-size:inherit; float:none; line-height:inherit; padding:0; color:inherit;
+}
+
+/* ---------- reflections: collapsible list --------------------------- */
+.acclist{ border-top:1px solid var(--ink-line); }
+.acc{ border-bottom:1px solid var(--ink-line); }
+.acc > .accbtn{
+  width:100%; display:flex; align-items:flex-start; gap:1rem; text-align:left; cursor:pointer;
+  background:none; border:0; padding:1.25rem .2rem; color:var(--bone); transition:color .3s;
+}
+.acc > .accbtn:hover{ color:var(--brass); }
+.acc .acctx{ flex:1; min-width:0; }
+.acc .accth{ display:block; font-family:var(--sans); font-size:.72rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--label); margin-bottom:.35rem; }
+.acc .acct{ display:block; font-family:var(--serif); font-size:1.3rem; line-height:1.3; }
+.acc .accs{ display:block; font-size:.9rem; line-height:1.5; color:var(--bone-3); margin-top:.3rem; }
+.acc .accsign{ flex:none; width:1.05rem; height:1.05rem; margin-top:.55rem; position:relative; }
+.acc .accsign::before, .acc .accsign::after{
+  content:''; position:absolute; background:var(--brass-dim); transition:transform .4s var(--ease), background .3s;
+}
+.acc .accsign::before{ left:0; right:0; top:50%; height:1px; margin-top:-.5px; }
+.acc .accsign::after{ top:0; bottom:0; left:50%; width:1px; margin-left:-.5px; }
+.acc.on .accsign::after{ transform:rotate(90deg); }
+.acc.on .accsign::before, .acc.on .accsign::after{ background:var(--brass); }
+.acc.on > .accbtn{ color:var(--brass); }
+.accpanel{ max-height:0; overflow:hidden; transition:max-height .5s var(--ease); }
+.accinner{ padding:.2rem 0 1.9rem; }
+.accinner .story{ margin:0; }
+.accinner .lines{ margin-top:1.8rem; }
+@media (prefers-reduced-motion: reduce){ .accpanel{ transition:none; } }
+
+/* ---------- install prompt + update notice ---------------------- */
+.pwa{
+  position:fixed; left:50%; transform:translateX(-50%) translateY(140%);
+  bottom:1.1rem; z-index:960; width:min(30rem,92vw);
+  display:flex; align-items:center; gap:.9rem;
+  border:1px solid var(--brass-dim); border-radius:4px;
+  background:linear-gradient(160deg,var(--panel-a),var(--panel-b));
+  backdrop-filter:blur(22px); -webkit-backdrop-filter:blur(22px);
+  padding:.9rem 1rem; box-shadow:0 20px 50px -18px var(--vignette);
+  transition:transform .5s var(--ease); 
+}
+.pwa.on{ transform:translateX(-50%) translateY(0); }
+.pwa p{ margin:0; flex:1; font-size:.92rem; line-height:1.5; color:var(--bone-2); max-width:none; }
+.pwa .btn{ flex:none; }
+.pwa .x{ flex:none; }
+@media (prefers-reduced-motion: reduce){ .pwa{ transition:none; } }
+
+/* --- misc ------------------------------------------------------ */
+.stack > * + *{ margin-top:2.6rem; }
+.tight{ max-width:var(--measure); }
+.center{ text-align:center; }
+.row{ display:flex; flex-wrap:wrap; gap:.7rem; align-items:center; }
+.leaf{ position:absolute; pointer-events:none; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.01ms !important; transition-duration:.01ms !important; }
+  html{ scroll-behavior:auto; }
+}
+@media (max-width:640px){
+  .panel{ padding:1.5rem 1.3rem 1.3rem; }
+  .sechead{ padding:3.5rem 0 1rem; }
+  body{ font-size:16px; }
+}
+
+/* --- print: the ladder, on paper, legibly ---------------------- */
+@media print{
+  @page{ margin:18mm; }
+  body{ background:#fff; color:#111; font-size:11pt; }
+  .grain,.vignette,nav,footer,#field,.botanical,.hair,.studio,.studiobtn{ display:none !important; }
+  body.printing-ladder .view{ display:none !important; }
+  body.printing-ladder #v-world{ display:block !important; }
+  body.printing-ladder #v-world > .wrap > *{ display:none !important; }
+  body.printing-ladder #v-world .ladderpanel{ display:block !important; }
+  .panel, .pcard, .sechead{ display:block !important; }
+  .ladderpanel{ border:0; background:none; padding:0; }
+  .ladderpanel::before{ display:none; }
+  .ladderpanel .grid, .ladderpanel .btn, .ladderpanel .chip,
+  .ladderpanel > p, .ladderpanel .x, .ladderpanel [data-done],
+  .ladderpanel [id^="rec-"], .ladderpanel .row{ display:none !important; }
+  .ladderpanel h3{ display:block !important; font-size:20pt; margin-bottom:4mm; color:#111; }
+  .ladderpanel h3::after{ content:' — my ladder'; color:#777; font-style:italic; }
+  #ladList{ display:block !important; margin:0 !important; }
+  .rung{ border:1px solid #ccc; background:#fff; page-break-inside:avoid; margin-bottom:4mm; padding:4mm 5mm; }
+  .rung .num{ color:#999; }
+  .rung .sit{ color:#111; font-size:13pt; }
+  .meta{ color:#555; font-size:9pt; }
+  .delta{ color:#111; font-weight:600; }
+  .bar{ background:#eee; }
+  .bar i{ background:#999; }
+  a{ color:#111; text-decoration:none; }
+}
+</style>
+</head>
+<body>
+
+<svg class="grain" xmlns="http://www.w3.org/2000/svg">
+  <filter id="gr"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#gr)"/>
+</svg>
+<div class="vignette"></div>
+
+<nav>
+  <div class="navin">
+    <div class="mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+        <path d="M12 22 V8"/>
+        <path d="M12 14c0-3.6 2.6-6.4 6-6.6-.2 3.8-2.6 6.6-6 6.6z"/>
+        <path d="M12 11C12 7.6 9.6 4.8 6.2 4.4 6.4 8 8.8 11 12 11z"/>
+      </svg>
+      Soft Ground
+    </div>
+    <div class="navlinks" id="nav"></div>
+    <button class="studiobtn" id="studioBtn" aria-expanded="false" title="Change the colours, motion and text size">
+      <svg viewBox="0 0 34 24" aria-hidden="true">
+        <circle class="a" cx="9"  cy="12" r="6.5"/>
+        <circle class="b" cx="17" cy="12" r="6.5"/>
+        <circle class="c" cx="25" cy="12" r="6.5"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<div class="studio" id="studio" role="dialog" aria-label="Visual settings">
+  <div class="grp">
+    <h5>Palette</h5>
+    <div class="swatches" id="swatches"></div>
+  </div>
+  <div class="grp">
+    <h5>Background motion</h5>
+    <div class="seg" id="segMotion">
+      <button data-motion="flowing">Flowing</button>
+      <button data-motion="still">Still</button>
+    </div>
+    <p class="note">Ambient drift only. The breathing pacer always moves.</p>
+  </div>
+  <div class="grp">
+    <h5>Reading</h5>
+    <div class="seg" id="segReading">
+      <button data-reading="compact">Compact</button>
+      <button data-reading="comfortable">Comfortable</button>
+      <button data-reading="large">Large</button>
+    </div>
+    <p class="note">Your choices stay on this device. Nothing else is remembered.</p>
+  </div>
+</div>
+
+<!-- ================= HERE ================= -->
+<section class="view on" id="v-here">
+  <div class="hero">
+    <svg id="field" preserveAspectRatio="xMidYMid slice"></svg>
+    <div class="wrap">
+      <div class="herotext">
+        <span class="eyebrow">Soft Ground</span>
+        <h1><span>Nothing about you</span><span class="it">has gone wrong</span></h1>
+        <p class="lede" style="margin-top:1.6rem">Anxiety this bad is frightening and exhausting. It is also very common, and every part of it has a clear explanation.</p>
+        <p style="color:var(--bone-3)">This app does two things. It explains what anxiety is doing to your body and your thoughts. Then it gives you practical steps to make it smaller.</p>
+        <p style="color:var(--bone-3)">Nothing here asks you to do more than you can manage today. Nothing you type is saved or sent anywhere. If the screen is too bright, too dark, or the text is too small, use the coloured circles in the top corner to change it.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-bottom:5rem">
+    <hr class="hair">
+    <span class="eyebrow">Where would you like to start?</span>
+    <div class="grid g2">
+      <button class="door" data-go="practices">
+        <span class="dt">It is happening right now</span>
+        <span class="dd">Your heart is racing and you cannot think clearly. Start here. There are short exercises that help in the moment.</span>
+      </button>
+      <button class="door" data-go="plan">
+        <span class="dt">I am dreading something</span>
+        <span class="dd">There is something coming up and you have already imagined it going badly many times. There are things you can do before it happens.</span>
+      </button>
+      <button class="door" data-go="letters">
+        <span class="dt">I keep going over what happened</span>
+        <span class="dd">You cannot stop replaying a conversation and picking it apart. There is a letter here about exactly this.</span>
+      </button>
+      <button class="door" data-go="letters">
+        <span class="dt">I cannot manage anything today</span>
+        <span class="dd">Then do not. There is a plan for bad days that asks almost nothing of you, and you are allowed to use it.</span>
+      </button>
+    </div>
+
+    <hr class="hair">
+
+    <div class="grid g3">
+      <div>
+        <span class="chip">One</span>
+        <h3>Your body is not damaged</h3>
+        <p class="small">The pounding heart, the shaking and the sick feeling are not signs of damage. They are not warnings that something worse is about to happen. Your body is preparing you to escape from danger at a moment when there is no danger.</p>
+        <button class="btn sm" data-go="body">What is happening to your body</button>
+      </div>
+      <div>
+        <span class="chip v">Two</span>
+        <h3>The fear was learned</h3>
+        <p class="small">Anxiety this strong is not something you were born with. It was built up in stages, from things that happened to you and the conclusions you drew from them. Anything learned in stages can be unlearned in stages.</p>
+        <button class="btn sm" data-go="architecture">How the fear was built</button>
+      </div>
+      <div>
+        <span class="chip p">Three</span>
+        <h3>There is a way out</h3>
+        <p class="small">Not a quick trick, and not overnight. There is a clear order to it: settle your body, work out what you are actually afraid of, then take small steps back into normal life. It is slow, and it works.</p>
+        <button class="btn sm" data-go="plan">The four stages</button>
+      </div>
+    </div>
+
+    <hr class="hair">
+
+    <div class="panel">
+      <h3>Why being told to calm down never worked</h3>
+      <p>People have probably told you to calm down, to push through it, or to stop overthinking. When that did not work, you may have decided that the problem is you.</p>
+      <p>It is not. Those instructions failed because they were aimed at the wrong part of your brain. The part that creates fear does not respond to reasoning or advice. It learns from experience only.</p>
+      <p>This means it has to be shown, over and over, that the thing you are afraid of does not actually harm you. It will not accept being told.</p>
+      <p><strong>That is what this app is for.</strong> Not to argue you out of the fear, but to show that part of your brain something it will actually learn from.</p>
+    </div>
+
+    <div class="crisis" style="margin-top:2rem">
+      <h4>If things are worse than that today</h4>
+      <p class="small" style="margin-bottom:.7rem">If you are thinking about hurting yourself, or you do not feel able to keep yourself safe, please tell one person today. In Australia you can call <strong>Lifeline</strong> on 13 11 14 or text 0477 13 11 14, at any hour. If you are aged 5 to 25 you can call <strong>Kids Helpline</strong> on 1800 55 1800. <strong>Beyond Blue</strong> is 1300 22 4636. <strong>13YARN</strong> is 13 92 76, for Aboriginal and Torres Strait Islander people. The <strong>Suicide Call Back Service</strong> is 1300 659 467. If you or someone else is in immediate danger, call <strong>000</strong>.</p>
+      <p class="small" style="margin-bottom:0">Asking for help is not an overreaction. Your GP can help as well. A GP can write you a Mental Health Treatment Plan, which makes seeing a psychologist much cheaper, so it is worth asking about.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= YOUR BODY ================= -->
+<section class="view" id="v-body">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">Your body</span>
+      <h2>What anxiety does<br><em>to your body</em></h2>
+      <p class="lede">Every symptom you get has a purpose. Your body is preparing you to run away from danger. Once you know what each sensation is for, most of them stop being frightening, because most of the fear comes from not knowing what they are.</p>
+    </div>
+
+    <svg class="botanical" viewBox="0 0 900 40" width="100%" height="40" fill="none" stroke="var(--brass-dim)" stroke-width=".8" stroke-linecap="round">
+      <path d="M0 20 H330"/><path d="M570 20 H900"/>
+      <path d="M370 20c20-14 42-16 60-4-18 12-40 12-60 4z"/>
+      <path d="M530 20c-20-14-42-16-60-4 18 12 40 12 60 4z"/>
+      <path d="M430 20h40"/><circle cx="450" cy="20" r="2.4" fill="var(--brass-dim)" stroke="none"/>
+    </svg>
+
+    <div class="stack">
+
+      <div class="panel">
+        <h3>Your brain reacted before you could think</h3>
+        <p>One part of your brain has a single job: watch for danger. It reacts before you have finished having a thought about it. It works that fast because the dangers it was designed for could kill a person in seconds.</p>
+        <p>It is fast, but it is not accurate. It cannot tell the difference between a lecture theatre and a real threat. It would rather set off a false alarm a hundred times than miss a real one once.</p>
+        <p>So it sets off the alarm. Your body then does everything it would do if you had to run for your life. You did not choose any of this and you cannot argue with it, because it started before the thinking part of your brain had caught up.</p>
+        <p><strong>You are not overreacting.</strong> Your body is doing exactly what it was built to do, in a situation where it is not needed. Those are two different things, and neither of them is your fault.</p>
+      </div>
+
+      <div>
+        <h3>What each symptom is for</h3>
+        <p style="color:var(--bone-3)">Read whichever ones happen to you. Much of the fear in anxiety comes from not knowing what these sensations are.</p>
+        <div class="grid g2" style="margin-top:1.6rem">
+          <div class="panel">
+            <h4>Your heart is pounding</h4>
+            <p class="small">Your heart is pumping blood to your arms and legs, because your body expects you to run. Your heart is not failing. It is doing something healthy, and it can beat this fast for a long time without harming you.</p>
+          </div>
+          <div class="panel">
+            <h4>You cannot get a full breath</h4>
+            <p class="small">You are getting plenty of air. You are actually breathing slightly too much, because your body is breathing for a run that never happens. This is what causes the tingling, the light head and the strange floating feeling. It is uncomfortable and it is harmless. It settles as soon as your breathing slows down.</p>
+          </div>
+          <div class="panel">
+            <h4>You are shaking</h4>
+            <p class="small">Your muscles are tensed and ready to move. They have been told to run, and no run has happened. The shaking is that unused energy. Walking around, or shaking your hands out on purpose, uses it up faster than sitting still.</p>
+          </div>
+          <div class="panel">
+            <h4>Your stomach has dropped</h4>
+            <p class="small">Digesting food takes a lot of energy, so your body switches it off first. The blood that was doing that job goes to your arms and legs instead. That is the dropping feeling. It is also why you feel sick and why you might need the toilet.</p>
+          </div>
+          <div class="panel">
+            <h4>You cannot think or remember anything</h4>
+            <p class="small">Your attention has been switched to watching for danger. You are not losing your mind and you have not become stupid. Your brain has borrowed the resources it normally uses for thinking, and it gives them back every time, once the alarm settles.</p>
+          </div>
+          <div class="panel">
+            <h4>You are hot, sweating or blushing</h4>
+            <p class="small">Your body is cooling itself down before the exercise it expects. This is a hard one, because you can see it happening. It is worth knowing that blushing and sweating are almost always far less visible to other people than they feel to you.</p>
+          </div>
+          <div class="panel">
+            <h4>Nothing feels real</h4>
+            <p class="small">This frightens people more than any other symptom, so here it is plainly: it is not madness and it is not the start of madness. It is a normal effect of high adrenaline and fast breathing. It is also the symptom people are most embarrassed to mention. It passes.</p>
+          </div>
+          <div class="panel">
+            <h4>You are exhausted for hours afterwards</h4>
+            <p class="small">The first wave of chemicals is fast. A second, slower one is still moving through your body long after the moment has passed. That is why two minutes of panic can leave you tired for a whole afternoon. You are not being weak.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="chip b">The most important part of this page</span>
+        <h3>The fear rises, then it falls</h3>
+        <p>It does this every time. Your body cannot keep the alarm at full strength, because it uses too much energy. The fear goes up, reaches a peak, and comes back down. It does this whether or not you do anything clever.</p>
+        <p><strong>It has never once gone up and stayed up. Not in your whole life.</strong></p>
+        <p>This matters, because the belief that traps most people is this one: if I do not escape, it will keep rising until something terrible happens. It will not. There is a limit. You have reached that limit many times already, and every single time, you came back down.</p>
+        <p class="small">You do not have to believe this yet. Just keep it somewhere you can find it, because there will be a moment when you need it.</p>
+      </div>
+
+      <div class="panel">
+        <h3>The cycle that keeps it going</h3>
+        <p>You notice something in your body. Your chest goes tight, or your heart skips a beat. Then you think: <em>something is wrong.</em></p>
+        <p>That thought is itself a danger signal. So your body releases more adrenaline. That creates stronger physical sensations. Those sensations make the thought more convincing. Then it goes round again, getting stronger each time.</p>
+        <p>This is why anxiety can seem to come from nowhere and build within seconds. Often the first sensation was not fear at all. It might have been coffee, or standing up too quickly, or a bad night's sleep. Your body produced a sensation, and your mind read it as a warning.</p>
+        <p><strong>This gives you a useful place to step in.</strong> You cannot decide to stop being afraid. But you can learn to stop treating a physical sensation as proof that something is wrong. That is a smaller job, and you can get better at it with practice.</p>
+      </div>
+
+      <div class="panel">
+        <span class="chip">If you need it right now</span>
+        <h3>Three things that help in the moment</h3>
+        <p><strong>Breathe out slowly.</strong> Not deep breaths. Long ones. Make the out-breath longer than the in-breath. Your body treats a slow out-breath as a sign that the danger has passed, because you cannot breathe out slowly while you are being chased.</p>
+        <p><strong>Say out loud what you are feeling.</strong> For example: <em>my heart is racing, I feel sick, I am frightened.</em> Putting feelings into words settles them in a way that thinking about them does not. It seems far too simple to work. Do it anyway.</p>
+        <p><strong>Move.</strong> Walk to the end of the corridor and back. Your body has prepared you to move and is confused that you have not. Give it two minutes of movement.</p>
+        <div class="row" style="margin-top:1.4rem">
+          <button class="btn primary" data-go="practices">Go to the exercises</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="chip">The basics</span>
+        <h3>Four things that make everything else easier</h3>
+        <p>None of the harder work is possible if your body is running on empty. People skip this part because it sounds too obvious to matter.</p>
+        <p><strong>Sleep.</strong> A tired brain is a more frightened brain, every time.</p>
+        <p><strong>Food.</strong> When your blood sugar drops you get shaky and your heart speeds up. Those feelings are physically identical to panic, and your mind will read them as panic.</p>
+        <p><strong>Caffeine.</strong> Coffee and energy drinks produce the exact sensations you are most afraid of. If you drink a lot, cutting down for two weeks is worth trying on its own.</p>
+        <p><strong>Movement.</strong> Regular exercise, hard enough to make you breathe faster, does more for anxiety than almost anything else you can do without a prescription.</p>
+        <p class="small">This is not about being disciplined. You are trying to do something difficult, and it is much harder when your body has nothing left. Sort this part out first.</p>
+      </div>
+
+    </div>
+    <hr class="hair">
+  </div>
+</section>
+
+<!-- ================= THE ARCHITECTURE ================= -->
+<section class="view" id="v-architecture">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">How it was built</span>
+      <h2>The fear was built<br><em>in five steps</em></h2>
+      <p class="lede">Anxiety does not feel like something you learned. It feels like a plain fact about the world. But it was built up in stages, and each stage was added by experience. Once you can see the stages, you can start undoing them.</p>
+    </div>
+
+    <svg class="botanical" viewBox="0 0 900 40" width="100%" height="40" fill="none" stroke="var(--brass-dim)" stroke-width=".8" stroke-linecap="round">
+      <path d="M0 20 H340"/><path d="M560 20 H900"/>
+      <path d="M360 20c30 0 30-12 45-12s15 24 30 24 15-12 30-12 15 12 30 12"/>
+      <circle cx="450" cy="8" r="1.8" fill="var(--brass-dim)" stroke="none"/>
+    </svg>
+
+    <div class="stack">
+
+      <div class="panel">
+        <h3>The five steps</h3>
+        <p style="color:var(--bone-3)">Read these slowly. Most people recognise themselves at about the third one.</p>
+
+        <div class="floor">
+          <span class="fl">One</span>
+          <div>
+            <h4>Something happened</h4>
+            <p class="small">Usually something small, and usually a long time ago. Someone laughed at the wrong moment. A teacher looked at you a certain way. You were asked to read aloud. There was a pause after you spoke that felt too long. It may have been so minor that nobody else remembers it, including the people involved.</p>
+          </div>
+        </div>
+
+        <div class="floor">
+          <span class="fl">Two</span>
+          <div>
+            <h4>You decided what it meant</h4>
+            <p class="small">Then you did what everyone does when they are young. You decided what it meant about you, not about the situation. Something like: <em>I am the sort of person people laugh at.</em> Or: <em>there is something wrong with me and people can see it.</em> You were far too young to be making that judgement. You made it in about a second, and you have never gone back to check whether it was true.</p>
+          </div>
+        </div>
+
+        <div class="floor">
+          <span class="fl">Three</span>
+          <div>
+            <h4>You made rules to stay safe</h4>
+            <p class="small">Once you believed that, you made rules. <em>Never speak first. Always know exactly what you are going to say. Never stand out. Get it right or do not do it at all.</em> You never wrote these down. You just started living by them, until you stopped noticing they were choices.</p>
+          </div>
+        </div>
+
+        <div class="floor">
+          <span class="fl">Four</span>
+          <div>
+            <h4>You started predicting disasters</h4>
+            <p class="small">Rules like that make you predict what will go wrong. You walk towards a room and you do not see the room. You see what you think is about to happen in it, in detail, with your face already burning. Your mind shows you a disaster in advance and presents it to you as information.</p>
+          </div>
+        </div>
+
+        <div class="floor last">
+          <span class="fl">Five</span>
+          <div>
+            <h4>You stopped finding out</h4>
+            <p class="small">After enough of those predictions, you started avoiding the situations. This is the part that keeps it going. Because you avoided them, you never got to find out whether the predictions were right. So they were never corrected, and they still feel true today.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="chip b">Where you can change it</span>
+        <h3>You cannot change step one, and you do not need to</h3>
+        <p>Whatever happened, happened. Nothing can change that. Be careful of anyone who tells you the answer is to dig up more of your past. Plenty of people never work out what their original event was, and they still get better.</p>
+        <p><strong>The step that matters most is the second one: the meaning you gave it.</strong></p>
+        <p>That meaning was never a fact. It was a conclusion, reached by a child, very fast, with almost no information, and never reviewed since.</p>
+        <p>Conclusions can be changed. Not by arguing with them, but by collecting real experiences that do not match them. That is what the small steps in the plan are for. They look like they are about doing frightening things. They are really about gathering proof that an old conclusion about you was wrong.</p>
+      </div>
+
+      <hr class="hair">
+
+      <div>
+        <span class="chip v">The first thing keeping it going</span>
+        <h2 style="margin-top:.4rem">The critical voice</h2>
+      </div>
+
+      <div class="panel">
+        <h3>It is trying to protect you</h3>
+        <p>The voice in your head is constant, specific and cruel. It says things to you that you would never say to another person. It uses your own voice, which is why you have never thought to question it.</p>
+        <p>Here is what it is actually doing. It learned that being humiliated is unbearable. So it worked out that if it says the worst thing first, nobody else can surprise you with it. It criticises you in advance so that criticism from other people cannot land as a shock.</p>
+        <p>It believes this is helping you. It is like a bodyguard who has become so worried about your safety that he now shouts at you himself, to prove he is still needed.</p>
+      </div>
+
+      <div class="panel">
+        <h3>Why it sounds so certain</h3>
+        <p>Because it is never tested. It makes its judgements, such as <em>they think you are strange</em> or <em>everyone can tell</em>. Then you avoid the situation, so the judgement is never checked against what actually happens.</p>
+        <p>Anything that is never tested gets more confident over time, not less. That is true of people and it is true of the voice in your head.</p>
+        <p>Notice the words it uses. <em>Everyone. Always. Never. Obviously.</em> Nobody who was honestly describing a room full of people would use the word <em>everyone</em>. That is a clue about how accurate it is being.</p>
+      </div>
+
+      <div class="panel">
+        <span class="chip b">What to do about it</span>
+        <h3>You do not have to win the argument</h3>
+        <p>You have probably spent years trying to prove the voice wrong. Gathering evidence. Reassuring yourself. Asking other people to reassure you. It works for about ten minutes, and then it starts again.</p>
+        <p>That happens because you cannot argue something into silence when it does not care about evidence. So stop arguing with it. There is a different move, and it is smaller.</p>
+        <p><strong>Let it talk, and stop obeying it.</strong></p>
+        <p>A thought can be very loud and very convincing and still only be a thought. Your mind produces thousands of thoughts an hour and you ignore most of them. You do not have to agree with this one. You do not have to disagree with it either. You only have to stop treating it as an instruction.</p>
+        <p>The first time you manage this it will feel like almost nothing. There will be a small gap between the thought and you. That gap is what you are building, and everything else you do from here gets built inside it.</p>
+        <div class="row" style="margin-top:1.4rem">
+          <button class="btn primary" data-go="practices">Try the exercise for this</button>
+        </div>
+      </div>
+
+      <hr class="hair">
+
+      <div>
+        <span class="chip p">The second thing keeping it going</span>
+        <h2 style="margin-top:.4rem">Avoiding things</h2>
+      </div>
+
+      <div class="panel">
+        <h3>The relief is real</h3>
+        <p>You decide not to go, and something in your chest loosens. You get a whole evening back. The dread stops. In that moment it is one of the best feelings there is, and anyone who pretends otherwise has never felt it.</p>
+        <p>Nobody is going to tell you off for that here. Wanting relief is not a character flaw.</p>
+        <p>But that relief teaches your brain something. It arrives fast and it feels strong, straight after the decision. So your brain records it as: <em>that was dangerous, and not going is what saved me.</em></p>
+        <p>This is why the fear does not stay the same size. It grows. It also spreads. First the lecture, then the building, then the bus that goes past the building, then any afternoon when someone might message you. That is not you getting worse as a person. It is a very literal system being taught the same lesson repeatedly, and learning it well.</p>
+      </div>
+
+      <div class="panel">
+        <h3>The small things you do to get through</h3>
+        <p>These are the habits you use to get through. Practising a sentence nine times before you say it. Holding a cup so your hands do not shake visibly. Sitting near the door. Keeping your coat on. Saying very little. Only going if one particular person will be there. Arriving late so you miss the small talk.</p>
+        <p>They feel like the reason you got through it. Almost always, they are the reason you never found out that you would have got through it anyway.</p>
+        <p>Here is why. When it goes fine, the voice says: <em>yes, but only because you held the cup.</em> So nothing gets learned, and you have to bring the cup again next time. Then the cup becomes another thing you cannot manage without.</p>
+        <p><strong>You do not have to stop all of them.</strong> That would be miserable and it is not what is being suggested. Stop one of them, once, and see what happens.</p>
+      </div>
+
+      <div class="panel">
+        <span class="chip">Have a look</span>
+        <h3>Which of these do you do?</h3>
+        <p class="small">Tap any you recognise. This is not to make you feel bad. Everyone does these, including people you would never guess. You just cannot put something down until you have noticed you are carrying it.</p>
+        <div class="lex" id="sbList" style="margin-top:1.2rem"></div>
+        <div class="out" id="sbOut"></div>
+      </div>
+
+      <div class="panel">
+        <span class="chip b">What to do about it</span>
+        <h3>Going is what helps. Feeling calm is not the aim.</h3>
+        <p>Almost everyone waits until they feel ready. They wait for the fear to drop to a manageable level, and then they will go.</p>
+        <p>It does not work in that order, and waiting is how years go past.</p>
+        <p><strong>The fear does not drop first. You go, the fear comes with you, nothing bad happens, and that is what makes the fear drop next time.</strong></p>
+        <p>Feeling terrified while you do it does not mean you did it wrong. It means you did it at all.</p>
+        <p>So the aim is never to go and feel fine. The aim is to go, feel awful, come home, and notice that you are still here. Do that enough times and that part of your brain slowly starts to update.</p>
+        <div class="row" style="margin-top:1.4rem">
+          <button class="btn primary" data-go="plan">How to start small enough</button>
+        </div>
+      </div>
+
+    </div>
+    <hr class="hair">
+  </div>
+</section>
+
+<!-- ================= THE PLAN ================= -->
+<section class="view" id="v-plan">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">The plan</span>
+      <h2>What to do,<br><em>in order</em></h2>
+      <p class="lede">There are four stages. Most people move back and forth between them rather than finishing one and starting the next. Having a bad week after a good one does not mean you have failed. It happens to everyone who does this. Start at stage one, even if you think you do not need it.</p>
+    </div>
+
+    <svg class="botanical" viewBox="0 0 900 40" width="100%" height="40" fill="none" stroke="var(--brass-dim)" stroke-width=".8" stroke-linecap="round">
+      <path d="M0 20 H350"/><path d="M550 20 H900"/>
+      <circle cx="450" cy="20" r="14"/><circle cx="450" cy="20" r="7"/>
+      <path d="M380 20h50M470 20h50"/>
+    </svg>
+
+    <div class="stack">
+
+      <div class="pcard">
+        <span class="pn">Stage one</span>
+        <h3>Settle your body</h3>
+        <p class="pgoal">The aim is not to feel calm. It is to be less worn out than you are now.</p>
+        <p>You cannot do frightening things when your body is exhausted, underfed and full of caffeine. This stage is dull, and it is the one that makes everything after it possible. Give it two weeks before you decide whether it is working.</p>
+        <ul class="plist">
+          <li>Breathe out slowly for three minutes, twice a day. Do this <strong>when you are calm, not when you are panicking.</strong> You are learning the skill now so that you have it later.</li>
+          <li>Move your body most days. Ten minutes counts. Doing it badly counts.</li>
+          <li>Eat something before midday, even if you are not hungry.</li>
+          <li>Go to bed at roughly the same time each night. Roughly is fine.</li>
+          <li>Halve your caffeine for two weeks and see what changes.</li>
+          <li>Do one thing each week that has nothing to do with anxiety.</li>
+        </ul>
+      </div>
+
+      <div class="pcard">
+        <span class="pn">Stage two</span>
+        <h3>Work out what you are actually afraid of</h3>
+        <p class="pgoal">The aim is to turn one huge vague fear into a list of specific ones.</p>
+        <p>At the moment the anxiety probably feels enormous and impossible to describe. It is not one thing. It is a set of particular situations, particular predictions and particular habits. A fear you have named is always smaller than one you have not.</p>
+        <ul class="plist">
+          <li>Once a day, catch one prediction and write it down in plain words. For example: <em>I think I will go blank and everyone will notice.</em></li>
+          <li>Write down three of the small habits you use to get through. Just write them down. Do not stop doing them yet.</li>
+          <li>If you notice one of your rules, write that down too. For example: <em>never speak first.</em></li>
+          <li>Notice the times when it is less bad. Those moments are useful information and almost nobody thinks to look at them.</li>
+        </ul>
+        <p class="small">Do not go looking for the original event from step one. If it comes to you, fine. If it does not, you lose nothing.</p>
+      </div>
+
+      <div class="pcard">
+        <span class="pn">Stage three</span>
+        <h3>Take small steps back</h3>
+        <p class="pgoal">The aim is to collect proof. You are not trying to become braver.</p>
+        <p>Here is the whole method. Decide what you think will happen. Go and do it. Find out what actually happens. You are running a small test on an old belief.</p>
+        <ul class="plist">
+          <li>Choose something very small. Then make it smaller. If it does not feel slightly silly, it is still too big.</li>
+          <li>Write your prediction down <strong>before</strong> you go. This matters, because afterwards your memory will quietly change it.</li>
+          <li>Go and do it. You will feel awful. Stay a little past the worst of it if you can.</li>
+          <li>Write down what actually happened, using plain words and no judgements about yourself.</li>
+          <li>Do the same step several times before moving to a harder one. Doing it once proves nothing. Doing it four times starts to prove something.</li>
+          <li>At some point, drop one of your small coping habits for one attempt, and see what it costs you.</li>
+        </ul>
+      </div>
+
+      <div class="pcard last">
+        <span class="pn">Stage four</span>
+        <h3>Widen it out</h3>
+        <p class="pgoal">The aim is to get your life back, which is not the same as feeling calm.</p>
+        <p>Once things start moving, there is a risk of building a slightly bigger but still small life: one shop, one route, one safe friend. So you deliberately vary things.</p>
+        <ul class="plist">
+          <li>Repeat a step you have already done, but change one thing about it. A different place, a different person or a different time of day.</li>
+          <li>Keep doing things while you still feel afraid. That was always the skill.</li>
+          <li>Let bad days be bad days. A hard week does not mean the whole thing has stopped working, even though it will feel like that at the time.</li>
+          <li>Start choosing things because you want to do them, not because they are practice. That is what recovery actually feels like.</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <span class="chip b">For today only</span>
+        <h3>What are you doing today?</h3>
+        <p class="small">Choose the stage you are on. Tick things off as you do them. Nothing is saved. This is only here to hold today's plan so you do not have to keep it in your head.</p>
+        <div class="seg" id="segPlan" style="margin:1.4rem 0 1.2rem">
+          <button data-phase="0">Bad day</button>
+          <button data-phase="1">Stage 1</button>
+          <button data-phase="2">Stage 2</button>
+          <button data-phase="3">Stage 3</button>
+          <button data-phase="4">Stage 4</button>
+        </div>
+        <div id="planOut"></div>
+      </div>
+
+      <div class="panel ladderpanel">
+        <span class="chip">The tool for stage three</span>
+        <h3>Your steps</h3>
+        <p class="small">Write one step per line. Be exact. Not "talk to people", but "ask the man in the corner shop for a bag". Write down what you think will happen. Then come back afterwards and write down what actually happened. The difference between those two is how you get better.</p>
+
+        <div class="grid g2" style="margin-top:1.6rem">
+          <div>
+            <div class="field"><label>The step</label><input type="text" id="ladSit" placeholder="Ask for a bag in the corner shop"></div>
+            <div class="field"><label>What I think will happen</label><input type="text" id="ladPred" placeholder="My voice will shake and he will notice"></div>
+          </div>
+          <div>
+            <div class="field"><label>How sure am I that it will go badly — <span id="ladBelVal" style="color:var(--brass)">80</span>%</label><input type="range" id="ladBel" min="0" max="100" value="80"></div>
+            <div class="field"><label>How hard does this feel — <span id="ladDifVal" style="color:var(--brass)">5</span> out of 10</label><input type="range" id="ladDif" min="1" max="10" value="5"></div>
+            <button class="btn primary" id="ladAdd">Add this step</button>
+          </div>
+        </div>
+        <div id="ladList" style="margin-top:1.8rem"></div>
+        <p class="small" id="ladEmpty" style="margin-top:1.2rem;color:var(--bone-3)">You have not added any steps yet. They sort themselves with the easiest first, so add whatever comes to mind. Nothing is saved, so print the list if you want to keep it.</p>
+        <div class="row" style="margin-top:1rem"><button class="btn sm" id="ladPrint">Print my steps</button></div>
+      </div>
+
+      <div class="panel">
+        <h3>Three things nobody tells you about doing this</h3>
+        <p><strong>It gets slightly worse before it gets better.</strong> You have spent a long time avoiding things, so facing them is genuinely harder in the first week than staying home was. This does not mean it is not working. It is the point where most people give up.</p>
+        <p><strong>Progress is not steady, and you will not feel it.</strong> You will have an easy week and decide you are better. Then you will have a Thursday that feels like the first day again. Both are normal. Judge this over months, and judge it by what you are doing, not by how you feel.</p>
+        <p><strong>You will want to do it perfectly.</strong> That urge comes from the same place as the anxiety. Doing this badly and irregularly still works. That is how most people who get better actually do it.</p>
+      </div>
+
+      <div class="panel">
+        <h3>You do not have to do this alone</h3>
+        <p>Everything here can be done on your own, and doing it on your own is a real option. But if anxiety has taken your studies, your work, or your ability to leave the house, please tell a doctor as well.</p>
+        <p>That is not admitting failure. It is a sensible thing to do about a difficult problem. A GP can also write you a Mental Health Treatment Plan, which makes seeing a psychologist much cheaper.</p>
+      </div>
+
+    </div>
+    <hr class="hair">
+  </div>
+</section>
+
+<!-- ================= PRACTICES ================= -->
+<section class="view" id="v-practices">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">Exercises</span>
+      <h2>Small things you can<br><em>actually do</em></h2>
+      <p class="lede">You do not need to do these every day, or in order, or all of them. Pick one and do it once, even badly. That is not a weaker version of the real thing. It is the thing. Leave the others until you want them.</p>
+    </div>
+
+    <div class="stack">
+
+      <div class="panel">
+        <span class="chip">Two to five minutes</span>
+        <h3>Slow breathing</h3>
+        <p class="small">Follow the ring. Breathe in through your nose as it grows. Hold while it stays still. Breathe out through your mouth as it shrinks, slowly, as if through a straw. Then rest for a moment before the next one. The out-breath is longer than the in-breath on purpose, because that is the part your body reads as safety. If you feel light-headed, you are breathing in too hard. Take smaller breaths and slow the out-breath down.</p>
+        <div class="breathstage">
+          <svg id="orb" viewBox="0 0 400 400"></svg>
+          <div class="phase" id="bPhase">&nbsp;</div>
+          <div class="counter" id="bCount">Ready</div>
+        </div>
+        <div class="row" style="justify-content:center;margin-top:1.2rem">
+          <button class="btn primary" id="bStart">Begin</button>
+          <button class="btn" id="bStop">Stop</button>
+        </div>
+        <div style="max-width:22rem;margin:1.6rem auto 0">
+          <label>Speed — <span id="bRateVal" style="color:var(--brass)">5.5</span> breaths a minute</label>
+          <input type="range" id="bRate" min="50" max="70" value="55">
+          <p class="small center" style="margin-top:.6rem">Slower is not automatically better. Choose the speed you can keep up without effort. If you are straining, it is not working.</p>
+        </div>
+        <div style="max-width:22rem;margin:1.4rem auto 0">
+          <label>Hold after breathing in</label>
+          <div class="seg" id="segHold">
+            <button data-hold="0">None</button>
+            <button data-hold="1">Short</button>
+            <button data-hold="2">Longer</button>
+          </div>
+          <p class="small center" style="margin-top:.6rem">The ring stays still while you hold, and a line moves round it so you can see the time passing. If holding your breath makes you feel short of air, choose None. That reaction is common and it is not a failure.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="chip v">One minute</span>
+        <h3>Name what you are feeling</h3>
+        <p class="small">Choose up to three words that are true right now. Being specific helps more than being dramatic. "Exposed" and "dread" do more than "bad". Then say the sentence out loud, even quietly. It seems too simple to do anything. It does do something.</p>
+        <div class="lex" id="emoList" style="margin-top:1.2rem"></div>
+        <div class="out" id="emoOut"></div>
+        <p class="small" id="emoNote" style="display:none;margin-top:1rem">Notice that you have described a feeling, not made a statement about who you are. "I feel small" and "I am small" are different sentences, and only the first one is true.</p>
+      </div>
+
+      <div class="panel">
+        <span class="chip b">Two minutes</span>
+        <h3>Say it as if you were talking to someone else</h3>
+        <p class="small">Write the thought exactly as it arrives in your head. Then read the version underneath out loud. Hearing it in the third person makes it easier to be fair, in the same way you are fair about other people's problems but not your own.</p>
+        <div class="grid g2" style="margin-top:1.2rem">
+          <div class="field"><label>Your name</label><input type="text" id="dName" placeholder="for example, Ana"></div>
+          <div class="field"><label>How to say it back</label>
+            <select id="dMode">
+              <option value="name">Using your name — "Ana is..."</option>
+              <option value="you">As a friend would — "You are..."</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label>The thought, in the words it actually uses</label><textarea id="dIn" placeholder="I'm going to make a fool of myself and everyone will see that I don't belong here."></textarea></div>
+        <button class="btn primary" id="dGo">Say it back to me</button>
+        <div class="out" id="dOut"></div>
+      </div>
+
+      <div class="panel">
+        <span class="chip v">One minute</span>
+        <h3>Step back from the thought</h3>
+        <p class="small">Type whatever is going round in your head. Four versions of it will appear. Read them in order, slowly. You are not trying to believe or disbelieve any of them. You are practising standing slightly outside the thought instead of inside it.</p>
+        <div class="field" style="margin-top:1.2rem"><label>The thought</label><input type="text" id="fuIn" placeholder="Everyone can tell there's something wrong with me"></div>
+        <button class="btn primary" id="fuGo">Show me the four versions</button>
+        <div id="fuOut"></div>
+      </div>
+
+      <div class="panel">
+        <span class="chip p">Three minutes</span>
+        <h3>Would you say it to a friend?</h3>
+        <p class="small">When you are anxious you say things to yourself that you would never say to another person. This is a quick way to see how unfair it has become. Check whether the standard you are holding yourself to is one you would apply to anybody else.</p>
+        <div class="field" style="margin-top:1.2rem"><label>What you said to yourself</label><textarea id="scIn" placeholder="You're pathetic. Everyone else manages this without falling apart."></textarea></div>
+        <div class="field"><label>Someone you would never say that to</label><input type="text" id="scWho" placeholder="my sister"></div>
+        <button class="btn primary" id="scGo">Show me</button>
+        <div id="scOut"></div>
+      </div>
+
+      <div class="panel">
+        <span class="chip">Ninety seconds</span>
+        <h3>Put your attention on the room</h3>
+        <p class="small">When you are frightened, your attention turns inwards and starts checking on you: your voice, your face, how you are coming across. Then you use that as evidence for how you seem to others, which is not fair evidence. This is practice at putting your attention back on the room. Do it with your eyes open, in the actual situation.</p>
+        <div class="out" id="atOut" style="min-height:3.2rem"></div>
+        <div class="row" style="margin-top:1rem">
+          <button class="btn primary" id="atGo">Give me something to look for</button>
+          <span class="small" id="atNote" style="color:var(--bone-3)"></span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="chip b">Five minutes</span>
+        <h3>What matters to you</h3>
+        <p class="small">Anxiety only ever asks one question: is this safe? A life organised entirely around that question gets very small. This asks a different one: what do you want your life to be about? Choose no more than three.</p>
+        <div class="lex" id="valList" style="margin-top:1.2rem"></div>
+        <div class="out" id="valOut"></div>
+        <div id="valAct" style="display:none;margin-top:1.4rem">
+          <div class="field"><label>One thing you could do today or tomorrow that moves you towards that. Make it small enough to feel silly writing down.</label><input type="text" id="valIn" placeholder="Send the message I've had written for nine days"></div>
+          <button class="btn primary" id="valGo">That is the one</button>
+          <div class="out" id="valFinal"></div>
+        </div>
+      </div>
+
+    </div>
+    <hr class="hair">
+  </div>
+</section>
+
+<!-- ================= REFLECTIONS ================= -->
+<section class="view" id="v-reflections">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">Reflections</span>
+      <h2>Something to read<br><em>and repeat quietly</em></h2>
+      <p class="lede">Twelve short readings, one for each of the things anxiety wears down. Read one slowly. At the end of each there are two or three lines you can keep and say to yourself during the day, silently, whenever the old thought turns up.</p>
+    </div>
+
+    <div id="reflectionIntro">
+    <div class="panel">
+      <span class="chip b">Today</span>
+      <h3 id="refTodayT"></h3>
+      <p class="small" id="refTodayS"></p>
+      <div class="row" style="margin-top:1.1rem">
+        <button class="btn primary" id="refTodayGo">Open this one</button>
+      </div>
+      <p class="small" style="margin-top:1.1rem;color:var(--bone-3)">This changes each day. You do not have to read them in order, and you can pick a different one from the list below whenever you want.</p>
+    </div>
+
+    <div class="panel">
+      <h3>How to use these</h3>
+      <p>Read the whole thing once, slowly. It takes about a minute.</p>
+      <p>Then look at the lines at the end. Choose the one that is easiest to believe today, not the one that sounds best. Say it to yourself a few times, silently, and again later when the old thought comes back.</p>
+      <p>These are not affirmations and they are deliberately not written as ones. Telling yourself things you do not believe tends to make you feel worse, not better, so nothing here asks you to say that you are confident or fearless. Every line is written to be something you could actually agree with today, even on a bad day.</p>
+      <p class="small">If a line does not feel true, do not use it. Pick another, or leave the whole reading and come back to it another time.</p>
+    </div>
+
+    <div class="acclist" id="reflectionList" style="margin-top:2.4rem"></div>
+    </div>
+    <hr class="hair">
+  </div>
+</section>
+
+<!-- ================= LETTERS ================= -->
+<section class="view" id="v-letters">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">Letters</span>
+      <h2>Something to read<br><em>for the day you are having</em></h2>
+      <p class="lede">Some of these are for the middle of the night. One is for after you have cancelled. One is for a day when things are going well, which can be difficult in its own way. Read whichever one fits.</p>
+    </div>
+    <div class="storylist" id="letterList"></div>
+    <div id="letterView" style="display:none;margin-top:3rem">
+      <button class="btn sm" id="letterBack">Back to all letters</button>
+      <div style="margin-top:2rem">
+        <h2 id="letterT"></h2>
+        <div class="story" id="letterB"></div>
+      </div>
+    </div>
+    <hr class="hair">
+  </div>
+</section>
+
+
+<div class="pwa" id="pwaInstall" role="status">
+  <p>Add Soft Ground to your device so it opens like an app and works with no internet.</p>
+  <button class="btn primary sm" id="pwaAdd">Add</button>
+  <button class="x" id="pwaNo" aria-label="Not now">&#10005;</button>
+</div>
+<div class="pwa" id="pwaUpdate" role="status">
+  <p>A newer version is ready.</p>
+  <button class="btn primary sm" id="pwaReload">Refresh</button>
+  <button class="x" id="pwaLater" aria-label="Later">&#10005;</button>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="grid g2">
+      <div>
+        <div class="mark" style="margin-bottom:1.2rem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" style="width:20px;height:20px">
+            <path d="M12 22 V8"/><path d="M12 14c0-3.6 2.6-6.4 6-6.6-.2 3.8-2.6 6.6-6 6.6z"/><path d="M12 11C12 7.6 9.6 4.8 6.2 4.4 6.4 8 8.8 11 12 11z"/>
+          </svg>
+          Soft Ground
+        </div>
+        <p class="small">Everything here is based on what is known to help with anxiety, written in ordinary language. It is a self-help guide. It is not a diagnosis and it is not treatment. If this has been going on a long time, or it is taking things from you that you want back, tell a doctor as well.</p>
+      </div>
+      <div>
+        <h4>Your privacy</h4>
+        <p class="small">This is one file running in your browser. Nothing you write is stored, sent or seen by anyone. Not your steps, not your thoughts. If you close the tab it is gone, so print your steps if you want to keep them.</p>
+        <p class="small">Three settings are remembered on this device only: your colours, whether you want the background to move, and your text size.</p>
+        <div class="crisis" style="margin-top:1.6rem;padding:1.1rem 1.3rem">
+          <h4 style="margin-bottom:.4rem">If you need someone now</h4>
+          <p class="small" style="margin-bottom:0">In Australia: <strong>Lifeline</strong> 13 11 14, or text 0477 13 11 14, any hour. <strong>Kids Helpline</strong> 1800 55 1800 if you are 5 to 25. <strong>Beyond Blue</strong> 1300 22 4636. <strong>13YARN</strong> 13 92 76. In immediate danger, call <strong>000</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ==========================================================
+   DATA
+   ========================================================== */
+
+
+const EMOTIONS = ["dread","exposed","ashamed","panicked","tight","numb","restless","small","frantic","hollow","watched","braced","defeated","raw","trapped","jittery","foggy","furious","grief","lonely","humiliated","weary","sick","alert","frozen","desperate","envious","ridiculous"];
+
+const VALUES = ["Honesty","Being known","Curiosity","Creating things","Loyalty","Independence","Kindness","Courage","Craft","Learning","Justice","Playfulness","Steadiness","Beauty","Contribution","Adventure","Family","Rigour","Warmth","Freedom"];
+
+const SAFETY = ["Rehearsing sentences before I say them","Holding a cup or bag so my hands don't show","Wearing layers to hide sweating","Saying as little as possible","Sitting near the exit","Keeping my coat on","Avoiding eye contact","Talking very fast to get it over with","Only going if a specific person is there","Checking my reflection repeatedly","Arriving late so I don't have to mingle","Leaving early","Drinking to take the edge off","Scripting an excuse in advance","Keeping my phone in my hand","Wearing makeup I'd feel unable to leave without","Hiding my face with my hair","Agreeing with everything","Standing at the back","Not eating in front of people"];
+
+const ATTENTION = [
+ "Find three things in this room that are the same colour. Not similar. The same.",
+ "Listen for the furthest sound you can hear, then the nearest. Hold both at once for ten seconds.",
+ "Look at one person's shoes. Just the shoes. Guess how old they are.",
+ "Count the light sources. Include the ones you'd normally not call lights.",
+ "Find something in the room that someone made by hand.",
+ "Name the material of the four surfaces nearest to you.",
+ "Watch the person speaking and try to catch the exact word where their tone changed.",
+ "Find the oldest object in the room. Argue with yourself about it.",
+ "Track a single sound from the moment it starts to the moment it stops.",
+ "Find something slightly broken. Almost everything has something."
+];
+
+const LETTERS = [
+ {t:"When it is tomorrow and you cannot stop thinking about it", s:"When it is tomorrow and you have already imagined it going badly many times",
+  b:`<p>You have been going over this for hours. You have imagined it so many times that you are already exhausted by something that has not happened. You probably know that does not make sense, and knowing it has not helped at all.</p>
+     <p>Nobody is going to pretend you can just stop. You probably cannot, not tonight, and not by deciding to.</p>
+     <p>But notice something about the versions you have been watching. Every one of them ended badly. Not one where it was fine, or boring, or over quickly. That is not your mind preparing you. If it were preparing you, it would include the ordinary outcomes too. It is doing something else. It is showing you the same disaster over and over, and presenting it as information.</p>
+     <p>It is not information. It is a guess made by the most pessimistic part of you, and nobody has ever checked how often those guesses turn out to be right.</p>
+     <p>Here is what you actually need tonight. Not to feel better about tomorrow. That is not available, and chasing it will keep you awake. What you need is to be less exhausted when you get there. So put it down as best you can, eat something, and try to sleep. A tired brain is a more frightened brain, and you will want whatever energy you can get.</p>
+     <p>If you can, write down in one sentence what you think will happen. Then it exists somewhere outside your head, and afterwards you can look at it and see whether it was right.</p>
+     <p>You have got through every other day you dreaded, including the ones you were certain you would not.</p>`},
+
+ {t:"When you cannot get out of bed", s:"When the day has beaten you before it started",
+  b:`<p>You are awake, and the heaviness arrived before you were properly awake. The whole day is already sitting on you.</p>
+     <p>Nobody is going to tell you to get up and make the most of the day. Here is something more realistic.</p>
+     <p>Today's plan is this. Drink some water. Eat something, even something poor. Sit on the edge of the bed for four minutes and then get back in if you need to. Open a window or stand at a door and let outside air reach your face. That is the whole plan.</p>
+     <p>Part of you will call that pathetic. Ignore it. You have listened to that voice many times and it has never once made things better.</p>
+     <p>Here is what is actually going on. You are not lazy and you have not given up. You are exhausted. Living with this much fear is genuinely tiring, and you have been doing it while also trying to seem fine, which costs more than anyone realises.</p>
+     <p>A day where you did those four things is not a wasted day. You looked after yourself a little. Some days that is the whole job, and choosing to do it is different from giving up.</p>
+     <p>Tomorrow can be more. It doesn't have to be. Today, you drink the water.</p>`},
+
+ {t:"After you have cancelled something", s:"When relief and guilt arrived at the same time",
+  b:`<p>You sent the message, and for about a minute and a half it was the best you had felt all week. Then the guilt arrived.</p>
+     <p>There are two separate things here, and it helps to keep them apart.</p>
+     <p>The first is what happened. You avoided something frightening, and your brain took that as proof the thing was dangerous. It is worth being honest about that. Not because it makes you a bad person, but because seeing it clearly is what lets you do it differently next time.</p>
+     <p>The second is what you have been saying to yourself since. That you are pathetic, that everyone else manages, that you will end up alone because of this. That part is not honesty. That is the critical voice using a real event as an excuse to say what it always says.</p>
+     <p>You can accept the first without accepting the second. <em>I avoided that and I wish I had not</em> is true, and you can live with it. <em>I am broken and it is too late</em> is a different statement, and it is not true.</p>
+     <p>One more thing, plainly. Cancelling did not undo your progress. There is no score being kept and nothing has been wiped. The next small step is just as available to you tonight as it was this morning.</p>
+     <p>Nobody gets through this without cancelling sometimes. The people who recover are not the ones who never avoided anything. They are the ones who avoided something, felt terrible, and then went anyway the next time. You are in the middle of the normal version of this. You are not failing at a tidier version that other people are managing.</p>`},
+
+ {t:"When you went, but had to leave early", s:"When you got there, but could not stay",
+  b:`<p>You went. Start there, because you are about to skip straight past it.</p>
+     <p>You got dressed and you left the house and you walked in, carrying a level of dread that most people around you have never felt about anything. Then it got too much and you left.</p>
+     <p>Your mind is filing this under failure. That is wrong, and it is wrong for a specific reason.</p>
+     <p>You are comparing what you did against a version of the evening where you stayed the whole time and felt fine. That is not a fair comparison, because that version was never possible. The real choice was between going for a while and not going at all. You took the harder one.</p>
+     <p>There is something else here, and it may be the most useful thing on this page. <strong>You were in the room, and the thing you always predict will happen did not happen.</strong> You did not collapse. Nobody turned to look. You got frightened and you left, which is an ordinary thing that people do for all sorts of reasons.</p>
+     <p>So the evening was not a failed attempt at staying. It was a successful attempt at going. Those are two different skills, and you only get to practise the second one by doing exactly what you did.</p>
+     <p>Next time, try for five more minutes than this. Not the whole evening. Five minutes. That is how this gets built.</p>`},
+
+ {t:"When you keep going over what happened", s:"When you cannot stop picking a conversation apart",
+  b:`<p>It happened hours ago and it lasted forty minutes. You are now on your ninth time through it, examining a three-second silence in more detail than anyone else there will ever apply to anything you said.</p>
+     <p>Here is what is worth knowing about that review. It is not neutral. You are not calmly working out how it went.</p>
+     <p>You are searching, and the search decided what it would find before it started. It is looking for proof that you were embarrassing. So it ignores the twenty minutes of easy conversation. It ignores the moment someone laughed at something you said. It goes back again and again to the pause, the word you repeated, and how your voice sounded to you.</p>
+     <p>Nobody else has this recording. Everyone else was mostly thinking about themselves, exactly as you were.</p>
+     <p>You will not win this by arguing. Reassuring yourself works for about ten minutes and then it starts again. Two things do help.</p>
+     <p>The first is to say it in the third person. <em>She is going over it again. She is worried she seemed strange.</em> The distance makes it easier to be fair, in the same way you are fair about other people and never about yourself.</p>
+     <p>The second is to give your attention something real to do. This is not about distracting yourself from the feeling, because that does not work either. It is that the review needs your full attention to keep running, and it cannot have it if you are properly occupied with something else.</p>
+     <p>The replay is not a memory. It is a story your mind is writing about you at two in the morning. By Thursday you will have mistaken it for what actually happened. That is why it is worth interrupting now.</p>`},
+
+ {t:"When you think it has been too long to fix", s:"When it has been years and your life has got very small",
+  b:`<p>Maybe it has been years. Maybe you left school or stopped the course, or you have not properly seen anyone in a long time, and your life has quietly shrunk to a few rooms.</p>
+     <p>Underneath it is the thought you do not say out loud. <em>It has been too long. I have missed too much. This is just what I am now.</em></p>
+     <p>Let us take that seriously rather than brush it off.</p>
+     <p>What you are describing is real. Time has passed, things have been missed, and the gap between where you are and where you expected to be is genuinely painful. Nobody should pretend otherwise.</p>
+     <p>But the conclusion you have drawn from it is not supported by anything. Being frightened for a long time makes you someone who has been frightened for a long time. It does not make you a different kind of person, and it does not remove the part of you that responds to this work. That part does not expire. It is sitting there intact, waiting to be given something new.</p>
+     <p>The reason it feels permanent is that the evidence stopped coming in. Not because the verdict was confirmed, but because you stopped collecting. The moment you start again, in the smallest possible way, it starts moving again. Slowly, but it moves.</p>
+     <p>People come back from further in than this. Quietly, in their thirties and forties, after years of it. The way back is not dramatic and it does not require you to become a different person. It is the corner shop, four times. Then the bus. Then the thing after that.</p>
+     <p>You are not too far gone. You have further to walk than someone who started sooner. That is all it means, and it is not the same as being beyond reach.</p>`},
+
+ {t:"When you are having a good day", s:"When things are going well and you do not quite trust it",
+  b:`<p>Something has lifted. You noticed it this morning. There is a lightness, and a gap where the dread usually sits, and your first reaction was suspicion.</p>
+     <p>That is not paranoia. You have been caught out before. Good days have come before bad weeks, and you have learned to hold them carefully, the way you would hold something you expect to be taken away.</p>
+     <p>Two things about today.</p>
+     <p>The first is that you are allowed to have it. Not as a reward, and not because you earned it with a good week. It arrived, and you can take it. You do not need to spend the day bracing for it to end, and you certainly do not need to feel guilty that you cannot produce this feeling on purpose.</p>
+     <p>The second, gently, is that <strong>this is the best day to do a hard thing.</strong></p>
+     <p>Not a big hard thing. But the step you have had in mind for a fortnight, the one you keep putting off until you feel ready, this is what ready looks like. There is no better version coming.</p>
+     <p>Most people wait for readiness on their worst days, and then wonder why they never move. The quiet days are the ones with a bit of room in them, and using some of that room is how the quiet days slowly become more common.</p>
+     <p>So take the day. And somewhere inside it, do the small frightening thing while it costs you least.</p>
+     <p>Notice, before it goes, that this is what you are working towards. Not being calm all the time. Just more days like this one, and less distance to travel to reach them.</p>`}
+];
+
+const PLANS = [
+ {k:'Bad day', goal:'Today the aim is just to look after yourself. That is a real aim and it counts.',
+  items:["Drink a full glass of water","Eat something, even if it is not a proper meal","Sit on the edge of the bed for four minutes","Get some fresh air, even if it is only standing in a doorway","Lie down again if you need to, without feeling guilty about it"],
+  end:"That was the whole plan and you have done it. This was not a wasted day. You got through it on purpose. Tomorrow can ask more of you."},
+ {k:'Stage 1', goal:'The aim today is to be a little less worn out than you were yesterday.',
+  items:["Breathe out slowly for three minutes, while you are calm rather than panicking","Move your body for ten minutes; doing it badly is fine","Eat something before midday","Drink less caffeine than usual","Do one thing that has nothing to do with anxiety"],
+  end:"This stage is dull, and it is the one that makes everything else possible. Give it two weeks before you decide whether it is working."},
+ {k:'Stage 2', goal:'The aim today is to notice things, not to fix them.',
+  items:["Catch one prediction and write it down in plain words","Write down one small habit you used today to get through something","Notice one moment that was easier than you expected","Keep doing the stage one basics as well"],
+  end:"You are not fixing anything today. You are finding out what you are actually dealing with. A fear you have named is always smaller than one you have not."},
+ {k:'Stage 3', goal:'The aim today is to collect proof, not to feel brave.',
+  items:["Choose one very small step, then make it smaller","Write down what you think will happen BEFORE you go","Go and do it. You will feel awful. Stay a little past the worst of it if you can","Write down what actually happened, in plain words","Think about dropping one coping habit, just for this one attempt"],
+  end:"Feeling terrified while you did it does not mean you did it wrong. It means you did it at all."},
+ {k:'Stage 4', goal:'The aim today is to get more of your life back.',
+  items:["Repeat a step you have done before, but change one thing about it","Do something because you want to, not because it is practice","Let a bad day be a bad day without deciding what it means","Notice one thing you can do now that you could not do a few months ago"],
+  end:"The goal was never to stop feeling fear. It was to stop fear deciding what you do."}
+];
+
+/* ==========================================================
+   NAV
+   ========================================================== */
+function toTop(){ try{ window.scrollTo(0,0); }catch(e){} }
+
+/* the sticky bar changes height when it wraps or the text size changes,
+   so anything we scroll to needs its real measurement, not a guess */
+function syncNavHeight(){
+  const n=document.querySelector('nav');
+  if(n && n.offsetHeight) document.documentElement.style.setProperty('--navh', n.offsetHeight+'px');
+}
+syncNavHeight();
+window.addEventListener('resize', syncNavHeight);
+window.addEventListener('load', syncNavHeight);
+
+
+
+
+/* ==========================================================
+   PWA — install, update, and keeping the browser chrome
+   the same colour as the palette she chose
+   ========================================================== */
+(function(){
+  // the address bar / task switcher colour should follow the palette
+  window.syncThemeColour=function(){
+    try{
+      const m=document.getElementById('metaTheme');
+      const c=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
+      if(m && c) m.setAttribute('content', c);
+    }catch(e){}
+  };
+  syncThemeColour();
+
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',()=>{
+      navigator.serviceWorker.register('sw.js').then(reg=>{
+        reg.addEventListener('updatefound',()=>{
+          const nw=reg.installing; if(!nw) return;
+          nw.addEventListener('statechange',()=>{
+            if(nw.state==='installed' && navigator.serviceWorker.controller){
+              const box=document.getElementById('pwaUpdate');
+              box.classList.add('on');
+              document.getElementById('pwaReload').onclick=()=>{
+                nw.postMessage('skip-waiting'); location.reload();
+              };
+              document.getElementById('pwaLater').onclick=()=>box.classList.remove('on');
+            }
+          });
+        });
+      }).catch(e=>console.warn('[sw] registration failed', e));
+    });
+  }
+
+  // install invitation, only if the browser offers one and she has not declined
+  let prompt=null;
+  const box=document.getElementById('pwaInstall');
+  const declined=()=>{ try{ return localStorage.getItem('softground.install')==='no'; }catch(e){ return false; } };
+  window.addEventListener('beforeinstallprompt', e=>{
+    e.preventDefault(); prompt=e;
+    if(!declined()) setTimeout(()=>box.classList.add('on'), 20000);   // not on arrival
+  });
+  document.getElementById('pwaAdd').onclick=async()=>{
+    box.classList.remove('on');
+    if(!prompt) return;
+    prompt.prompt(); try{ await prompt.userChoice; }catch(e){}
+    prompt=null;
+  };
+  document.getElementById('pwaNo').onclick=()=>{
+    box.classList.remove('on');
+    try{ localStorage.setItem('softground.install','no'); }catch(e){}
+  };
+  window.addEventListener('appinstalled',()=>{ box.classList.remove('on'); });
+})();
+
+/* ==========================================================
+   THE STUDIO — palette, motion, reading comfort
+   Preferences are kept on this device only, and only these
+   three. Nothing you write is ever stored.
+   ========================================================== */
+
+const PALETTES=[
+ {id:'understory', name:'Understory', dots:['#c9a86c','#8fa896','#0c0f15'], note:'Forest floor at night'},
+ {id:'nocturne',   name:'Nocturne',   dots:['#9fb6e8','#8b8fd0','#070a12'], note:'Cool, celestial, very low light'},
+ {id:'mulberry',   name:'Mulberry',   dots:['#e0a9ae','#b79ada','#1c1422'], note:'Deep plum, rose gold and lilac'},
+ {id:'vellum',     name:'Vellum',     dots:['#8a6320','#5c7a62','#f5f0e5'], note:'Light — old botanical paper'},
+ {id:'peony',      name:'Peony',      dots:['#a8455f','#5f7b5f','#fdf5f4'], note:'Light — blush paper and deep rose'},
+ {id:'tidal',      name:'Tidal',      dots:['#1f6f70','#487a60','#eff3f2'], note:'Light — sea glass and slate'}
+];
+
+const store={
+  get(k,d){ try{ return localStorage.getItem('softground.'+k) || d; }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem('softground.'+k,v); }catch(e){} }
+};
+
+(function studio(){
+  const root=document.documentElement;
+  const prefersStill = typeof window.matchMedia==='function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function apply(key,val){
+    root.dataset[key]=val;
+    store.set(key,val);
+    if(key==='motion') document.dispatchEvent(new CustomEvent('motionchange',{detail:val}));
+    if(typeof syncThemeColour==='function') syncThemeColour();
+    sync();
+  }
+  function sync(){
+    document.querySelectorAll('#swatches .sw').forEach(b=>
+      b.classList.toggle('on', b.dataset.palette===root.dataset.palette));
+    document.querySelectorAll('#segMotion button').forEach(b=>
+      b.classList.toggle('on', b.dataset.motion===root.dataset.motion));
+    document.querySelectorAll('#segReading button').forEach(b=>
+      b.classList.toggle('on', b.dataset.reading===root.dataset.reading));
+  }
+
+  // build swatches
+  const sw=document.getElementById('swatches');
+  PALETTES.forEach(p=>{
+    const b=document.createElement('button');
+    b.className='sw'; b.dataset.palette=p.id; b.type='button';
+    b.title=p.note; b.setAttribute('aria-label',p.name+' — '+p.note);
+    b.innerHTML='<span class="dots">'+p.dots.map(c=>'<i style="background:'+c+'"></i>').join('')+
+                '</span><span class="nm">'+p.name+'</span>';
+    b.onclick=()=>apply('palette',p.id);
+    sw.appendChild(b);
+  });
+  document.querySelectorAll('#segMotion button').forEach(b=>b.onclick=()=>apply('motion',b.dataset.motion));
+  document.querySelectorAll('#segReading button').forEach(b=>b.onclick=()=>apply('reading',b.dataset.reading));
+
+  // restore
+  const valid=PALETTES.map(p=>p.id);
+  const savedP=store.get('palette','vellum');
+  root.dataset.palette = valid.includes(savedP)?savedP:'vellum';
+  root.dataset.motion  = store.get('motion',  prefersStill?'still':'flowing');
+  root.dataset.reading = store.get('reading','comfortable');
+  sync();
+
+  // open / close
+  const panel=document.getElementById('studio'), btn=document.getElementById('studioBtn');
+  function open(v){ panel.classList.toggle('on',v); btn.setAttribute('aria-expanded',v?'true':'false'); }
+  btn.onclick=e=>{ e.stopPropagation(); open(!panel.classList.contains('on')); };
+  document.addEventListener('click',e=>{ if(!panel.contains(e.target) && e.target!==btn) open(false); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') open(false); });
+})();
+
+const VIEWS=[["here","Here"],["body","Body"],["architecture","Origins"],["plan","Plan"],["practices","Practices"],["reflections","Reflections"],["letters","Letters"]];
+const navEl=document.getElementById('nav');
+VIEWS.forEach(([id,label])=>{
+  const b=document.createElement('button'); b.textContent=label; b.dataset.v=id;
+  b.onclick=()=>go(id); navEl.appendChild(b);
+});
+function go(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on', v.id==='v-'+id));
+  navEl.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.v===id));
+  toTop();
+}
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]'); if(g){ go(g.dataset.go); }
+});
+go('here');
+
+/* ==========================================================
+   HERO FLOW FIELD  — generative contour lines
+   ========================================================== */
+(function(){
+  const svg=document.getElementById('field');
+  const W=1200,H=800, NS='http://www.w3.org/2000/svg';
+  svg.setAttribute('viewBox','0 0 '+W+' '+H);
+
+  // faint orbital geometry
+  const g0=document.createElementNS(NS,'g'); g0.setAttribute('opacity','.20');
+  [{cx:930,cy:230,r:180},{cx:930,cy:230,r:262},{cx:930,cy:230,r:96}].forEach(o=>{
+    const c=document.createElementNS(NS,'ellipse');
+    c.setAttribute('cx',o.cx);c.setAttribute('cy',o.cy);c.setAttribute('rx',o.r);c.setAttribute('ry',o.r*0.62);
+    c.setAttribute('fill','none');c.setAttribute('class','sv-violet');c.setAttribute('stroke-width','.7');
+    g0.appendChild(c);
+  });
+  const star=document.createElementNS(NS,'circle');
+  star.setAttribute('cx',930);star.setAttribute('cy',230);star.setAttribute('r',2.6);star.setAttribute('class','sf-brass');
+  g0.appendChild(star); svg.appendChild(g0);
+
+  // contour flow lines
+  const g=document.createElementNS(NS,'g'); svg.appendChild(g);
+  const N=34, paths=[];
+  for(let i=0;i<N;i++){
+    const p=document.createElementNS(NS,'path');
+    const t=i/(N-1);
+    p.setAttribute('fill','none');
+    p.setAttribute('class', i%7===0 ? 'sv-brass' : (i%5===0?'sv-sage':'sv-line'));
+    p.setAttribute('stroke-width', i%7===0?'.85':(i%5===0?'.7':'.9'));
+    p.setAttribute('opacity', (0.16+0.5*Math.sin(t*Math.PI)).toFixed(3));
+    g.appendChild(p); paths.push(p);
+  }
+  // single-line botanical sprig, hand-authored
+  const sprig=document.createElementNS(NS,'path');
+  sprig.setAttribute('d','M150 720 C160 620 175 540 205 470 C222 428 250 392 286 366 M205 470 C170 452 150 414 148 372 C186 380 208 418 205 470 M232 414 C258 388 268 344 258 306 C226 328 218 372 232 414 M258 348 C292 344 322 318 334 284 C300 280 268 306 258 348');
+  sprig.setAttribute('fill','none'); sprig.setAttribute('class','sv-sage');
+  sprig.setAttribute('stroke-width','1'); sprig.setAttribute('stroke-linecap','round');
+  sprig.setAttribute('opacity','.30');
+  svg.appendChild(sprig);
+
+  let ph=0;
+  function draw(){
+    for(let i=0;i<N;i++){
+      const t=i/(N-1), y0=60+t*(H-40);
+      let d='M -60 '+y0.toFixed(1);
+      for(let x=-60;x<=W+60;x+=34){
+        const k=x/W;
+        const y = y0
+          + 52*Math.sin(k*2.1 + ph*0.55 + t*3.4)
+          + 26*Math.sin(k*4.7 - ph*0.36 + t*6.1)
+          + 13*Math.sin(k*9.3 + ph*0.9  + t*2.2);
+        d+=' L '+x+' '+y.toFixed(1);
+      }
+      paths[i].setAttribute('d',d);
+    }
+  }
+  draw();
+
+  // ambient drift, governed by the studio's motion setting
+  let raf=null;
+  function loop(){ ph+=0.0055; draw(); raf=requestAnimationFrame(loop); }
+  function setMotion(mode){
+    const flow = mode!=='still';
+    if(flow && raf===null){ raf=requestAnimationFrame(loop); }
+    if(!flow && raf!==null){ cancelAnimationFrame(raf); raf=null; }
+  }
+  setMotion(document.documentElement.dataset.motion);
+  document.addEventListener('motionchange', e=>setMotion(e.detail));
+})();
+
+/* ==========================================================
+   BREATHING ORB
+   ========================================================== */
+(function(){
+  const NS='http://www.w3.org/2000/svg', orb=document.getElementById('orb');
+  orb.innerHTML='';
+  const defs=document.createElementNS(NS,'defs');
+  defs.innerHTML='<radialGradient id="bg1"><stop class="gs-a" offset="0%" stop-opacity=".22"/><stop class="gs-b" offset="70%" stop-opacity=".06"/><stop class="gs-c" offset="100%" stop-opacity="0"/></radialGradient>';
+  orb.appendChild(defs);
+
+  const glow=document.createElementNS(NS,'circle');
+  glow.setAttribute('cx',200);glow.setAttribute('cy',200);glow.setAttribute('r',150);glow.setAttribute('fill','url(#bg1)');
+  orb.appendChild(glow);
+
+  // static outer ticks
+  const ticks=document.createElementNS(NS,'g'); ticks.setAttribute('opacity','.35');
+  for(let i=0;i<60;i++){
+    const a=i/60*Math.PI*2, r1=168, r2=i%5===0?158:163;
+    const l=document.createElementNS(NS,'line');
+    l.setAttribute('x1',200+Math.cos(a)*r1);l.setAttribute('y1',200+Math.sin(a)*r1);
+    l.setAttribute('x2',200+Math.cos(a)*r2);l.setAttribute('y2',200+Math.sin(a)*r2);
+    l.setAttribute('class', i%5===0?'sv-brass':'sv-line'); l.setAttribute('stroke-width','.8');
+    ticks.appendChild(l);
+  }
+  orb.appendChild(ticks);
+
+  // rotating petal rings (organic + celestial)
+  const spin=document.createElementNS(NS,'g'); orb.appendChild(spin);
+  for(let i=0;i<10;i++){
+    const e=document.createElementNS(NS,'ellipse');
+    e.setAttribute('cx',200);e.setAttribute('cy',200);e.setAttribute('rx',118);e.setAttribute('ry',44);
+    e.setAttribute('fill','none');e.setAttribute('class', i%2?'sv-sage':'sv-violet');
+    e.setAttribute('stroke-width','.7');e.setAttribute('opacity','.28');
+    e.setAttribute('transform','rotate('+(i*18)+' 200 200)');
+    spin.appendChild(e);
+  }
+  const core=document.createElementNS(NS,'circle');
+  core.setAttribute('cx',200);core.setAttribute('cy',200);core.setAttribute('r',30);
+  core.setAttribute('fill','none');core.setAttribute('class','sv-brass');core.setAttribute('stroke-width','1');
+  orb.appendChild(core);
+
+  const arc=document.createElementNS(NS,'circle');
+  arc.setAttribute('cx',200); arc.setAttribute('cy',200); arc.setAttribute('r',146);
+  arc.setAttribute('fill','none'); arc.setAttribute('class','sv-brass');
+  arc.setAttribute('stroke-width','2.2'); arc.setAttribute('stroke-linecap','round');
+  arc.setAttribute('transform','rotate(-90 200 200)'); arc.setAttribute('opacity','0');
+  orb.appendChild(arc);
+
+  const ring=document.createElementNS(NS,'circle');
+  ring.setAttribute('cx',200);ring.setAttribute('cy',200);ring.setAttribute('r',60);
+  ring.setAttribute('fill','none');ring.setAttribute('class','sv-bone');ring.setAttribute('stroke-width','1.4');
+  ring.setAttribute('opacity','.85');
+  orb.appendChild(ring);
+
+  const phaseEl=document.getElementById('bPhase'), cntEl=document.getElementById('bCount');
+  const rate=document.getElementById('bRate'), rateVal=document.getElementById('bRateVal');
+
+  /* Resting shape, and the shape at the very start of an in-breath.
+     These differ, so moving between them must be eased rather than snapped. */
+  const REST={r:60, core:30, glow:150, op:.85};
+  const LEAD=900, SETTLE=800;           // ms to ease in / ease out
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const ease=t=>0.5-0.5*Math.cos(Math.PI*Math.min(Math.max(t,0),1));
+
+  let mode='idle';                      // idle | lead | run | settle
+  let t0=0, modeT0=0, cycles=-1, raf=null, spinA=0;
+  let from={...REST}, cur={...REST}, curCycle=60000/5.5, lastTs=0;
+
+  function paint(r,c,g,op){
+    cur={r,core:c,glow:g,op};
+    ring.setAttribute('r',r.toFixed(1));
+    ring.setAttribute('opacity',op.toFixed(2));
+    core.setAttribute('r',c.toFixed(1));
+    glow.setAttribute('r',g.toFixed(1));
+  }
+  paint(REST.r,REST.core,REST.glow,REST.op);
+
+  /* Four phases. The hold and the rest are real pauses, long enough to feel. */
+  let holdSet=1;                                  // 0 none · 1 short · 2 longer
+  function phases(){
+    const cycle=60000/(rate.value/10);
+    const H=[0,0.14,0.22][holdSet];
+    const P=H?0.06:0.05;                          // brief rest at the bottom
+    const inF=(1-H-P)*0.44;                       // in-breath is the shorter half
+    return { cycle, inh:cycle*inF, hold:cycle*H, exh:cycle*(1-H-P-inF), pause:cycle*P };
+  }
+  function shapeAt(elapsed){
+    const ph=phases(), e=elapsed%ph.cycle;
+    let p, label, phase, prog=0;
+    if(e < ph.inh){
+      p=e/ph.inh; phase='in'; label='Breathe in';
+    } else if(e < ph.inh+ph.hold){
+      p=1; phase='hold'; prog=(e-ph.inh)/ph.hold; label='Hold — softly, no strain';
+    } else if(e < ph.inh+ph.hold+ph.exh){
+      const q=(e-ph.inh-ph.hold)/ph.exh; p=1-q; phase='out'; label='Breathe out — slowly';
+    } else {
+      p=0; phase='pause'; prog=(e-ph.inh-ph.hold-ph.exh)/ph.pause; label='Rest';
+    }
+    const k=ease(p);
+    return { r:52+k*94, core:22+k*16, glow:96+k*74, op:0.45+k*0.5,
+             label, cycle:ph.cycle, phase, prog };
+  }
+
+  function frame(ts){
+    lastTs=ts;
+    spinA+=0.055; spin.setAttribute('transform','rotate('+spinA.toFixed(2)+' 200 200)');
+
+    if(mode==='lead'){                                   // rest -> start of in-breath
+      if(!modeT0) modeT0=ts;
+      const k=ease((ts-modeT0)/LEAD), s=shapeAt(0);
+      paint(lerp(from.r,s.r,k), lerp(from.core,s.core,k), lerp(from.glow,s.glow,k), lerp(from.op,s.op,k));
+      arc.setAttribute('opacity','0');
+      if(ts-modeT0>=LEAD){ mode='run'; t0=ts; cycles=-1; }
+    }
+    else if(mode==='run'){
+      const el=ts-t0, s=shapeAt(el);
+      curCycle=s.cycle;
+      const c=Math.floor(el/s.cycle);
+      if(c!==cycles){ cycles=c; cntEl.textContent='Breath '+(cycles+1); }
+      paint(s.r,s.core,s.glow,s.op);
+      if(phaseEl.textContent!==s.label) phaseEl.textContent=s.label;
+      // during a pause the orb is deliberately still, so trace the time instead
+      if(s.phase==='hold' || s.phase==='pause'){
+        const C=2*Math.PI*s.r;
+        arc.setAttribute('r',s.r.toFixed(1));
+        arc.setAttribute('stroke-dasharray',C.toFixed(1));
+        arc.setAttribute('stroke-dashoffset',(C*(1-s.prog)).toFixed(1));
+        arc.setAttribute('opacity','.9');
+      } else arc.setAttribute('opacity','0');
+    }
+    else if(mode==='settle'){                            // wherever it was -> rest
+      if(!modeT0) modeT0=ts;
+      const k=ease((ts-modeT0)/SETTLE);
+      paint(lerp(from.r,REST.r,k), lerp(from.core,REST.core,k),
+            lerp(from.glow,REST.glow,k), lerp(from.op,REST.op,k));
+      arc.setAttribute('opacity','0');
+      if(ts-modeT0>=SETTLE){ mode='idle'; }
+    }
+
+    if(mode==='idle'){ raf=null; return; }               // nothing moving, stop the loop
+    raf=requestAnimationFrame(frame);
+  }
+  function run(){ if(raf===null) raf=requestAnimationFrame(frame); }
+
+  /* changing pace mid-breath must not jump the phase */
+  rate.oninput=()=>{
+    rateVal.textContent=(rate.value/10).toFixed(1);
+    if(mode==='run'){
+      const frac=((lastTs-t0)%curCycle)/curCycle;
+      const next=60000/(rate.value/10);
+      t0=lastTs-frac*next; curCycle=next;
+      cycles=Math.floor((lastTs-t0)/next);
+    }
+  };
+
+  document.querySelectorAll('#segHold button').forEach(b=>{
+    b.onclick=()=>{
+      holdSet=+b.dataset.hold;
+      document.querySelectorAll('#segHold button').forEach(x=>x.classList.toggle('on',x===b));
+      if(mode==='run'||mode==='lead'){         // ease back to the top of a fresh breath
+        from={...cur}; mode='lead'; modeT0=0; cntEl.textContent='Breath 1';
+      }
+    };
+  });
+  document.querySelector('#segHold button[data-hold="1"]').classList.add('on');
+
+  document.getElementById('bStart').onclick=()=>{
+    if(mode==='run'||mode==='lead') return;
+    from={...cur};
+    mode='lead'; modeT0=0;
+    phaseEl.textContent='Settle';
+    cntEl.textContent='Breath 1';
+    run();
+  };
+  document.getElementById('bStop').onclick=()=>{
+    if(mode==='idle'||mode==='settle') return;
+    const n=cycles+1;
+    from={...cur};
+    mode='settle'; modeT0=0;
+    phaseEl.innerHTML='&nbsp;';
+    cntEl.textContent = n>0 ? n+(n===1?' breath. That counts.':' breaths. That counts.') : 'Ready';
+    run();
+  };
+  })();
+
+/* ==========================================================
+   AFFECT LABELLING
+   ========================================================== */
+(function(){
+  const box=document.getElementById('emoList'), out=document.getElementById('emoOut'), note=document.getElementById('emoNote');
+  let sel=[];
+  EMOTIONS.forEach(w=>{
+    const b=document.createElement('button'); b.textContent=w;
+    b.onclick=()=>{
+      const i=sel.indexOf(w);
+      if(i>-1) sel.splice(i,1);
+      else { if(sel.length>=3) return; sel.push(w); }
+      box.querySelectorAll('button').forEach(x=>x.classList.toggle('on',sel.includes(x.textContent)));
+      render();
+    };
+    box.appendChild(b);
+  });
+  function render(){
+    if(!sel.length){ out.textContent=''; note.style.display='none'; return; }
+    out.textContent='Right now I feel '+sel.join('. I feel ')+'.';
+    note.style.display='block';
+  }
+})();
+
+/* ==========================================================
+   DISTANCED SELF-TALK
+   ========================================================== */
+document.getElementById('dGo').onclick=()=>{
+  const raw=document.getElementById('dIn').value.trim();
+  const name=(document.getElementById('dName').value.trim()||'She');
+  const mode=document.getElementById('dMode').value;
+  const out=document.getElementById('dOut');
+  if(!raw){ out.textContent='Write the thought first, in the words it actually uses.'; return; }
+  const S = mode==='name' ? name : 'You';
+  const poss = mode==='name' ? name+"'s" : 'your';
+  const obj  = mode==='name' ? name : 'you';
+  const refl = mode==='name' ? 'herself' : 'yourself';
+  const isV  = mode==='name' ? 'is' : 'are';
+  const wasV = mode==='name' ? 'was' : 'were';
+  const hasV = mode==='name' ? 'has' : 'have';
+  let s=' '+raw+' ';
+  const R=[
+    [/\bI'm\b/gi, S+' '+isV], [/\bI am\b/gi, S+' '+isV],
+    [/\bI've\b/gi, S+' '+hasV], [/\bI have\b/gi, S+' '+hasV],
+    [/\bI'll\b/gi, S+' will'], [/\bI will\b/gi, S+' will'],
+    [/\bI'd\b/gi, S+' would'], [/\bI was\b/gi, S+' '+wasV],
+    [/\bmyself\b/gi, refl], [/\bmy\b/gi, poss], [/\bmine\b/gi, poss],
+    [/\bI\b/g, S], [/\bme\b/gi, obj]
+  ];
+  R.forEach(([re,to])=>{ s=s.replace(re,to); });
+  if(mode==='name'){
+    s=s.replace(new RegExp('\\b'+name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+' (don\'t|doesn\'t)\\b','gi'),name+" doesn't");
+    s=s.replace(new RegExp('\\b'+name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+' (can\'t|cannot)\\b','gi'),name+" can't");
+    s=s.replace(/\b(\w+) (feel|think|know|want|need|hate|make|look|sound|belong|cope|manage)\b/g,(m,a,b)=>a===name?a+' '+b+'s':m);
+  }
+  if(mode==='you'){ s=s.replace(/(\S\s+)You\b/g,'$1you').replace(/(\S\s+)Your\b/g,'$1your'); }
+  s=s.trim().replace(/\s{2,}/g,' '); s=s.charAt(0).toUpperCase()+s.slice(1);
+  out.innerHTML=s+'<div class="small" style="margin-top:.9rem;font-family:var(--sans);color:var(--bone-3)">Now read that out loud, even quietly. Saying it does far more than reading it in your head.</div>';
+};
+
+/* ==========================================================
+   DEFUSION
+   ========================================================== */
+document.getElementById('fuGo').onclick=()=>{
+  const t=document.getElementById('fuIn').value.trim().replace(/[.]$/,'');
+  const out=document.getElementById('fuOut');
+  if(!t){ out.innerHTML='<div class="out">Type the sentence exactly as it arrives.</div>'; return; }
+  const layers=[
+    {l:'As it arrives', s:t+'.'},
+    {l:'One step back', s:'I\'m having the thought that '+t.charAt(0).toLowerCase()+t.slice(1)+'.'},
+    {l:'Two steps back', s:'I notice I\'m having the thought that '+t.charAt(0).toLowerCase()+t.slice(1)+'.'},
+    {l:'Named as what it is', s:'Here is my mind, doing the thing it does, producing the sentence: "'+t+'."'}
+  ];
+  out.innerHTML=layers.map(x=>'<div style="margin-top:1.4rem"><label>'+x.l+'</label><div class="out" style="margin-top:.2rem">'+x.s+'</div></div>').join('')
+   +'<p class="small" style="margin-top:1.6rem">Nothing here argues with the thought. You are not being asked to believe it less. You are being asked to stand slightly to one side of it — which turns out to be a much smaller job, and a far more possible one.</p>';
+};
+
+/* ==========================================================
+   SELF-COMPASSION
+   ========================================================== */
+document.getElementById('scGo').onclick=()=>{
+  const t=document.getElementById('scIn').value.trim();
+  const who=document.getElementById('scWho').value.trim()||'someone you love';
+  const out=document.getElementById('scOut');
+  if(!t){ out.innerHTML='<div class="out">Write it exactly as you said it. Don\'t soften it for the page.</div>'; return; }
+  out.innerHTML=
+   '<div style="margin-top:1.4rem"><label>What you said</label><div class="out" style="margin-top:.2rem;border-left-color:var(--blush)">'+esc(t)+'</div></div>'+
+   '<div style="margin-top:1.6rem"><label>Now read it addressed to '+esc(who)+'</label><div class="out" style="margin-top:.2rem">“'+esc(who)+', '+esc(t.charAt(0).toLowerCase()+t.slice(1))+'”</div></div>'+
+   '<p class="small" style="margin-top:1.6rem">If the second version is unbearable — if you would interrupt someone who spoke to '+esc(who)+' like that — then what you are applying to yourself is not a high standard. It is a double one.</p>'+
+   '<p class="small">You do not have to feel warm toward yourself for this to work. You only have to stop saying things about yourself that you would consider slander said about anyone else.</p>';
+};
+function esc(s){ return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* ==========================================================
+   ATTENTION TRAINING
+   ========================================================== */
+(function(){
+  let last=-1;
+  document.getElementById('atGo').onclick=()=>{
+    let i; do{ i=Math.floor(Math.random()*ATTENTION.length); } while(i===last && ATTENTION.length>1);
+    last=i;
+    document.getElementById('atOut').textContent=ATTENTION[i];
+    document.getElementById('atNote').textContent='Do it now, in the room you are in.';
+  };
+})();
+
+/* ==========================================================
+   VALUES
+   ========================================================== */
+(function(){
+  const box=document.getElementById('valList'), out=document.getElementById('valOut');
+  const act=document.getElementById('valAct'), fin=document.getElementById('valFinal');
+  let sel=[];
+  VALUES.forEach(v=>{
+    const b=document.createElement('button'); b.textContent=v;
+    b.onclick=()=>{
+      const i=sel.indexOf(v);
+      if(i>-1) sel.splice(i,1); else { if(sel.length>=3) return; sel.push(v); }
+      box.querySelectorAll('button').forEach(x=>x.classList.toggle('on',sel.includes(x.textContent)));
+      if(!sel.length){ out.textContent=''; act.style.display='none'; return; }
+      const list=sel.length===1?sel[0].toLowerCase():sel.slice(0,-1).join(', ').toLowerCase()+' and '+sel[sel.length-1].toLowerCase();
+      out.textContent='Anxiety only ever asks whether something is safe. These are what you want your life to be about: '+list+'.';
+      act.style.display='block';
+    };
+    box.appendChild(b);
+  });
+  document.getElementById('valGo').onclick=()=>{
+    const a=document.getElementById('valIn').value.trim();
+    if(!a){ fin.textContent='Make it smaller than feels worth writing down.'; return; }
+    fin.innerHTML='I will '+esc(a.charAt(0).toLowerCase()+a.slice(1))+' — not because I will feel ready, and not because the fear will have gone.'+
+     '<div class="small" style="margin-top:.9rem;font-family:var(--sans);color:var(--bone-3)">Readiness is not coming. This is what the beginning looks like.</div>';
+  };
+})();
+
+/* ==========================================================
+   LADDER
+   ========================================================== */
+(function(){
+  const list=document.getElementById('ladList'), empty=document.getElementById('ladEmpty');
+  const bel=document.getElementById('ladBel'), dif=document.getElementById('ladDif');
+  bel.oninput=()=>document.getElementById('ladBelVal').textContent=bel.value;
+  dif.oninput=()=>document.getElementById('ladDifVal').textContent=dif.value;
+  let rungs=[], id=0;
+
+  document.getElementById('ladAdd').onclick=()=>{
+    const sit=document.getElementById('ladSit').value.trim();
+    const pred=document.getElementById('ladPred').value.trim();
+    if(!sit){ document.getElementById('ladSit').focus(); return; }
+    rungs.push({id:++id, sit, pred, bel:+bel.value, dif:+dif.value, done:false, actual:'', bel2:null});
+    document.getElementById('ladSit').value=''; document.getElementById('ladPred').value='';
+    render();
+  };
+  function render(){
+    rungs.sort((a,b)=>a.dif-b.dif);
+    empty.style.display = rungs.length?'none':'block';
+    list.innerHTML='';
+    rungs.forEach((r,i)=>{
+      const d=document.createElement('div'); d.className='rung';
+      let inner='<div class="top"><span class="num">'+(i+1)+'</span><span class="sit">'+esc(r.sit)+'</span>'+
+        '<button class="x" data-del="'+r.id+'" title="remove">✕</button></div>'+
+        '<div class="bar"><i style="width:'+(r.dif*10)+'%"></i></div>'+
+        '<div class="meta">Difficulty '+r.dif+'/10'+(r.pred?' · Predicted: “'+esc(r.pred)+'”':'')+' · Belief '+r.bel+'/100</div>';
+      if(!r.done){
+        inner+='<div style="margin-top:1rem"><button class="btn sm" data-done="'+r.id+'">I did it — what actually happened?</button></div>'+
+          '<div id="rec-'+r.id+'" style="display:none;margin-top:1rem">'+
+          '<div class="field"><label>What actually happened — flat language, no verdicts</label><input type="text" id="act-'+r.id+'" placeholder="I stumbled once. She didn\'t react. Nobody looked."></div>'+
+          '<div class="field"><label>How sure am I <em>now</em> — <span id="b2v-'+r.id+'" style="color:var(--brass)">'+r.bel+'</span>%</label>'+
+          '<input type="range" id="b2-'+r.id+'" min="0" max="100" value="'+r.bel+'"></div>'+
+          '<button class="btn sm" data-save="'+r.id+'">Save</button></div>';
+      } else {
+        const delta=r.bel-r.bel2;
+        inner+='<div class="meta" style="margin-top:.7rem;color:var(--bone-2)">Actually happened: “'+esc(r.actual)+'”</div>'+
+          '<div class="meta">Before, you were '+r.bel+'% sure it would go badly. Now you are '+r.bel2+'%. '+(delta>0?'<span class="delta">Your certainty dropped by '+delta+' points.</span>':(delta===0?'It has not shifted yet — do this same step again before moving on to a harder one.':'<span style="color:var(--blush)">It went harder than you expected. Make the next step smaller, or check whether one of your little tricks was in play.</span>'))+'</div>';
+      }
+      d.innerHTML=inner; list.appendChild(d);
+    });
+  }
+  list.addEventListener('click',e=>{
+    const del=e.target.closest('[data-del]'), done=e.target.closest('[data-done]'), save=e.target.closest('[data-save]');
+    if(del){ rungs=rungs.filter(r=>r.id!=del.dataset.del); render(); }
+    if(done){ const el=document.getElementById('rec-'+done.dataset.done); el.style.display='block'; done.style.display='none';
+      const sl=document.getElementById('b2-'+done.dataset.done);
+      sl.oninput=()=>document.getElementById('b2v-'+done.dataset.done).textContent=sl.value;
+    }
+    if(save){ const rid=save.dataset.save, r=rungs.find(x=>x.id==rid);
+      r.actual=document.getElementById('act-'+rid).value.trim()||'(not recorded)';
+      r.bel2=+document.getElementById('b2-'+rid).value; r.done=true; render();
+    }
+  });
+  document.getElementById('ladPrint').onclick=()=>{
+    if(!rungs.length){ empty.textContent='Add at least one step before printing.'; return; }
+    document.body.classList.add('printing-ladder');
+    try{ window.print(); }catch(e){}
+    setTimeout(()=>document.body.classList.remove('printing-ladder'),400);
+  };
+  if(window.matchMedia){
+    try{ window.matchMedia('print').addEventListener('change',e=>{ if(!e.matches) document.body.classList.remove('printing-ladder'); }); }catch(e){}
+  }
+})();
+
+/* ==========================================================
+   SAFETY BEHAVIOUR AUDIT
+   ========================================================== */
+(function(){
+  const box=document.getElementById('sbList'), out=document.getElementById('sbOut');
+  let sel=[];
+  SAFETY.forEach(s=>{
+    const b=document.createElement('button'); b.textContent=s;
+    b.onclick=()=>{
+      const i=sel.indexOf(s); if(i>-1) sel.splice(i,1); else sel.push(s);
+      b.classList.toggle('on');
+      if(!sel.length){ out.innerHTML=''; return; }
+      const pick=sel[Math.floor(Math.random()*sel.length)];
+      out.innerHTML='You have named '+sel.length+'. Now pick one — say, “'+esc(pick)+'” — and put down only that one, only once.'+
+        '<div class="small" style="margin-top:.9rem;font-family:var(--sans);color:var(--bone-3)">Not all of them. That would be miserable and it is not what is being asked. One, once, and see what it actually costs you.</div>';
+    };
+    box.appendChild(b);
+  });
+})();
+
+const REFLECTIONS = [
+ {t:"Waiting until I feel ready", s:"For when you are waiting to feel ready", theme:"Confidence",
+  b:`<p>You have been waiting to feel confident before you do the thing. You are waiting for the fear to drop to a level where going feels manageable. That is the wrong way round, and it is why you have been waiting so long.</p>
+     <p>Confidence is not a feeling you get first and then use. It is what is left behind after you have done something difficult. It is built out of evidence, and the only way to get evidence is to act before you have any.</p>
+     <p>So the people you watch, the ones who seem sure of themselves, did not start out sure. They started out unsure and did it anyway, many times, and the sureness collected slowly behind them.</p>
+     <p>This means the feeling you are waiting for is not coming. Not first. Waiting for it is not patience. It is the thing keeping you still.</p>
+     <p>You do not have to feel ready. Ready is not a requirement. You only have to be willing to be uncomfortable for a short time while you find something out.</p>
+     <p>Today, notice the moment you tell yourself you are not ready yet. That sentence is a description of how frightened you feel. It is not a decision about what you are going to do.</p>`,
+  lines:["I do not need to feel ready.","I can be unsure and begin anyway.","Confidence is what I get afterwards. It is not what I need first."]},
+
+ {t:"My thoughts will not stop", s:"For when your thoughts will not stop", theme:"Awareness",
+  b:`<p>You cannot stop your thoughts. Nobody can. An anxious mind produces them faster and louder, and it produces the frightening ones first, but you were never given a switch for any of it.</p>
+     <p>But there is a difference between having a thought and obeying it. That difference is where all of your freedom is.</p>
+     <p>A thought arrives: <em>they think you are strange.</em> You did not choose it and you cannot delete it. What you can do is notice it. Say to yourself, silently: <em>there is that thought again.</em> Then carry on with what you were doing.</p>
+     <p>You are not arguing with it. You are not agreeing with it either. You are simply not treating it as an instruction.</p>
+     <p>This feels like nothing the first time. It feels too small to be doing anything. But each time you notice a thought instead of obeying it, you widen the gap between the thought and what you do next. That gap is the whole of it.</p>
+     <p>Today, catch one thought and name it out loud or under your breath. <em>That is a thought.</em> Then leave it where it is and keep going.</p>`,
+  lines:["That is a thought. It is not an instruction.","I can notice this without doing what it says.","I do not have to argue with it. I only have to let it be there."]},
+
+ {t:"I cannot make myself do it", s:"For when motivation has not arrived", theme:"Discipline",
+  b:`<p>You are waiting to feel like doing it. That is reasonable, and it will not work, because on the days the anxiety is worst you will not feel like it, and those are exactly the days that count.</p>
+     <p>Motivation is not the fuel. It is a nice thing that sometimes turns up after you have already started. If you make it a condition, you will do almost nothing on your hardest days, which are the days that count.</p>
+     <p>So take the feeling out of the decision. You do not have to want to. You only have to start.</p>
+     <p>Make it small enough that wanting to is irrelevant. Five minutes. One page. To the end of the road and back. Something so small that the question of motivation does not really come up.</p>
+     <p>This is not about being hard on yourself. You already do that, and it has not worked. This is quieter. You decide once, in advance, so that on the frightening days you are not negotiating with yourself from scratch.</p>
+     <p>Today, choose one thing and make it small enough to be almost embarrassing. Then do it, badly, without waiting to feel like it.</p>`,
+  lines:["I do not have to want to. I only have to start.","Five minutes counts.","I decided this in advance so I do not have to decide it again today."]},
+
+ {t:"I feel weak for being like this", s:"For when you feel weak", theme:"Strength",
+  b:`<p>You have been told, or you have decided, that strong people do not feel like this. So every time the fear arrives you take it as proof that you are weak.</p>
+     <p>That is not what strength is.</p>
+     <p>Strength is not the absence of fear. Someone who feels no fear is not being strong, they are simply not frightened. There is nothing to admire in that, and nothing to copy.</p>
+     <p>Strength is what you do while afraid. It is going in with your heart hammering. It is staying for four more minutes when everything in you wants to leave. It is coming back the next day after a day that went badly.</p>
+     <p>By that measure, you have been strong for years. You have got up and gone out and spoken to people while carrying a level of fear that most people around you have never experienced about anything. You did that. Nobody saw it, and you did not count it, but you did it.</p>
+     <p>Today, notice one thing you did while afraid. Then count it properly, instead of dismissing it because it did not feel brave at the time.</p>`,
+  lines:["Strength is not the absence of fear.","Strength is what I do while I am afraid.","I have already done more of this than I have given myself credit for."]},
+
+ {t:"I am angry at myself for having anxiety", s:"When you are furious with yourself for being anxious", theme:"Self-criticism",
+  b:`<p>You are furious with yourself for being like this. Other people walk into rooms and speak and go to things, and you cannot, and you find that contemptible in yourself.</p>
+     <p>So there are two things happening at once. There is the anxiety. And there is your anger at the person having it. The second one is doing real damage and you probably have not counted it.</p>
+     <p>Here is why it matters practically. Being hard on yourself for being anxious raises the anxiety. It adds shame on top of fear, and shame makes you hide it, and hiding it means you never find out that other people would understand. You have been using contempt as a motivator for years. Look at whether it has worked.</p>
+     <p>Nobody is asking you to feel warmly towards yourself. That is a big ask and it usually bounces off. Something smaller: stop attacking the person who is already frightened.</p>
+     <p>You would not stand next to a friend having a panic attack and tell her she is pathetic. Not because you are being nice, but because you can see it would make it worse. The same is true when the person is you.</p>
+     <p>Today, catch one sentence you say to yourself about being anxious. You do not have to replace it with something kind. Just stop saying it.</p>`,
+  lines:["I am allowed to be on my own side.","I would not say this to someone I love.","I do not have to be kind to myself yet. I can start by not attacking myself."]},
+
+ {t:"I have let people down because of this", s:"For what you did while you were frightened", theme:"Forgiveness",
+  b:`<p>There are things you did while you were frightened. You cancelled on people. You did not reply. You were short with someone who did not deserve it. You missed things that mattered. You let people down, and some of them do not know why.</p>
+     <p>You carry all of that, and the carrying makes the anxiety worse, which makes you do more of the same. That is the loop you are in.</p>
+     <p>So here is the thing to be clear about. You were not being lazy or selfish. You were doing what a frightened person does with the resources a frightened person has. That is an explanation, not an excuse, and you are allowed to have it.</p>
+     <p>Forgiving yourself does not mean deciding it did not matter. Some of it did matter. It means stopping the punishment, because the punishment was never going to fix any of it, and it has been taking energy you need.</p>
+     <p>You can regret something and put it down at the same time. Those are not opposites.</p>
+     <p>Today, pick one thing you have been holding against yourself. Say what it was, plainly, without softening it. Then say that you are done being punished for it.</p>`,
+  lines:["I did what I could with what I had at the time.","I can regret it and still put it down.","Punishing myself has never once made this better."]},
+
+ {t:"Something someone said still gets to me", s:"When an old comment still runs your week", theme:"Forgiveness",
+  b:`<p>There is a comment you still hear. Something said years ago, probably in passing, possibly by someone who has forgotten it entirely. It arrives in your head before you walk into rooms, and it is part of why you are frightened of them.</p>
+     <p>That comment is doing a lot of work for something so small. It became a rule, and now the rule runs your week.</p>
+     <p>Two things are worth separating. What they said, and what you decided it meant about you. You cannot change the first. The second was a conclusion you drew, at speed, when you were young, and it has never been checked since.</p>
+     <p>You are not obliged to forgive them, and nobody here is going to tell you it was fine if it was not. This is not about them at all. They are getting on with their day and the sentence is in your head, not theirs.</p>
+     <p>The question is only whether that sentence still gets a say in where you go this week. One remark, years ago, is now helping decide which rooms frighten you. It has had a great deal of influence and no evidence since.</p>
+     <p>Today, when the comment arrives, notice it and add one line: <em>that was one person, once, and I decided what it meant.</em> Then carry on.</p>`,
+  lines:["I can stop carrying this without deciding it was fine.","Putting it down is for me, not for them.","I have carried this long enough."]},
+
+ {t:"I feel like a burden to everyone", s:"When you apologise for taking up space", theme:"Worth",
+  b:`<p>You apologise constantly. For asking a question, for taking a moment, for existing in a doorway. You worry that people are tolerating you rather than wanting you there, and because anxiety makes you look for evidence of that, you find it everywhere.</p>
+     <p>So you apologise for things that are not your fault. You make yourself small in conversations. You worry that people are only tolerating you, and you look for evidence of it, and because you are looking, you find it.</p>
+     <p>None of this is true, and here is the simplest way to see it. You do not apply this rule to anyone else. You do not require your friends to be useful before you think they should exist. You do not keep a record of whether they have earned their place. You would find the idea unkind if you heard someone say it about another person.</p>
+     <p>The rule only points one way. That is how you know it is not a rule about the world. It is a habit about you.</p>
+     <p>Today, notice one time you apologise for taking up space or say sorry when nothing was wrong. You do not have to correct it. Just notice how often it happens.</p>`,
+  lines:["I do not have to be useful to be allowed here.","I do not apply this rule to anybody else.","Taking up space is not something I have to earn."]},
+
+ {t:"Everyone else seems to be coping", s:"For when everyone else seems to be coping", theme:"Comparison",
+  b:`<p>Everyone else seems to find this easy. They walk into rooms. They speak without rehearsing. They do not appear to be frightened of any of it, and they seem to have been given something you were not.</p>
+     <p>You are comparing your inside to their outside. It is the least fair comparison there is, and you make it several times a day.</p>
+     <p>You know everything about your own fear. Every sensation, every thought, every time you nearly did not come. Of them, you know only what is visible from the outside, which is almost nothing.</p>
+     <p>Some of those people are frightened too. Some of them went home and went over it for hours, exactly as you do. You could not tell, in the same way that they could not tell about you. You have proof of this already: people have described you as calm, or quiet, or fine, on days when you were falling apart.</p>
+     <p>If they could not see it in you, you cannot see it in them.</p>
+     <p>Today, when you catch yourself deciding that someone else finds this easy, add one sentence: <em>I cannot actually see that.</em> Then let the thought go.</p>`,
+  lines:["I am comparing my inside to their outside.","People cannot see my fear. I cannot see theirs.","I do not have the information I would need to make this comparison."]},
+
+ {t:"It is taking too long to get better", s:"For when progress feels too small", theme:"Patience",
+  b:`<p>You want the anxiety to be over. Not improved, over. You want to wake up and find it gone, and every week that it is still here feels like proof that it never will be.</p>
+     <p>That wish is completely understandable. It is also the thing that makes people stop, four weeks in, right before it starts to work.</p>
+     <p>This gets better slowly. Not because you are doing it wrong, but because of how the learning happens. Your brain does not update on being told. It updates on being shown, over and over, and that takes as many repetitions as it takes.</p>
+     <p>So the progress is real but it is small and it is uneven. A good week, then a bad Thursday. A conversation that goes fine, then a day you cannot leave the house. That pattern is not failure. That is what the middle of this looks like for everybody.</p>
+     <p>Judge it in months, and judge it by what you are doing rather than by how you feel. Feelings are the last thing to change, not the first.</p>
+     <p>Today, name one thing you can do now that you could not face six months ago. Do not dismiss it for being small. That is what recovering from anxiety actually looks like while it is happening.</p>`,
+  lines:["Slow is still forward.","Feelings change last, not first.","I am allowed to take as long as this takes."]},
+
+ {t:"I had a bad week and lost all my progress", s:"For after a bad week", theme:"Starting over",
+  b:`<p>You had a bad week. The anxiety came back hard, you stopped doing the things, and you avoided something you had already managed once. Now it feels like you are further back than when you started, and that all of it was for nothing.</p>
+     <p>It was not for nothing, and you are not back at the beginning.</p>
+     <p>What you learned is still there. The steps you took happened. Your brain has that information and a bad week does not delete it. What has changed is your confidence, not your progress, and those two things feel exactly the same from where you are standing.</p>
+     <p>Everybody who gets through this has weeks like the one you have just had. Not some of them. All of them. The people who recover are not the ones who never slipped. They are the ones who slipped, felt terrible about it, and started again anyway.</p>
+     <p>Starting again does not mean going back to the first step. It means picking one thing, today, and doing it. That is all beginning again has ever meant.</p>
+     <p>Today, choose one small thing from the plan and do it. Not to make up for the week. Just to be someone who is doing this again.</p>`,
+  lines:["A bad week does not delete what I have learned.","I am not starting from zero. I am starting from today.","Everyone who gets through this has weeks like that one."]},
+
+ {t:"I need to know how it will go first", s:"For when you need certainty before you act", theme:"Uncertainty",
+  b:`<p>You want to know how it will go before you agree to do it. You run it through in your head, looking for a version where you feel certain and not frightened. You do not find one, so you do not go.</p>
+     <p>The certainty you are looking for does not exist. Not for you, and not for anybody else either. Everyone who walks into that room is walking in without knowing how it will go. The difference is that they are not waiting to know.</p>
+     <p>Your mind offers you certainty of one kind only. It will happily tell you, in detail, that it will go badly. That is not knowledge, it is a guess, and it is a guess made by the most frightened part of you.</p>
+     <p>So you have two options. Wait for a certainty that is never coming, or act without it. Only one of those two gets you anywhere, and it is the uncomfortable one.</p>
+     <p>You have done things without knowing how they would turn out before. You do it every day in small ways. This is the same skill, applied somewhere it costs more.</p>
+     <p>Today, do one thing before you feel sure about it. Notice, afterwards, that not knowing did not stop you.</p>`,
+  lines:["I can act without knowing how it ends.","The certainty I am waiting for is not coming.","Not knowing is uncomfortable. It is not dangerous."]},
+
+ {t:"Nothing I do is ever good enough", s:"For when nothing you do is ever good enough", theme:"Perfectionism",
+  b:`<p>You have been told you are a perfectionist, as though the problem is caring too much about doing things well. That is not quite it, and the difference matters, because this is one of the things feeding the anxiety.</p>
+     <p>Wanting to do things well is not what hurts you. Plenty of people have high standards and are perfectly happy. What hurts is the second part. The fear of falling short. Going over mistakes afterwards. The sense that anything less than excellent means something bad about you as a person.</p>
+     <p>Those are two separate things. One is aiming high. The other is punishing yourself for being human. You have been treating them as the same thing, which is why every attempt to relax your standards has felt like being asked to give up.</p>
+     <p>You do not have to lower your standards. You have to stop attaching your worth to whether you meet them.</p>
+     <p>A good test is what happens after a mistake. Someone with high standards notices it, fixes what can be fixed, and moves on. You notice it, and then carry it for three days. The mistake is the same. What follows it is where the damage is.</p>
+     <p>Today, when you get something wrong, try just fixing what can be fixed. Then stop, deliberately, before the part where you go over it.</p>`,
+  lines:["Wanting to do it well is not the problem.","The problem is what I do to myself afterwards.","I can fix the mistake without punishing the person who made it."]},
+
+ {t:"I keep needing to check that I am alright", s:"For when you need to check that everything is alright", theme:"Reassurance",
+  b:`<p>You ask if they are annoyed with you. They say no. It settles you for an hour, and then it comes back, so you check again, in a slightly different way so it is less obvious.</p>
+     <p>Or you read the message again. Or you ask a friend whether what you said was strange. Or you look it up one more time.</p>
+     <p>The relief is real, and that is exactly the trouble. Being reassured feels like it fixes the worry. It does not. It teaches you that the worry cannot be survived without checking, so the next one arrives faster and needs more.</p>
+     <p>It also puts you in an impossible position, because no answer will ever be enough. If they say it is fine, you wonder if they are just being polite. Certainty was never available, so the search never ends.</p>
+     <p>The way out is uncomfortable and simple. Feel the worry, and do not check. Not forever, just this once. Notice that the worry rises and then, without any answer at all, it drops on its own.</p>
+     <p>Today, catch one urge to check or ask, and wait it out instead. Ten minutes is enough to learn something.</p>`,
+  lines:["Being reassured feels like the answer. It is the thing keeping it going.","I can feel the worry without checking.","No answer will ever be enough, so I do not need one."]},
+
+ {t:"I am the only one who feels like this", s:"For when you feel like the only person like this", theme:"Common ground",
+  b:`<p>Part of what makes this so heavy is the belief that it is only you. That everyone else was given something you were not, and that if they knew how you really felt they would find it strange.</p>
+     <p>Anxiety like yours is one of the most common experiences there is. Not unusual. Not rare. It is happening right now to enormous numbers of people. Many of them you would never suspect, because they are doing exactly what you do. They manage it quietly and say nothing.</p>
+     <p>That is not a comforting statistic. It is a correction. You have been treating your fear as evidence that you are different from other people, and it is actually one of the most ordinary things about you.</p>
+     <p>This matters because the feeling of being alone in it makes everything worse. It adds shame on top of fear, and shame is the reason you do not tell anyone, and not telling anyone is what keeps you feeling alone.</p>
+     <p>Today, when the thought arrives that nobody else feels this, answer it plainly: <em>a great many people do.</em> You do not have to know their names for it to be true.</p>`,
+  lines:["A great many people feel exactly this.","Being frightened does not make me different. It makes me ordinary.","I am not the only one, even when I feel like it."]},
+
+ {t:"Struggling to control my emotions", s:"For when you are fighting how you feel", theme:"Acceptance",
+  b:`<p>You spend a lot of energy trying not to feel anxious. You push it down, distract yourself, argue with it, tell yourself off for having it. All of that is work, and you do it all day.</p>
+     <p>Notice what it has cost, and notice what it has achieved. The fear is still here. What has changed is that you are exhausted, and you have added a second problem on top of the first: being anxious, and being upset with yourself for being anxious.</p>
+     <p>There is another option that sounds like giving up but is not. Let the feeling be there.</p>
+     <p>Not approve of it. Not want it. Just stop fighting it while it passes through. Say to yourself: <em>this is anxiety, it is here, and I am going to let it be here while I get on with what I was doing.</em></p>
+     <p>This is not resignation. You are still going to do the thing. You are just no longer trying to feel a particular way first, which was never within your control anyway.</p>
+     <p>Feelings you stop wrestling with tend to move through faster. Not because you made them, but because you took away the fight that was holding them in place.</p>
+     <p>Today, when the anxiety arrives, try letting it sit there without doing anything about it. Carry on with what you were doing and let it come along.</p>`,
+  lines:["I can let this be here without fighting it.","Fighting the feeling is a second problem on top of the first.","I do not have to feel different before I can act."]},
+
+ {t:"I cannot stop going over things", s:"For when the same thought will not leave", theme:"Worry",
+  b:`<p>You have been worrying about the same thing for an hour. It feels like you are working on it, but you are not. You have not had a new thought about it since the first five minutes.</p>
+     <p>There is a difference between solving something and circling it. Solving has an end: you decide something, or you find there is nothing to decide. Circling has no end, because it is not looking for an answer. It is looking for certainty, and certainty is not available.</p>
+     <p>The test is simple. Ask yourself: <em>is there something I could actually do about this today?</em> If there is, do that thing, or write down when you will. If there is not, then what you are doing is not thinking. It is worrying, and more of it will not help.</p>
+     <p>You cannot stop the thought arriving. You can stop giving it the next hour.</p>
+     <p>One thing that helps: give worry a time. Tell yourself you will think about it properly at six o'clock, for fifteen minutes. When it comes back before then, remind yourself it has an appointment. Most of the time it does not turn up at six.</p>
+     <p>Today, when you notice you are circling, ask whether there is anything to do. If there is not, put it down and give it a time later.</p>`,
+  lines:["Am I solving this, or circling it?","If there is nothing I can do today, this is worry, not thinking.","The thought can come back later. It does not get this hour."]},
+
+ {t:"I am exhausted but I cannot stop", s:"For when you have pushed yourself past what you have", theme:"Rest",
+  b:`<p>You have been running on very little for a long time. Living with this much fear is genuinely tiring, and you have been doing it while also trying to look normal, which costs more than anyone around you realises.</p>
+     <p>And when you finally stop, you do not rest. You feel guilty. You start listing what you should have done. So the stopping does not restore anything, and you go back into the week already empty.</p>
+     <p>Rest is not a reward for having earned it. It is a requirement, in the same way food is. Nobody thinks you have to deserve dinner.</p>
+     <p>There is also a practical reason. Everything difficult in this app takes energy: going to the thing, staying past the worst of it, not checking, not avoiding. You cannot do any of that from empty. Resting is not a break from the work. It is part of it.</p>
+     <p>So stopping is allowed. Not because you have done enough today, but because you are a person, and people need to stop.</p>
+     <p>Today, rest once without justifying it to yourself, and without listing what you did to earn it.</p>`,
+  lines:["Rest is not something I have to earn.","I cannot do hard things from empty.","Stopping is part of this, not a break from it."]}
+
+];
+
+/* ==========================================================
+   REFLECTIONS — collapsible, one open at a time
+   ========================================================== */
+(function(){
+  const list=document.getElementById('reflectionList');
+  const items=[];
+
+  function close(it,instant){
+    it.el.classList.remove('on');
+    it.btn.setAttribute('aria-expanded','false');
+    if(instant){                       // no animation, so layout settles at once
+      const t=it.panel.style.transition;
+      it.panel.style.transition='none';
+      it.panel.style.maxHeight='0px';
+      void it.panel.offsetHeight;      // force reflow before restoring
+      it.panel.style.transition=t;
+      return;
+    }
+    it.panel.style.maxHeight=it.panel.scrollHeight+'px';   // fix current height first
+    requestAnimationFrame(()=>{ it.panel.style.maxHeight='0px'; });
+  }
+  function open(it,scroll){
+    // when we are about to scroll, collapse the others instantly: an animating
+    // panel above the target would move it while the browser is scrolling to it
+    items.forEach(o=>{ if(o!==it && o.el.classList.contains('on')) close(o,scroll); });
+    it.el.classList.add('on');
+    it.panel.style.maxHeight=it.panel.scrollHeight+'px';
+    it.btn.setAttribute('aria-expanded','true');
+    // once open, release the cap so it reflows if text size or window changes
+    setTimeout(()=>{ if(it.el.classList.contains('on')) it.panel.style.maxHeight='none'; },520);
+    if(scroll) requestAnimationFrame(()=>{
+      try{ it.el.scrollIntoView({block:'start',behavior:'smooth'}); }
+      catch(e){ try{ it.el.scrollIntoView(true); }catch(e2){} }
+    });
+  }
+
+  REFLECTIONS.forEach((r,i)=>{
+    const el=document.createElement('div'); el.className='acc';
+    el.innerHTML=
+      '<button class="accbtn" aria-expanded="false" id="acc-'+i+'">'+
+        '<span class="acctx"><span class="accth">'+r.theme+'</span>'+
+        '<span class="acct">'+r.t+'</span><span class="accs">'+r.s+'</span></span>'+
+        '<span class="accsign" aria-hidden="true"></span>'+
+      '</button>'+
+      '<div class="accpanel"><div class="accinner">'+
+        '<div class="story">'+r.b+'</div>'+
+        '<div class="lines"><div class="hd">Lines to keep</div>'+
+          r.lines.map(l=>'<p>'+l+'</p>').join('')+
+        '</div>'+
+      '</div></div>';
+    const it={el, btn:el.querySelector('.accbtn'), panel:el.querySelector('.accpanel'), r};
+    it.btn.onclick=()=>{ el.classList.contains('on') ? close(it,false) : open(it,false); };
+    items.push(it); list.appendChild(el);
+  });
+
+  // one per day, same one all day, no storage needed
+  const now=new Date();
+  const day=Math.floor((now-new Date(now.getFullYear(),0,0))/86400000);
+  const idx=day % REFLECTIONS.length;
+  document.getElementById('refTodayT').textContent=REFLECTIONS[idx].t;
+  document.getElementById('refTodayS').textContent=REFLECTIONS[idx].s+'.';
+  document.getElementById('refTodayGo').onclick=()=>open(items[idx],true);
+})();
+
+/* ==========================================================
+   LETTERS
+   ========================================================== */
+(function(){
+  const list=document.getElementById('letterList'), view=document.getElementById('letterView');
+  const lhead=document.querySelector('#v-letters .sechead');
+  LETTERS.forEach(s=>{
+    const b=document.createElement('button');
+    b.innerHTML='<span class="t">'+s.t+'</span><span class="s">'+s.s+'</span>';
+    b.onclick=()=>{
+      document.getElementById('letterT').textContent=s.t;
+      document.getElementById('letterB').innerHTML=s.b;
+      list.style.display='none'; lhead.style.display='none';
+      view.style.display='block'; toTop();
+    };
+    list.appendChild(b);
+  });
+  document.getElementById('letterBack').onclick=()=>{
+    view.style.display='none'; list.style.display='grid'; lhead.style.display='grid'; toTop();
+  };
+})();
+
+/* ==========================================================
+   TODAY'S PLAN
+   ========================================================== */
+(function(){
+  const seg=document.getElementById('segPlan'), out=document.getElementById('planOut');
+  function render(i){
+    const p=PLANS[i];
+    seg.querySelectorAll('button').forEach(b=>b.classList.toggle('on', +b.dataset.phase===i));
+    out.innerHTML='<p class="pgoal" style="margin-bottom:1.1rem">'+p.goal+'</p>'+
+      p.items.map((t,n)=>'<div class="check" data-i="'+n+'"><span class="bx"></span><span class="tx">'+t+'</span></div>').join('')+
+      '<div class="done" id="planDone" style="display:none">'+p.end+'</div>';
+  }
+  seg.querySelectorAll('button').forEach(b=>b.onclick=()=>render(+b.dataset.phase));
+  out.addEventListener('click',e=>{
+    const c=e.target.closest('.check'); if(!c) return;
+    c.classList.toggle('on');
+    const all=out.querySelectorAll('.check'), hit=out.querySelectorAll('.check.on');
+    document.getElementById('planDone').style.display = all.length===hit.length ? 'block':'none';
+  });
+  render(1);
+})();
+
+</script>
+</body>
+</html>

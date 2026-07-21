@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Understory — a companion for the anxious mind</title>
+<meta name="description" content="An evidence-based companion for young women living with anxiety, avoidance and a loud inner critic. Nothing you type is stored or sent anywhere.">
+<meta name="theme-color" content="#faf6ed">
+<link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   THE UNDERSTORY
+   A single-file companion. No storage, no network, no tracking.
+   ============================================================ */
+
+:root{
+  /* display only — big, sparing, never body copy */
+  --serif: 'Cormorant Garamond','Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  /* built for reading at length */
+  --serif-text: 'Source Serif 4','Iowan Old Style',Charter,'Bitstream Charter','Palatino Linotype',Georgia,serif;
+  --sans: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --measure: 40rem;   /* == panel inner width, so prose fills it */
+  --page: 44rem;      /* measure + panel padding */
+  --fs: 16px;
+  --lh: 1.7;
+}
+
+/* ---------- PALETTES -------------------------------------------
+   Each is a coherent world, not a hue rotation. Surfaces, tints,
+   grain behaviour and vignette all move together.
+   ---------------------------------------------------------------- */
+
+/* 1 · UNDERSTORY — forest floor at night. The original. */
+:root, [data-palette="understory"]{
+  --ink:#161c26; --ink-2:#1c2430; --ink-3:#232c3a; --ink-line:#2f3a4a;
+  --bone:#ece6d9; --bone-2:#c3bcae; --bone-3:#8b8477;
+  --brass:#c9a86c; --brass-dim:#8a7444; --label:#9a824c;
+  --sage:#8fa896; --blush:#d8a09a; --violet:#8681ab;
+  --field-line:#2b3444;
+  --panel-a:rgba(36,42,52,.60); --panel-b:rgba(29,35,45,.35);
+  --nav-a:rgba(22,28,38,.94);   --nav-b:rgba(22,28,38,.80);
+  --input-bg:rgba(13,19,29,.65); --rung-bg:rgba(28,34,44,.45);
+  --tint:rgba(201,168,108,.08);
+  --vignette:rgba(0,0,0,.30);
+  --grain-op:.026; --grain-blend:screen;
+  --strong:#f5efe2;
+}
+
+/* 2 · NOCTURNE — celestial, cool, very low luminance. */
+[data-palette="nocturne"]{
+  --ink:#121829; --ink-2:#182034; --ink-3:#1f2942; --ink-line:#2a3552;
+  --bone:#e3e7f2; --bone-2:#a9b3c9; --bone-3:#78839b;
+  --brass:#9fb6e8; --brass-dim:#5b6d97; --label:#7182a9;
+  --sage:#7fa8b5; --blush:#bda6db; --violet:#8b8fd0;
+  --field-line:#1c2540;
+  --panel-a:rgba(32,38,55,.60); --panel-b:rgba(25,31,48,.35);
+  --nav-a:rgba(18,24,41,.94);    --nav-b:rgba(18,24,41,.80);
+  --input-bg:rgba(9,15,32,.65);  --rung-bg:rgba(24,30,47,.45);
+  --tint:rgba(159,182,232,.08);
+  --vignette:rgba(0,0,0,.32);
+  --grain-op:.022; --grain-blend:screen;
+  --strong:#f2f5fc;
+}
+
+/* 3 · PEONY — light. Blush paper, deep rose, soft green. */
+[data-palette="peony"]{
+  --ink:#fdf5f4; --ink-2:#f8ecea; --ink-3:#f2e3e1; --ink-line:#e3d0ce;
+  --bone:#33222a; --bone-2:#5f4750; --bone-3:#846971;
+  --brass:#a8455f; --brass-dim:#b97d8a; --label:#a8455f;
+  --sage:#5c775c; --blush:#b05169; --violet:#7c6395;
+  --field-line:#eddad8;
+  --panel-a:rgba(255,254,253,.60); --panel-b:rgba(255,249,248,.35);
+  --nav-a:rgba(253,245,244,.94);   --nav-b:rgba(253,245,244,.80);
+  --input-bg:rgba(255,255,255,.65); --rung-bg:rgba(255,253,252,.45);
+  --tint:rgba(168,69,95,.08);
+  --vignette:rgba(150,100,110,.07);
+  --grain-op:.022; --grain-blend:multiply;
+  --strong:#1d1016;
+}
+
+/* 4 · MULBERRY — dark. Deep plum, rose gold, lilac. */
+[data-palette="mulberry"]{
+  --ink:#1c1422; --ink-2:#241a2c; --ink-3:#2d2137; --ink-line:#3c2d48;
+  --bone:#f2e7ef; --bone-2:#c3aebd; --bone-3:#937a8c;
+  --brass:#e0a9ae; --brass-dim:#9c6d76; --label:#e0a9ae;
+  --sage:#93b0a4; --blush:#e5a3bb; --violet:#b79ada;
+  --field-line:#332540;
+  --panel-a:rgba(42,34,48,.60); --panel-b:rgba(35,27,41,.35);
+  --nav-a:rgba(28,20,34,.94);    --nav-b:rgba(28,20,34,.80);
+  --input-bg:rgba(19,11,25,.65); --rung-bg:rgba(34,26,40,.45);
+  --tint:rgba(224,169,174,.08);
+  --vignette:rgba(0,0,0,.30);
+  --grain-op:.026; --grain-blend:screen;
+  --strong:#fbf3f8;
+}
+
+/* 5 · VELLUM — light. Old botanical paper, ink and oxblood. */
+[data-palette="vellum"]{
+  --ink:#faf6ed; --ink-2:#f3ede0; --ink-3:#ebe3d2; --ink-line:#d9cfba;
+  --bone:#2b2418; --bone-2:#564b39; --bone-3:#756a58;
+  --brass:#8a6320; --brass-dim:#8f7440; --label:#81683a;
+  --sage:#56725c; --blush:#a2564e; --violet:#6a5f8a;
+  --field-line:#dbd0ba;
+  --panel-a:rgba(255,255,246,.60); --panel-b:rgba(254,250,241,.35);
+  --nav-a:rgba(250,246,237,.94);   --nav-b:rgba(250,246,237,.80);
+  --input-bg:rgba(255,255,248,.65); --rung-bg:rgba(255,254,245,.45);
+  --tint:rgba(138,99,32,.09);
+  --vignette:rgba(120,100,60,.07);
+  --grain-op:.022; --grain-blend:multiply;
+  --strong:#171208;
+}
+
+/* 6 · TIDAL — light, cool, quiet. Sea glass and slate. */
+[data-palette="tidal"]{
+  --ink:#f4f8f7; --ink-2:#eaf1ef; --ink-3:#e0e9e7; --ink-line:#cbd8d5;
+  --bone:#14201f; --bone-2:#3e514e; --bone-3:#60706e;
+  --brass:#1f6f70; --brass-dim:#4d8887; --label:#427575;
+  --sage:#46775e; --blush:#9d5551; --violet:#57678d;
+  --field-line:#d3dedb;
+  --panel-a:rgba(253,255,255,.60); --panel-b:rgba(248,252,251,.35);
+  --nav-a:rgba(244,248,247,.94);   --nav-b:rgba(244,248,247,.80);
+  --input-bg:rgba(255,255,255,.65); --rung-bg:rgba(252,255,255,.45);
+  --tint:rgba(31,111,112,.08);
+  --vignette:rgba(40,80,80,.06);
+  --grain-op:.018; --grain-blend:multiply;
+  --strong:#08100f;
+}
+
+*{box-sizing:border-box;}
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; font-size:var(--fs); }
+body{
+  margin:0; background:var(--ink); color:var(--bone);
+  font-family:var(--sans); font-weight:400; font-size:1rem; line-height:var(--lh);
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  transition:background .6s var(--ease), color .6s var(--ease);
+}
+
+/* --- film grain + vignette ------------------------------------ */
+.grain{
+  position:fixed; inset:0; pointer-events:none; z-index:9999;
+  opacity:var(--grain-op); mix-blend-mode:var(--grain-blend);
+}
+.vignette{
+  position:fixed; inset:0; pointer-events:none; z-index:9998;
+  background:radial-gradient(120% 90% at 50% 0%, transparent 40%, var(--vignette) 100%);
+}
+
+h1,h2,h3,h4,.display{ font-family:var(--serif); font-weight:500; letter-spacing:.005em; }
+h1{ font-size:clamp(2.1rem,4.6vw,3.05rem); line-height:1.08; margin:0; letter-spacing:-.015em; }
+h2{ font-size:clamp(1.55rem,2.9vw,2.05rem); line-height:1.2; margin:0 0 .5em; letter-spacing:-.01em; }
+h3{ font-size:clamp(1.16rem,1.8vw,1.32rem); line-height:1.32; margin:0 0 .5em; color:var(--bone); }
+h4{ font-size:1.05rem; margin:0 0 .35em; color:var(--brass); letter-spacing:.02em; }
+p{ margin:0 0 1.15em; max-width:var(--measure); }
+a{ color:var(--brass); text-underline-offset:3px; text-decoration-thickness:.5px; }
+em{ font-style:italic; }
+strong{ font-weight:500; color:var(--strong); }
+
+.eyebrow{
+  font-family:var(--sans); font-size:.8rem; letter-spacing:.17em; text-transform:uppercase;
+  color:var(--label); font-weight:600; margin:0 0 1.4em; display:block;
+}
+.lede{ font-family:var(--serif-text); font-size:clamp(1.02rem,1.4vw,1.12rem); line-height:1.66; color:var(--bone-2); font-weight:400; }
+.small{ font-size:.96rem; line-height:1.66; color:var(--bone-3); }
+.hair{ height:1px; background:linear-gradient(90deg,transparent,var(--ink-line) 12%,var(--ink-line) 88%,transparent); border:0; margin:3.5rem 0; }
+
+/* --- layout ---------------------------------------------------- */
+.wrap{ width:min(var(--page),92vw); margin:0 auto; }
+.view{ display:none; animation:rise .7s var(--ease) both; }
+.view.on{ display:block; }
+@keyframes rise{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;} }
+
+/* --- navigation ------------------------------------------------ */
+nav{
+  position:sticky; top:0; z-index:900;
+  backdrop-filter:blur(18px) saturate(1.3); -webkit-backdrop-filter:blur(18px) saturate(1.3);
+  background:linear-gradient(180deg, var(--nav-a), var(--nav-b));
+  border-bottom:1px solid var(--ink-line);
+}
+.navin{
+  width:min(var(--page),94vw); margin:0 auto; display:flex; align-items:center;
+  gap:.4rem 1.1rem; min-height:58px; padding:.35rem 0; flex-wrap:wrap;
+}
+.mark{ display:flex; align-items:center; gap:.55rem; font-family:var(--serif); font-size:1.05rem; white-space:nowrap; letter-spacing:.04em; color:var(--bone); flex:none; }
+.mark svg{ width:20px; height:20px; }
+.navlinks{ display:flex; flex-wrap:wrap; gap:.05rem; margin-left:auto; min-width:0; }
+.navlinks::-webkit-scrollbar{ display:none; }
+.navlinks::after{ content:''; flex:none; width:.3rem; }
+.navlinks::-webkit-scrollbar{ display:none; }
+.navlinks button{
+  background:none; border:0; color:var(--bone-3); font-family:var(--sans);
+  font-size:.76rem; letter-spacing:.05em; text-transform:uppercase; font-weight:500;
+  padding:.5rem .42rem; cursor:pointer; white-space:nowrap; position:relative; transition:color .3s;
+}
+.navlinks button:hover{ color:var(--bone-2); }
+.navlinks button.on{ color:var(--brass); }
+.navlinks button.on::after{
+  content:''; position:absolute; left:.72rem; right:.72rem; bottom:.22rem; height:1px; background:var(--brass); opacity:.6;
+}
+
+/* --- hero ------------------------------------------------------ */
+.hero{ position:relative; min-height:88vh; display:flex; align-items:center; overflow:hidden; }
+#field{ position:absolute; inset:0; width:100%; height:100%; z-index:0; }
+.hero .wrap{ position:relative; z-index:2; padding:6rem 0 4rem; }
+.hero h1 span{ display:block; }
+.hero h1 .it{ font-style:italic; color:var(--brass); }
+.herotext{ max-width:none; }
+
+/* --- buttons --------------------------------------------------- */
+.btn{
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-family:var(--sans); font-size:.81rem; letter-spacing:.13em; text-transform:uppercase; font-weight:500;
+  color:var(--bone); background:transparent; border:1px solid var(--ink-line);
+  padding:.85rem 1.4rem; border-radius:2px; cursor:pointer;
+  transition:border-color .4s var(--ease), color .4s, background .4s, transform .4s var(--ease);
+}
+.btn:hover{ border-color:var(--brass-dim); color:var(--brass); transform:translateY(-1px); }
+.btn.primary{ border-color:var(--brass-dim); color:var(--brass); }
+.btn.primary:hover{ background:var(--tint); }
+.btn.sm{ padding:.58rem .95rem; font-size:.75rem; letter-spacing:.11em; }
+
+/* --- cards / panels -------------------------------------------- */
+.panel{
+  border:1px solid var(--ink-line); background:linear-gradient(160deg, var(--panel-a), var(--panel-b));
+  padding:2rem 2rem 1.7rem; border-radius:3px; position:relative; overflow:hidden;
+}
+.panel::before{
+  content:''; position:absolute; left:0; top:0; width:100%; height:1px;
+  background:linear-gradient(90deg,transparent,var(--brass) 30%,var(--tint) 70%,transparent); opacity:.45;
+}
+.grid{ display:grid; gap:1.1rem; }
+.g2{ grid-template-columns:repeat(auto-fit,minmax(15rem,1fr)); }
+.g3{ grid-template-columns:repeat(auto-fit,minmax(12rem,1fr)); }
+
+.chip{
+  display:inline-block; font-size:.79rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--sage); border:1px solid currentColor; padding:.3rem .65rem; border-radius:2px; margin-bottom:1rem;
+}
+.chip.b{ color:var(--brass); }
+.chip.v{ color:var(--violet); }
+.chip.p{ color:var(--blush); }
+@supports (color: color-mix(in srgb, red 50%, transparent)){
+  .chip{ border-color: color-mix(in srgb, currentColor 38%, transparent); }
+}
+
+/* citation superscripts */
+.cite{
+  font-size:.68em; vertical-align:super; color:var(--label); cursor:pointer;
+  border:0; background:none; padding:0 .12em; font-family:var(--sans); letter-spacing:.02em;
+  transition:color .3s;
+}
+.cite:hover{ color:var(--brass); }
+
+/* --- section heads with botanical rule ------------------------- */
+.sechead{ padding:5.5rem 0 1rem; }
+.botanical{ display:block; margin:0 0 2.6rem; opacity:.5; }
+
+/* --- inputs ---------------------------------------------------- */
+input[type=text], textarea, select{
+  width:100%; background:var(--input-bg); border:1px solid var(--ink-line); color:var(--bone);
+  font-family:var(--sans); font-size:1rem; font-weight:400; padding:.8rem .9rem; border-radius:2px;
+  transition:border-color .35s;
+}
+input[type=text]:focus, textarea:focus, select:focus{ outline:none; border-color:var(--brass-dim); }
+textarea{ resize:vertical; min-height:5.5rem; line-height:1.6; }
+label{ display:block; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase; color:var(--bone-2); margin:0 0 .45rem; font-weight:500; }
+.field{ margin-bottom:1.1rem; }
+input[type=range]{ width:100%; accent-color:var(--brass); background:transparent; }
+
+.out{
+  border-left:1px solid var(--brass-dim); padding:.9rem 0 .9rem 1.2rem; margin-top:1.2rem;
+  font-family:var(--serif-text); font-size:1.12rem; line-height:1.65; color:var(--bone); min-height:2rem;
+}
+.out:empty{ display:none; }
+
+/* --- breathing --------------------------------------------------*/
+.breathstage{ display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.4rem 0 .5rem; max-width:var(--measure); }
+#orb{ width:min(340px,74vw); height:min(340px,74vw); }
+.phase{ font-family:var(--serif); font-size:1.7rem; letter-spacing:.06em; color:var(--bone-2); margin-top:.6rem; min-height:2.4rem; }
+.counter{ font-size:.78rem; letter-spacing:.16em; text-transform:uppercase; color:var(--bone-3); }
+
+/* --- ladder ---------------------------------------------------- */
+.rung{ border:1px solid var(--ink-line); border-radius:3px; padding:1.1rem 1.2rem; margin-bottom:.85rem; background:var(--rung-bg); }
+.rung .top{ display:flex; align-items:baseline; gap:.8rem; }
+.rung .num{ font-family:var(--serif); font-size:1.5rem; color:var(--brass-dim); flex:none; width:1.6rem; }
+.rung .sit{ font-family:var(--serif-text); font-size:1.08rem; line-height:1.5; color:var(--bone); flex:1; }
+.meta{ font-size:.86rem; color:var(--bone-3); margin-top:.5rem; letter-spacing:.01em; line-height:1.6; }
+.delta{ color:var(--sage); }
+.bar{ height:3px; background:var(--ink-line); border-radius:2px; overflow:hidden; margin-top:.55rem; }
+.bar i{ display:block; height:100%; background:linear-gradient(90deg,var(--brass-dim),var(--brass)); }
+.x{ background:none;border:0;color:var(--bone-3);cursor:pointer;font-size:1rem;line-height:1;padding:.2rem .35rem; }
+.x:hover{ color:var(--blush); }
+
+/* --- emotion lexicon ------------------------------------------- */
+.lex{ display:flex; flex-wrap:wrap; gap:.4rem; }
+.lex button{
+  background:transparent; border:1px solid var(--ink-line); color:var(--bone-2);
+  font-family:var(--sans); font-size:.9rem; font-weight:400; padding:.48rem .8rem; border-radius:2px; cursor:pointer;
+  transition:all .3s var(--ease);
+}
+.lex button:hover{ border-color:var(--brass-dim); color:var(--brass); }
+.lex button.on{ border-color:var(--brass); color:var(--ink); background:var(--brass); font-weight:400; }
+
+/* --- stories --------------------------------------------------- */
+.storylist{ display:grid; gap:1px; background:var(--ink-line); border:1px solid var(--ink-line); }
+.storylist button{
+  background:var(--ink-2); border:0; text-align:left; padding:1.5rem 1.6rem; cursor:pointer; color:var(--bone);
+  transition:background .4s;
+}
+.storylist button:hover{ background:var(--ink-3); }
+.storylist .t{ font-family:var(--serif); font-size:1.5rem; display:block; margin-bottom:.25rem; line-height:1.2; }
+.storylist .s{ font-size:.9rem; color:var(--bone-3); line-height:1.55; }
+.story{ font-family:var(--serif-text); font-size:1.07rem; line-height:1.8; color:var(--bone-2); }
+.story p{ max-width:var(--measure); margin-bottom:1.35em; }
+.story p:first-of-type::first-letter{
+  font-size:2.9rem; float:left; line-height:.9; padding:.1em .1em 0 0; color:var(--brass);
+}
+
+/* --- evidence -------------------------------------------------- */
+.ref{ scroll-margin-top:7rem; border-bottom:1px solid var(--ink-line); padding:1.1rem 0; display:grid; grid-template-columns:2.2rem 1fr; gap:.9rem; }
+.ref .n{ font-family:var(--serif); color:var(--label); font-size:1.05rem; }
+.ref .t{ font-size:1.02rem; color:var(--bone); line-height:1.55; margin-bottom:.25rem; }
+.ref .m{ font-size:.88rem; color:var(--bone-3); line-height:1.55; }
+.ref.flash{ background:var(--tint); }
+
+/* --- crisis ---------------------------------------------------- */
+.crisis{ border:1px solid var(--blush); background:var(--tint); padding:1.6rem 1.8rem; border-radius:3px; color:var(--blush); }
+.crisis h4{ color:var(--blush); }
+.crisis p{ color:var(--bone-2); }
+@supports (color: color-mix(in srgb, red 50%, transparent)){
+  .crisis{ border-color: color-mix(in srgb, var(--blush) 32%, transparent);
+           background: color-mix(in srgb, var(--blush) 5%, transparent); }
+}
+
+/* ---------- SVG tokens: generated artwork follows the palette ---- */
+.sv-brass{ stroke:var(--brass); }  .sv-sage{ stroke:var(--sage); }
+.sv-violet{ stroke:var(--violet); } .sv-line{ stroke:var(--field-line); }
+.sv-bone{ stroke:var(--bone); }     .sf-brass{ fill:var(--brass); }
+#bg1 .gs-a{ stop-color:var(--brass); } #bg1 .gs-b{ stop-color:var(--sage); }
+#bg1 .gs-c{ stop-color:var(--brass); }
+
+/* ---------- reading comfort ------------------------------------- */
+[data-reading="comfortable"]{ --fs:17px; --lh:1.74; }
+[data-reading="large"]{ --fs:18.6px; --lh:1.78; --measure:37rem; --page:41rem; }
+
+/* ---------- the studio (palette + experience controls) ---------- */
+.studiobtn{
+  flex:none; margin-left:.9rem; display:flex; align-items:center; gap:.55rem; cursor:pointer;
+  background:var(--tint); border:1px solid var(--brass-dim); border-radius:999px;
+  padding:.36rem .5rem; line-height:0;
+  transition:border-color .35s var(--ease), background .35s var(--ease);
+}
+.studiobtn:hover{ border-color:var(--brass); background:var(--ink-3); }
+.studiobtn svg{ width:34px; height:24px; overflow:visible; }
+.studiobtn circle{ stroke:var(--ink); stroke-width:1.6; }
+.studiobtn .a{ fill:var(--brass); } .studiobtn .b{ fill:var(--sage); } .studiobtn .c{ fill:var(--violet); }
+/* a soft pulse on first load so the control is noticed at least once */
+@keyframes swhint{ 0%,88%,100%{ box-shadow:0 0 0 0 transparent; } 94%{ box-shadow:0 0 0 5px var(--tint); } }
+.studiobtn{ animation:swhint 5s ease-in-out 1.2s 2; }
+@media (prefers-reduced-motion: reduce){ .studiobtn{ animation:none; } }
+
+.studio{
+  position:fixed; z-index:950; top:66px; right:max(4vw,1rem); width:min(340px,92vw);
+  border:1px solid var(--ink-line); border-radius:4px;
+  background:linear-gradient(160deg, var(--panel-a), var(--panel-b));
+  backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4);
+  padding:1.5rem 1.5rem 1.3rem; box-shadow:0 24px 60px -20px var(--vignette);
+  opacity:0; transform:translateY(-10px) scale(.985); pointer-events:none;
+  transition:opacity .38s var(--ease), transform .38s var(--ease);
+}
+.studio.on{ opacity:1; transform:none; pointer-events:auto; }
+.studio h5{ font-family:var(--sans); font-size:.79rem; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--bone-3); font-weight:500; margin:0 0 .8rem; }
+.studio .grp + .grp{ margin-top:1.5rem; padding-top:1.4rem; border-top:1px solid var(--ink-line); }
+
+.swatches{ display:grid; grid-template-columns:1fr 1fr; gap:.4rem; }
+.sw{ display:flex; align-items:center; gap:.6rem; background:none; cursor:pointer;
+  border:1px solid transparent; border-radius:3px; padding:.42rem .5rem; text-align:left;
+  transition:border-color .35s, background .35s; }
+.sw:hover{ border-color:var(--ink-line); }
+.sw.on{ border-color:var(--brass); background:var(--tint); }
+.sw .dots{ display:flex; flex:none; }
+.sw .dots i{ width:15px; height:15px; border-radius:999px; display:block; margin-right:-5px;
+  box-shadow:0 0 0 1.5px var(--ink-2); }
+.sw.on{ border-color:var(--brass); background:var(--tint); box-shadow:inset 0 0 0 1px var(--brass); }
+.sw .nm{ font-family:var(--serif-text); font-size:1rem; color:var(--bone-2); line-height:1.2; }
+.sw.on .nm{ color:var(--bone); }
+
+.seg{ display:flex; border:1px solid var(--ink-line); border-radius:3px; overflow:hidden; }
+.seg button{ flex:1; background:none; border:0; cursor:pointer; padding:.5rem .3rem;
+  font-family:var(--sans); font-size:.75rem; letter-spacing:.1em; text-transform:uppercase;
+  font-weight:500; color:var(--bone-3); transition:background .35s, color .35s; }
+.seg button + button{ border-left:1px solid var(--ink-line); }
+.seg button:hover{ color:var(--bone-2); }
+.seg button.on{ background:var(--tint); color:var(--brass); }
+.studio .note{ font-size:.83rem; color:var(--bone-3); line-height:1.5; margin:.8rem 0 0; }
+
+[data-motion="still"] .studiobtn:hover{ transform:none; }
+
+/* --- footer ---------------------------------------------------- */
+footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4rem; }
+
+
+/* ================================================================
+   LAYOUT — one column, one axis, no overlaps.
+   Headings sit above their content. Prose fills its container.
+   Nothing is pulled sideways, nothing is nested, nothing sticks.
+   ================================================================ */
+.sechead .eyebrow{ margin-bottom:1.1rem; }
+.sechead .lede{ max-width:var(--measure); }
+
+/* the one place a label column earns its keep: numbered floors.
+   4.5rem, self-contained, never nested inside another rail. */
+.floor{ display:grid; grid-template-columns:4.6rem minmax(0,1fr); gap:0 1.4rem; }
+.floor .fl{ padding-top:.15rem; }
+
+.panel > .chip, .pcard > .pn{ display:inline-block; }
+.panel > h3, .pcard > h3{ margin-bottom:.7rem; }
+
+/* --- misc ------------------------------------------------------ */
+.stack > * + *{ margin-top:2.6rem; }
+.tight{ max-width:var(--measure); }
+.center{ text-align:center; }
+.row{ display:flex; flex-wrap:wrap; gap:.7rem; align-items:center; }
+.leaf{ position:absolute; pointer-events:none; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.01ms !important; transition-duration:.01ms !important; }
+  html{ scroll-behavior:auto; }
+}
+@media (max-width:640px){
+  .panel{ padding:1.5rem 1.3rem 1.3rem; }
+  .sechead{ padding:3.5rem 0 1rem; }
+  body{ font-size:16px; }
+}
+
+/* --- print: the ladder, on paper, legibly ---------------------- */
+@media print{
+  @page{ margin:18mm; }
+  body{ background:#fff; color:#111; font-size:11pt; }
+  .grain,.vignette,nav,footer,#field,.botanical,.hair,.studio,.studiobtn{ display:none !important; }
+  body.printing-ladder .view{ display:none !important; }
+  body.printing-ladder #v-world{ display:block !important; }
+  body.printing-ladder #v-world > .wrap > *{ display:none !important; }
+  body.printing-ladder #v-world .ladderpanel{ display:block !important; }
+  .panel, .pcard, .sechead{ display:block !important; }
+  .ladderpanel{ border:0; background:none; padding:0; }
+  .ladderpanel::before{ display:none; }
+  .ladderpanel .grid, .ladderpanel .btn, .ladderpanel .chip,
+  .ladderpanel > p, .ladderpanel .x, .ladderpanel [data-done],
+  .ladderpanel [id^="rec-"], .ladderpanel .row{ display:none !important; }
+  .ladderpanel h3{ display:block !important; font-size:20pt; margin-bottom:4mm; color:#111; }
+  .ladderpanel h3::after{ content:' — my ladder'; color:#777; font-style:italic; }
+  #ladList{ display:block !important; margin:0 !important; }
+  .rung{ border:1px solid #ccc; background:#fff; page-break-inside:avoid; margin-bottom:4mm; padding:4mm 5mm; }
+  .rung .num{ color:#999; }
+  .rung .sit{ color:#111; font-size:13pt; }
+  .meta{ color:#555; font-size:9pt; }
+  .delta{ color:#111; font-weight:600; }
+  .bar{ background:#eee; }
+  .bar i{ background:#999; }
+  a{ color:#111; text-decoration:none; }
+}
+</style>
+</head>
+<body>
+
+<svg class="grain" xmlns="http://www.w3.org/2000/svg">
+  <filter id="gr"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#gr)"/>
+</svg>
+<div class="vignette"></div>
+
+<nav>
+  <div class="navin">
+    <div class="mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+        <path d="M12 22 V8"/>
+        <path d="M12 14c0-3.6 2.6-6.4 6-6.6-.2 3.8-2.6 6.6-6 6.6z"/>
+        <path d="M12 11C12 7.6 9.6 4.8 6.2 4.4 6.4 8 8.8 11 12 11z"/>
+      </svg>
+      The Understory
+    </div>
+    <div class="navlinks" id="nav"></div>
+    <a class="btn sm" href="../" style="flex:none;margin-left:.6rem;text-decoration:none">Soft Ground</a>
+    <button class="studiobtn" id="studioBtn" aria-expanded="false" title="Change the colours, motion and text size">
+      <svg viewBox="0 0 34 24" aria-hidden="true">
+        <circle class="a" cx="9"  cy="12" r="6.5"/>
+        <circle class="b" cx="17" cy="12" r="6.5"/>
+        <circle class="c" cx="25" cy="12" r="6.5"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<div class="studio" id="studio" role="dialog" aria-label="Visual settings">
+  <div class="grp">
+    <h5>Palette</h5>
+    <div class="swatches" id="swatches"></div>
+  </div>
+  <div class="grp">
+    <h5>Background motion</h5>
+    <div class="seg" id="segMotion">
+      <button data-motion="flowing">Flowing</button>
+      <button data-motion="still">Still</button>
+    </div>
+    <p class="note">Ambient drift only. The breathing pacer always moves.</p>
+  </div>
+  <div class="grp">
+    <h5>Reading</h5>
+    <div class="seg" id="segReading">
+      <button data-reading="compact">Compact</button>
+      <button data-reading="comfortable">Comfortable</button>
+      <button data-reading="large">Large</button>
+    </div>
+    <p class="note">Your choices stay on this device. Nothing else is remembered.</p>
+  </div>
+</div>
+
+<!-- ================= THRESHOLD ================= -->
+<section class="view on" id="v-threshold">
+  <div class="hero">
+    <svg id="field" preserveAspectRatio="xMidYMid slice"></svg>
+    <div class="wrap">
+      <div class="herotext">
+        <span class="eyebrow">The Understory</span>
+        <h1><span>What grows</span><span class="it">in low light</span></h1>
+        <p class="lede" style="margin-top:1.6rem">In a forest, the understory is the layer beneath the canopy — where the light is thin and everything grows slowly. Nothing there is failing. It is simply growing at the speed the conditions allow.</p>
+        <p style="color:var(--bone-3);max-width:30rem">This is a companion, not a treatment. Everything in it is drawn from peer-reviewed clinical research, and every claim is sourced. Nothing you write here is saved, sent, or seen by anyone. If the screen is too bright, too dark, or the text is too small, use the coloured circles in the top corner to change it.</p>
+        <div class="row" style="margin-top:2rem">
+          <button class="btn primary" data-go="practices">I need something right now</button>
+          <button class="btn" data-go="body">Start at the beginning</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-bottom:5rem">
+    <hr class="hair">
+    <div class="grid g3">
+      <div>
+        <span class="chip">First</span>
+        <h3>Your body is not betraying you</h3>
+        <p class="small">The racing heart, the shaking hands, the sudden nausea — these are not signs that something is wrong with you. They are an ancient survival system doing exactly what it was built to do, at exactly the wrong moment.</p>
+        <button class="btn sm" data-go="body">The physiology →</button>
+      </div>
+      <div>
+        <span class="chip v">Second</span>
+        <h3>The voice is not the verdict</h3>
+        <p class="small">The commentary in your head — cruel, certain, relentless — feels like truth because it arrives in your own voice. It isn't. There are specific, tested ways to loosen its grip that do not require you to argue with it.</p>
+        <button class="btn sm" data-go="mind">The loud room →</button>
+      </div>
+      <div>
+        <span class="chip p">Third</span>
+        <h3>Avoidance is the trap</h3>
+        <p class="small">Every time you don't go, the relief is real and immediate. That relief is precisely what teaches your nervous system that the thing was dangerous. This is the single mechanism most worth understanding.</p>
+        <button class="btn sm" data-go="world">The shrinking world →</button>
+      </div>
+    </div>
+
+    <hr class="hair">
+
+    <div class="panel">
+      <span class="chip b">Honest about limits</span>
+      <h3>What this is, and what it isn't</h3>
+      <p>Self-directed programmes genuinely help. In a randomised trial of unguided internet-based CBT for university and high-school students with sub-threshold social anxiety, 61% of the intervention group responded, against 24% of controls.<button class="cite" data-ref="8">8</button> Across 24 trials of computerised CBT in 12–25 year-olds, anxiety improved with a small-to-moderate effect against passive controls, and roughly matched active treatment.<button class="cite" data-ref="9">9</button> That is meaningful. It is also not the same as treatment.</p>
+      <p>Cognitive behavioural therapy delivered by a clinician remains the strongest-evidenced approach for anxiety disorders,<button class="cite" data-ref="2">2</button><button class="cite" data-ref="5">5</button> and for social anxiety specifically the Clark &amp; Wells cognitive protocol ranks highest across ninety trials.<button class="cite" data-ref="11">11</button><button class="cite" data-ref="12">12</button> Format matters less than you might expect: individual, group and remotely-delivered CBT all work, and can reasonably be chosen on preference.<button class="cite" data-ref="10">10</button><button class="cite" data-ref="1">1</button> If your anxiety has already cost you school, work, or the ability to leave the house, please read this alongside seeking a clinician — not instead of.</p>
+      <p class="small">One more thing worth saying plainly: in long-term follow-up of young people treated in community clinics, those whose primary diagnosis was <em>social</em> anxiety had lower odds of recovery than those with generalised or separation anxiety.<button class="cite" data-ref="13">13</button> Not because it can't be treated. Because it needs the right treatment, properly done, and often for longer. You deserve that.</p>
+    </div>
+
+    <div class="crisis" style="margin-top:2rem">
+      <h4>If tonight is worse than that</h4>
+      <p class="small" style="margin-bottom:.7rem">If you are thinking about hurting yourself, or you feel unable to keep yourself safe, please tell someone tonight. In Australia: <strong>Lifeline</strong> 13 11 14 or text 0477 13 11 14, any hour. <strong>Kids Helpline</strong> 1800 55 1800 (ages 5&ndash;25). <strong>Beyond Blue</strong> 1300 22 4636. <strong>13YARN</strong> 13 92 76 for Aboriginal and Torres Strait Islander people. <strong>Suicide Call Back Service</strong> 1300 659 467. In immediate danger, call <strong>000</strong>. Outside Australia, findahelpline.com lists services by country.</p>
+      <p class="small" style="margin-bottom:0">This is not a small ask and it is not an overreaction. Anxiety this severe is a legitimate medical reason to be seen — and a GP-issued Mental Health Treatment Plan brings subsidised psychology sessions within reach.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= THE BODY ================= -->
+<section class="view" id="v-body">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">One — The Body</span>
+      <h2>The alarm was built for a leopard.<br><em>It cannot tell the difference.</em></h2>
+      <p class="lede">Nothing in your physiology is malfunctioning. A very old, very fast circuit has decided that a seminar room is a clearing at dusk, and it is preparing you beautifully for something that is not going to happen.</p>
+    </div>
+
+    <svg class="botanical" viewBox="0 0 900 40" width="100%" height="40" fill="none" stroke="var(--brass-dim)" stroke-width=".8" stroke-linecap="round">
+      <path d="M0 20 H330"/><path d="M570 20 H900"/>
+      <path d="M370 20c20-14 42-16 60-4-18 12-40 12-60 4z"/>
+      <path d="M530 20c-20-14-42-16-60-4 18 12 40 12 60 4z"/>
+      <path d="M430 20h40"/><circle cx="450" cy="20" r="2.4" fill="var(--brass-dim)" stroke="none"/>
+    </svg>
+
+    <div class="stack">
+
+      <div class="panel">
+        <span class="chip">The sequence</span>
+        <h3>Two waves, not one</h3>
+        <p>When a threat is detected — real, imagined, or merely anticipated — two separate systems fire, on two different clocks.</p>
+        <p><strong>The first wave is electrical.</strong> Within a fraction of a second, the amygdala signals the hypothalamus, which drives the sympathetic nervous system and the adrenal medulla. Adrenaline and noradrenaline flood the circulation. This is why the onset feels instantaneous — because it is. Circulating adrenaline is also cleared quickly, within a couple of minutes, which is the first useful thing to know: <em>the surge cannot sustain itself.</em></p>
+        <p><strong>The second wave is chemical and slower.</strong> The hypothalamic–pituitary–adrenal axis releases cortisol over the following minutes, which is why the shakiness and the wrung-out feeling outlast the moment that caused them. This is also why a panic that lasted ninety seconds can leave you exhausted for an afternoon.</p>
+        <p class="small">The practical implication: if you can stay in the situation past the first wave without doing anything to escape it, you will feel the peak pass. Not because you managed it well. Because that is what the chemistry does.</p>
+      </div>
+
+      <div>
+        <h3>Every symptom, translated</h3>
+        <p style="color:var(--bone-3)">Fear of the sensations themselves — what researchers call <em>anxiety sensitivity</em> — is one of the strongest maintaining factors across every anxiety disorder.<button class="cite" data-ref="4">4</button> Much of it dissolves when the sensations stop being mysterious.</p>
+        <div class="grid g2" style="margin-top:1.6rem">
+          <div class="panel">
+            <h4>Heart pounding, chest tight</h4>
+            <p class="small">Cardiac output rises to push oxygenated blood to large muscle. The tightness is intercostal muscle recruitment for deeper breathing. Your heart is not in danger; it is being asked to run.</p>
+          </div>
+          <div class="panel">
+            <h4>Breathless, or breathing too fast</h4>
+            <p class="small">Respiratory rate climbs to meet an oxygen demand that never arrives, so carbon dioxide drops. Low CO₂ causes the tingling, the light head, the unreality. It is uncomfortable and it is entirely benign.</p>
+          </div>
+          <div class="panel">
+            <h4>Hands shaking, legs unsteady</h4>
+            <p class="small">Large muscle groups are primed and partly contracted, awaiting a sprint that isn't coming. The tremor is unspent preparation. Movement discharges it faster than stillness.</p>
+          </div>
+          <div class="panel">
+            <h4>Stomach dropping, nausea, urgency</h4>
+            <p class="small">Digestion is expensive and gets switched off. Blood is redirected from the gut to the limbs. The visceral drop you feel is the redirection itself.</p>
+          </div>
+          <div class="panel">
+            <h4>Vision narrowing, sounds sharpening</h4>
+            <p class="small">Attention is being forcibly allocated to threat detection. Peripheral processing is deprioritised. This is also why you cannot remember what anyone said.</p>
+          </div>
+          <div class="panel">
+            <h4>Blushing, sweating, dry mouth</h4>
+            <p class="small">Thermoregulation ahead of exertion; salivary flow suppressed alongside digestion. Note that blushing, sweating and trembling are among the sensations most specifically feared in social anxiety<button class="cite" data-ref="15">15</button> — and they are the most visible ones, which is precisely the cruelty of it.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="chip b">The loop worth breaking</span>
+        <h3>Fearing the fear</h3>
+        <p>A sensation arrives. You interpret it as dangerous — <em>I'm going to faint, I'm going to be sick, everyone can see</em>. That interpretation is itself a threat signal, which triggers more adrenaline, which produces more sensation. The loop closes and tightens.</p>
+        <p>The intervention that targets this directly is called <strong>interoceptive exposure</strong>: deliberately producing the feared sensations in a safe setting until they stop meaning what you thought they meant. A scoping review covering 132 studies found no serious adverse events reported in any of them.<button class="cite" data-ref="14">14</button> Delivered intensively it clearly outperforms cautious, low-dose versions — and the mechanism is not that fear decreases, but that <em>your tolerance of fear increases and your predictions about what will happen are corrected.</em><button class="cite" data-ref="16">16</button></p>
+        <p class="small">This one is best done with a clinician, at least at first. But it explains why gentle avoidance of your own heartbeat never works, and why the counter-intuitive direction is the right one.</p>
+      </div>
+
+      <div class="panel">
+        <span class="chip">Slow the exhale</span>
+        <h3>What breathing actually does — and doesn't</h3>
+        <p>Breathing at around five to six breaths per minute reliably increases vagally-mediated heart rate variability, both during the practice and after it. This is one of the most replicated findings in applied psychophysiology, across more than two hundred studies.<button class="cite" data-ref="17">17</button><button class="cite" data-ref="18">18</button> It works through resonance: at roughly that rate, respiration, blood pressure and heart rhythm fall into phase, and baroreflex sensitivity rises.<button class="cite" data-ref="19">19</button></p>
+        <p><strong>Now the honest part.</strong> Meta-analysis shows the physiological effects are robust, but the effect on negative emotion is modest — for perceived stress it only bordered on significance.<button class="cite" data-ref="20">20</button> More pointedly: in youth anxiety trials, CBT protocols that <em>included</em> relaxation strategies produced <em>smaller</em> effects than those that omitted them, while more in-session exposure produced larger ones.<button class="cite" data-ref="7">7</button></p>
+        <p>So hold breathing in its proper place. It is a way to be in your body without panic while you do the harder work. It is not the harder work. If it becomes a thing you must do before you can enter a room, it has quietly become a safety behaviour, and it will start working against you.</p>
+        <button class="btn sm" data-go="practices">Try the pacer →</button>
+      </div>
+
+      <div class="panel">
+        <span class="chip">Movement</span>
+        <h3>The most underused intervention you have</h3>
+        <p>Across 63 reviews and nearly 80,000 participants, exercise reduced anxiety symptoms with a standardised mean difference of −0.47, the largest benefits for <em>depression</em> were found in emerging adults aged 18 to 30.<button class="cite" data-ref="21">21</button> In university students specifically, physical activity interventions reduced anxiety substantially, though with wide variation between studies.<button class="cite" data-ref="22">22</button> Resistance training in people under 26 with clinically elevated symptoms produced large effects for both anxiety and depression.<button class="cite" data-ref="23">23</button></p>
+        <p>There is a second, subtler benefit. Running deliberately, repeatedly, while noticing the racing heart and the breathlessness, functions as interoceptive exposure — and what changes is not the sensation but your cognitive and emotional reaction to it.<button class="cite" data-ref="24">24</button> You are teaching yourself that a hammering heart is something that happens on a Tuesday, not a catastrophe.</p>
+        <p class="small">Practical shape, from the trial data: moderate-to-vigorous intensity, three or more sessions a week, thirty to sixty minutes. Something you would plausibly still be doing in six weeks matters more than the optimal protocol you abandon in nine days.</p>
+      </div>
+
+    </div>
+    <hr class="hair">
+  </div>
+</section>
+
+<!-- ================= THE MIND ================= -->
+<section class="view" id="v-mind">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">Two — The Mind</span>
+      <h2>The loud room</h2>
+      <p class="lede">The commentary is relentless, specific, and cruel in a way you would never be to another person. It uses your own voice, which is why it passes as truth. It is not truth. It is a stream of language, and language can be handled.</p>
+    </div>
+
+    <svg class="botanical" viewBox="0 0 900 40" width="100%" height="40" fill="none" stroke="var(--brass-dim)" stroke-width=".8" stroke-linecap="round">
+      <path d="M0 20 H340"/><path d="M560 20 H900"/>
+      <path d="M360 20c30 0 30-12 45-12s15 24 30 24 15-12 30-12 15 12 30 12"/>
+      <circle cx="450" cy="8" r="1.8" fill="var(--brass-dim)" stroke="none"/>
+    </svg>
+
+    <div class="stack">
+
+      <div class="panel">
+        <span class="chip v">Mechanism</span>
+        <h3>Fusion: when a thought stops being a thought</h3>
+        <p>There is a difference between <em>having</em> the thought <span style="color:var(--blush)">"everyone thinks I'm strange"</span> and <em>being inside</em> it. In the first case it is a sentence. In the second it is the weather, the room, the facts of the world. That collapse is called cognitive fusion, and the work of undoing it is called <strong>defusion</strong>.</p>
+        <p>This isn't a soft idea. Across trials of both traditional CBT and Acceptance and Commitment Therapy, change in cognitive defusion significantly predicted improvements in worry, quality of life, avoidance behaviour and depression — in <em>both</em> treatments.<button class="cite" data-ref="25">25</button> Across 36 randomised trials, ACT outperformed waitlists and treatment-as-usual and broadly matched traditional CBT, with outcomes mediated by psychological flexibility.<button class="cite" data-ref="51">51</button> Defusion appears to be one of the genuinely shared engines of change. In adolescents, ACT outperformed inactive controls on every outcome, and improvements in psychological flexibility statistically predicted the reductions in anxiety and depression.<button class="cite" data-ref="26">26</button></p>
+        <p class="small">Note what defusion is not. You are not being asked to argue with the thought, disprove it, or replace it with something positive. You are being asked to change your relationship to it — to let it be a sentence occurring, rather than a world you live in.</p>
+        <button class="btn sm" data-go="practices">Unhooking exercise →</button>
+      </div>
+
+      <div class="panel">
+        <span class="chip">Mechanism</span>
+        <h3>Naming it changes the brain that's producing it</h3>
+        <p>When people put a feeling into words, activity in the amygdala falls and activity in the right ventrolateral prefrontal cortex rises — and the two are inversely correlated.<button class="cite" data-ref="27">27</button> This happens without any deliberate attempt to feel better. It is emotion regulation that occurs as a side effect of labelling.<button class="cite" data-ref="28">28</button></p>
+        <p>The clinical use is striking. Adding affect labelling to exposure for public speaking anxiety produced greater reductions in physiological arousal than exposure alone — with the largest gains in the people who had the worst emotion regulation to begin with.<button class="cite" data-ref="29">29</button> In a spider-fear study, the group that labelled their fear during exposure showed lower skin conductance a week later, with a different spider, in a different room.<button class="cite" data-ref="30">30</button></p>
+        <p><strong>And here is the detail worth carrying with you:</strong> in repeated experiments, people predicted that labelling their feelings would make them feel worse. It made them feel better. Then, having felt better, they <em>still</em> predicted it would make them feel worse next time.<button class="cite" data-ref="31">31</button> Your intuitions about what will help you are, in this specific case, reliably wrong.</p>
+        <button class="btn sm" data-go="practices">Name it →</button>
+      </div>
+
+      <div class="panel">
+        <span class="chip b">Mechanism</span>
+        <h3>Use your own name</h3>
+        <p>A very small linguistic change — referring to yourself in the second or third person instead of "I" — produces measurable regulation. Across seven studies, people using non-first-person language under social stress performed better according to blind raters, showed less distress, engaged in less rumination afterwards, and appraised upcoming stressors as challenges rather than threats. The effects were not moderated by trait social anxiety, meaning they held for the people who needed them most.<button class="cite" data-ref="32">32</button></p>
+        <p>Neurally, it appears to be nearly free. Third-person self-talk reduced markers of self-referential emotional reactivity within the first second of exposure to distressing images <em>without</em> increasing markers of cognitive control effort.<button class="cite" data-ref="33">33</button> That matters enormously, because when you are frightened, effortful strategies are exactly what you cannot access.</p>
+        <p class="small">Be proportionate: meta-analysis across 48 studies puts the overall effect at small (g = −0.26), and it is strongest when you actually write or speak the words rather than merely swapping pronouns in your head.<button class="cite" data-ref="34">34</button> So write it down.</p>
+        <button class="btn sm" data-go="practices">The third person →</button>
+      </div>
+
+      <div class="panel">
+        <span class="chip p">Mechanism</span>
+        <h3>Aim at the cruelty, not at the kindness</h3>
+        <p>Self-compassion interventions reduce anxiety with a moderate effect (g ≈ 0.57) and reduce self-criticism with a comparable one (g ≈ 0.51).<button class="cite" data-ref="35">35</button><button class="cite" data-ref="36">36</button> In adolescents, the inverse relationship between self-compassion and psychological distress is large.<button class="cite" data-ref="37">37</button> In social anxiety specifically, nearly every correlational study finds a medium-to-large inverse association, though the intervention evidence is still small and mostly in student samples.<button class="cite" data-ref="50">50</button></p>
+        <p>But the shape of the finding matters more than the headline. Self-compassion scales measure two different things: the presence of kindness, and the absence of self-attack.<button class="cite" data-ref="52">52</button> Meta-analysis and network analysis both show that the <em>vulnerability</em> effect of harsh self-responding on anxiety and depression in young people is considerably larger than the <em>protective</em> effect of self-kindness.<button class="cite" data-ref="38">38</button></p>
+        <p>Young people themselves, asked directly, said they would be far more likely to engage with a treatment that reduced self-criticism than one that increased self-kindness.<button class="cite" data-ref="39">39</button> Which is worth taking seriously: if being told to "be kind to yourself" has always felt like being handed a language you don't speak, that is a legitimate response, and it does not mean the work is unavailable to you. Start by dismantling the attack. The warmth can come later, or never — the outcomes still improve.</p>
+        <p class="small">One caution kept honest: compared against <em>active</em> control conditions rather than waitlists, self-compassion interventions have not consistently outperformed them.<button class="cite" data-ref="40">40</button> Useful, not magic.</p>
+        <button class="btn sm" data-go="practices">The kinder draft →</button>
+      </div>
+
+    </div>
+    <hr class="hair">
+  </div>
+</section>
+
+<!-- ================= THE WORLD ================= -->
+<section class="view" id="v-world">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">Three — The World</span>
+      <h2>The shrinking world</h2>
+      <p class="lede">This is the section that matters most. Everything else is preparation for it. If you read one thing here, read the paragraph about relief.</p>
+    </div>
+
+    <svg class="botanical" viewBox="0 0 900 40" width="100%" height="40" fill="none" stroke="var(--brass-dim)" stroke-width=".8" stroke-linecap="round">
+      <path d="M0 20 H350"/><path d="M550 20 H900"/>
+      <circle cx="450" cy="20" r="14"/><circle cx="450" cy="20" r="7"/>
+      <path d="M380 20h50M470 20h50"/>
+    </svg>
+
+    <div class="stack">
+
+      <div class="panel">
+        <span class="chip p">The core mechanism</span>
+        <h3>Relief is the teacher</h3>
+        <p>You decide not to go. The relief is immediate, physical, enormous — a loosening in the chest, a whole evening returned to you. That relief is not neutral. It is a reward, arriving within seconds of the decision, and your nervous system draws the only conclusion available to it: <em>the danger was real, and avoidance is what saved me.</em></p>
+        <p>So the fear does not stay the same size. It grows. And the range of situations that trigger it widens, because you never gathered the evidence that would have contradicted it. This is why anxiety that begins with presentations ends with lecture halls, then corridors, then the front door.</p>
+        <p><strong>Nothing in this section asks you to be braver than you are.</strong> It asks you to be more specific.</p>
+      </div>
+
+      <div class="panel">
+        <span class="chip">The Clark &amp; Wells model</span>
+        <h3>The three things that keep it running</h3>
+        <p>The dominant cognitive model of social anxiety identifies specific, modifiable processes — and they have now been demonstrated in adolescents, not just adults.<button class="cite" data-ref="41">41</button><button class="cite" data-ref="42">42</button><button class="cite" data-ref="48">48</button></p>
+        <p><strong>One — safety behaviours.</strong> The small protective manoeuvres: rehearsing sentences, gripping a cup so your hands don't show, saying little, sitting near the door, keeping your coat on. They feel like the reason you survived. Experimentally, they are the reason you didn't learn anything. When socially anxious people were instructed to drop them, their anxiety fell and their appraisals of themselves improved.<button class="cite" data-ref="43">43</button><button class="cite" data-ref="44">44</button></p>
+        <p><strong>Two — self-focused attention.</strong> In a feared social situation your attention swings inward and you begin monitoring yourself: your voice, your face, how you're coming across. You then use that internal impression as evidence about how you appear. Experimentally manipulated in adolescents, self-focus and safety behaviours together increased both felt anxiety <em>and</em> observed anxiety, and degraded actual performance — in everyone tested, not only the anxious ones.<button class="cite" data-ref="41">41</button></p>
+        <p class="small">Safety behaviours divide into two families — outright <em>avoidance</em> (saying little, not looking up) and <em>impression management</em> (over-preparing, monitoring your performance). Both raise anxiety in the person using them; avoidance additionally makes the interaction worse for the other person, which then supplies exactly the feedback you were dreading.<button class="cite" data-ref="49">49</button></p>
+        <p><strong>Three — post-event processing.</strong> The reconstruction afterwards. The replay, the cringing, the forensic re-reading of a two-second silence. In an adolescent cohort this predicted later social anxiety over and above baseline levels.<button class="cite" data-ref="45">45</button></p>
+        <p class="small">A note on the evidence being genuinely mixed: one large factorial trial found that reduced use of safety behaviours and reduced negative social cognitions mediated the effect of exposure, while self-focused attention did not behave as an active mechanism.<button class="cite" data-ref="46">46</button> So: drop the safety behaviours first. Redirecting attention outward is worth doing, but the behavioural change is doing more of the work.</p>
+      </div>
+
+      <!-- LADDER TOOL -->
+      <div class="panel ladderpanel">
+        <span class="chip b">Tool</span>
+        <h3>The ladder</h3>
+        <p>Graded exposure works — and across youth anxiety trials, the amount of in-session exposure predicted larger effects.<button class="cite" data-ref="7">7</button> But the modern framing is not "stay until the fear goes down." It is <strong>expectancy violation</strong>: you make a specific, falsifiable prediction, you go, and you find out whether it was right. What changes is not your fear level. It is your prediction, and your tolerance.<button class="cite" data-ref="16">16</button></p>
+        <p class="small">A useful nuance for social anxiety specifically: across 20 head-to-head trials, exposure and cognitive therapy performed equivalently for panic, PTSD and OCD — but for social phobia, cognitive therapy was significantly <em>superior</em>.<button class="cite" data-ref="6">6</button> In other words: you have to go. But going in order to test one specific belief works better than going and simply gritting your teeth. Exposure research in 14–24 year-olds remains thinner than it should be.<button class="cite" data-ref="3">3</button></p>
+        <p class="small">Write a rung. Be exact — not "talk to people" but "ask one question in the Thursday seminar." Predict what will happen and how much you believe it, out of 100. Afterwards, come back and record what actually happened.</p>
+
+        <div class="grid g2" style="margin-top:1.6rem">
+          <div>
+            <div class="field"><label>The situation — small and specific</label><input type="text" id="ladSit" placeholder="Ask the barista for oat milk"></div>
+            <div class="field"><label>What I predict will happen</label><input type="text" id="ladPred" placeholder="I'll stumble over the words and she'll look at me strangely"></div>
+          </div>
+          <div>
+            <div class="field"><label>How much I believe that — <span id="ladBelVal" style="color:var(--brass)">80</span>/100</label><input type="range" id="ladBel" min="0" max="100" value="80"></div>
+            <div class="field"><label>How hard this feels — <span id="ladDifVal" style="color:var(--brass)">5</span>/10</label><input type="range" id="ladDif" min="1" max="10" value="5"></div>
+            <button class="btn primary" id="ladAdd">Add this rung</button>
+          </div>
+        </div>
+        <div id="ladList" style="margin-top:1.8rem"></div>
+        <p class="small" id="ladEmpty" style="margin-top:1.2rem;color:var(--bone-3)">Your ladder is empty. Rungs sort themselves easiest-first. Nothing is stored — this exists only while the page is open, so print or photograph it if you want to keep it.</p>
+        <div class="row" style="margin-top:1rem"><button class="btn sm" id="ladPrint">Print my ladder</button></div>
+      </div>
+
+      <div class="panel">
+        <span class="chip">Tool</span>
+        <h3>The safety behaviour audit</h3>
+        <p class="small">Tick what you do. The point is not shame — everyone does these. The point is that you cannot drop what you haven't noticed.</p>
+        <div class="lex" id="sbList" style="margin-top:1.2rem"></div>
+        <div class="out" id="sbOut"></div>
+      </div>
+
+    </div>
+    <hr class="hair">
+  </div>
+</section>
+
+<!-- ================= PRACTICES ================= -->
+<section class="view" id="v-practices">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">Practices</span>
+      <h2>Small things you can<br><em>actually do</em></h2>
+      <p class="lede">You don't need an account, and you don't need to do these every day. Pick one and do it once, even badly. Then come back whenever you want to.</p>
+    </div>
+
+    <div class="stack">
+
+      <!-- BREATHING -->
+      <div class="panel">
+        <span class="chip">Two to five minutes</span>
+        <h3>Resonance breathing</h3>
+        <p class="small">Follow the ring. In through the nose as it opens, a still hold at the top, out through the mouth — slowly, as though through a straw — as it closes, then a brief rest at the bottom. The exhale is deliberately longer than the inhale. Default is 5.5 breaths per minute, near the resonant frequency for most people.<button class="cite" data-ref="19">19</button></p>
+        <div class="breathstage">
+          <svg id="orb" viewBox="0 0 400 400"></svg>
+          <div class="phase" id="bPhase">&nbsp;</div>
+          <div class="counter" id="bCount">Ready</div>
+        </div>
+        <div class="row" style="justify-content:center;margin-top:1.2rem">
+          <button class="btn primary" id="bStart">Begin</button>
+          <button class="btn" id="bStop">Stop</button>
+        </div>
+        <div style="max-width:22rem;margin:1.6rem auto 0">
+          <label>Pace — <span id="bRateVal" style="color:var(--brass)">5.5</span> breaths / minute</label>
+          <input type="range" id="bRate" min="50" max="70" value="55">
+          <p class="small center" style="margin-top:.6rem">Anywhere from 5 to 7 raises cardiac vagal activity.<button class="cite" data-ref="18">18</button> Slower is not automatically better — pick the one you can hold without straining.</p>
+        </div>
+        <div style="max-width:22rem;margin:1.4rem auto 0">
+          <label>Hold at the top</label>
+          <div class="seg" id="segHold">
+            <button data-hold="0">None</button>
+            <button data-hold="1">Short</button>
+            <button data-hold="2">Longer</button>
+          </div>
+          <p class="small center" style="margin-top:.6rem">The ring stays still while you hold, and a line traces round so you can see the time passing. If holding makes you feel short of air, choose None — that reaction is common and it isn't a failure.</p>
+        </div>
+      </div>
+
+      <!-- AFFECT LABELLING -->
+      <div class="panel">
+        <span class="chip v">One minute</span>
+        <h3>Name it</h3>
+        <p class="small">Choose up to three words that are true right now. Precision matters more than intensity — "exposed" and "dreading" do more work than "bad". Then say the sentence out loud.<button class="cite" data-ref="27">27</button></p>
+        <div class="lex" id="emoList" style="margin-top:1.2rem"></div>
+        <div class="out" id="emoOut"></div>
+        <p class="small" id="emoNote" style="display:none;margin-top:1rem">Notice that you have just described a state, not announced a fact about yourself. "I am noticing dread" and "I am a person who cannot cope" are different sentences with different consequences.</p>
+      </div>
+
+      <!-- DISTANCED SELF TALK -->
+      <div class="panel">
+        <span class="chip b">Two minutes</span>
+        <h3>The third person</h3>
+        <p class="small">Write the thought as it actually arrives, in the first person. Then read it back in the version underneath. Say that one aloud.<button class="cite" data-ref="32">32</button></p>
+        <div class="grid g2" style="margin-top:1.2rem">
+          <div class="field"><label>Your name</label><input type="text" id="dName" placeholder="e.g. Ana"></div>
+          <div class="field"><label>Perspective</label>
+            <select id="dMode">
+              <option value="name">Your own name — "Ana is…"</option>
+              <option value="you">Second person — "You are…"</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label>The thought, exactly as it comes</label><textarea id="dIn" placeholder="I'm going to make a fool of myself and everyone will see that I don't belong here."></textarea></div>
+        <button class="btn primary" id="dGo">Shift it</button>
+        <div class="out" id="dOut"></div>
+      </div>
+
+      <!-- DEFUSION -->
+      <div class="panel">
+        <span class="chip v">One minute</span>
+        <h3>Unhooking</h3>
+        <p class="small">Type the sentence that's running. Four nested versions will appear. Read them in order, slowly. Do not try to believe or disbelieve anything.<button class="cite" data-ref="25">25</button></p>
+        <div class="field" style="margin-top:1.2rem"><label>The thought</label><input type="text" id="fuIn" placeholder="Everyone can tell there's something wrong with me"></div>
+        <button class="btn primary" id="fuGo">Unhook</button>
+        <div id="fuOut"></div>
+      </div>
+
+      <!-- SELF COMPASSION -->
+      <div class="panel">
+        <span class="chip p">Three minutes</span>
+        <h3>The kinder draft</h3>
+        <p class="small">Not "be kind to yourself." Something narrower and more possible: notice the standard you are holding yourself to, and check whether you would hold anyone else to it.<button class="cite" data-ref="39">39</button></p>
+        <div class="field" style="margin-top:1.2rem"><label>What you said to yourself</label><textarea id="scIn" placeholder="You're pathetic. Everyone else manages this without falling apart."></textarea></div>
+        <div class="field"><label>Someone you'd never say that to</label><input type="text" id="scWho" placeholder="my sister"></div>
+        <button class="btn primary" id="scGo">Compare</button>
+        <div id="scOut"></div>
+      </div>
+
+      <!-- ATTENTION -->
+      <div class="panel">
+        <span class="chip">Ninety seconds</span>
+        <h3>Attention, outward</h3>
+        <p class="small">This is deliberately <em>not</em> a grounding exercise for calming down. It is attention training: practice at moving the beam off yourself and onto the room, which is the specific process the cognitive model identifies.<button class="cite" data-ref="41">41</button> Do it while anxious, in the room, with your eyes open.</p>
+        <div class="out" id="atOut" style="min-height:3.2rem"></div>
+        <div class="row" style="margin-top:1rem">
+          <button class="btn primary" id="atGo">Give me a target</button>
+          <span class="small" id="atNote" style="color:var(--bone-3)"></span>
+        </div>
+      </div>
+
+      <!-- VALUES -->
+      <div class="panel">
+        <span class="chip b">Five minutes</span>
+        <h3>The compass</h3>
+        <p class="small">Anxiety answers the question "what is safe?" Values answer a different one: "what is this for?" In adolescent trials, improvement in psychological flexibility — of which values-directed action is a core component — statistically predicted the reduction in symptoms.<button class="cite" data-ref="26">26</button> Choose no more than three.</p>
+        <div class="lex" id="valList" style="margin-top:1.2rem"></div>
+        <div class="out" id="valOut"></div>
+        <div id="valAct" style="display:none;margin-top:1.4rem">
+          <div class="field"><label>One action, today or tomorrow, that moves toward that — small enough to be embarrassing</label><input type="text" id="valIn" placeholder="Send the message I've had drafted for nine days"></div>
+          <button class="btn primary" id="valGo">Set it</button>
+          <div class="out" id="valFinal"></div>
+        </div>
+      </div>
+
+    </div>
+    <hr class="hair">
+  </div>
+</section>
+
+<!-- ================= STORIES ================= -->
+<section class="view" id="v-stories">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">Stories</span>
+      <h2>Invented stories</h2>
+      <p class="lede">These are invented. They are assembled from the patterns that appear repeatedly in the clinical literature on social anxiety and avoidance in young women — not from any real person's life. They are here because mechanism explains, and story recognises.</p>
+    </div>
+    <div class="storylist" id="storyList"></div>
+    <div id="storyView" style="display:none;margin-top:3rem">
+      <button class="btn sm" id="storyBack">← All stories</button>
+      <div style="margin-top:2rem">
+        <h2 id="storyT"></h2>
+        <div class="story" id="storyB"></div>
+        <div class="panel" style="margin-top:2.5rem">
+          <h4 id="storyMechT">What's happening underneath</h4>
+          <div class="small" id="storyM"></div>
+        </div>
+      </div>
+    </div>
+    <hr class="hair">
+  </div>
+</section>
+
+<!-- ================= EVIDENCE ================= -->
+<section class="view" id="v-evidence">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">Evidence</span>
+      <h2>Everything, sourced</h2>
+      <p class="lede">Every clinical and empirical claim in this companion traces to one of these fifty-two papers. Descriptions of basic physiology — what adrenaline does, why low carbon dioxide causes tingling — are standard textbook material rather than findings from these studies, and are marked by the absence of a citation. Where the evidence is mixed, weak, or contradicts the popular version, that is said in the text rather than buried here.</p>
+    </div>
+
+    <div class="crisis" style="margin-bottom:3rem">
+      <h4>If things are worse than this page can hold</h4>
+      <p class="small" style="margin-bottom:.7rem">If you are thinking about hurting yourself, or you feel unable to keep yourself safe, please tell someone tonight. In Australia: <strong>Lifeline</strong> 13 11 14 or text 0477 13 11 14, any hour. <strong>Kids Helpline</strong> 1800 55 1800 (ages 5&ndash;25). <strong>Beyond Blue</strong> 1300 22 4636. <strong>13YARN</strong> 13 92 76 for Aboriginal and Torres Strait Islander people. <strong>Suicide Call Back Service</strong> 1300 659 467. In immediate danger, call <strong>000</strong>. Outside Australia, findahelpline.com lists services by country.</p>
+      <p class="small" style="margin-bottom:0">This is not a small ask and it is not an overreaction. Anxiety this severe is a legitimate medical reason to be seen — and a GP-issued Mental Health Treatment Plan brings subsidised psychology sessions within reach.</p>
+    </div>
+
+    <div id="refList"></div>
+
+    <div class="panel" style="margin-top:3rem">
+      <h4>How to read effect sizes</h4>
+      <p class="small">Hedges' g and standardised mean difference (SMD) describe how big a difference an intervention made, in standard deviations. Roughly: 0.2 is small, 0.5 is moderate, 0.8 is large. A g of 0.5 means the average person who received the treatment did better than about 69% of those who didn't. It does not mean everyone improved, and it does not predict what will happen to you specifically.</p>
+      <p class="small" style="margin-bottom:0">Where a study compared a treatment to a <em>waitlist</em>, effects look larger than when compared to an <em>active</em> alternative. That distinction is flagged in the text wherever it changes the conclusion.</p>
+    </div>
+
+    <hr class="hair">
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="grid g2">
+      <div>
+        <div class="mark" style="margin-bottom:1.2rem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" style="width:20px;height:20px">
+            <path d="M12 22 V8"/><path d="M12 14c0-3.6 2.6-6.4 6-6.6-.2 3.8-2.6 6.6-6 6.6z"/><path d="M12 11C12 7.6 9.6 4.8 6.2 4.4 6.4 8 8.8 11 12 11z"/>
+          </svg>
+          The Understory
+        </div>
+        <p class="small">Educational and self-help material. Not a medical device, not a diagnosis, not a substitute for assessment or treatment by a qualified clinician. If anxiety is interfering with your education, work or relationships, that is the threshold at which it is worth being properly seen.</p>
+      </div>
+      <div>
+        <h4>Privacy, plainly</h4>
+        <p class="small">This is a single file running entirely in your browser. Nothing you write is stored, transmitted, or logged — not the ladder, not the thoughts you type into the tools. Closing the tab erases all of it, which is why you should print the ladder if it matters to you.</p>
+        <p class="small">Three things are remembered between visits, kept on this device and never sent anywhere: which palette you chose, whether you want the background still, and your reading size. If your browser blocks local storage, everything still works — you'll simply pick again next time.</p>
+        <p class="small" style="margin-top:1.2rem;color:var(--bone-3)">Built as a companion piece. Verify anything here against the sources before relying on it clinically.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ==========================================================
+   DATA
+   ========================================================== */
+
+const REFS = [
+ {n:1,t:"Brief Cognitive Behavioral Group Therapy and Verbal-Exposure-Augmented CBT for Social Anxiety Disorder in University Students: A Randomized Controlled Feasibility Trial",m:"Singh et al., 2021 · Indian Journal of Psychological Medicine",u:"https://consensus.app/papers/details/df4f6a9f879d565eb5cc85150076c968/"},
+ {n:2,t:"Cognitive Behavioral Therapy for Anxiety and Related Disorders: A Meta-Analysis of Randomized Placebo-Controlled Trials",m:"Carpenter et al., 2018 · Depression and Anxiety · 41 trials, N=2,843 · target-symptom g=0.56",u:"https://consensus.app/papers/details/35fdcd2e59e4529288e433cb9b9753f4/"},
+ {n:3,t:"A scoping review investigating the use of exposure for the treatment and targeted prevention of anxiety and related disorders in young people",m:"Teunisse et al., 2022 · JCPP Advances · ages 14–24",u:"https://consensus.app/papers/details/da447e9f02975b82a312c1da7e14788a/"},
+ {n:4,t:"Anxiety sensitivity and interoceptive exposure: a transdiagnostic construct and change strategy",m:"Boswell et al., 2013 · Behavior Therapy",u:"https://consensus.app/papers/details/8ca5f91ec79f5927bfd2307e1adadf45/"},
+ {n:5,t:"Long-term outcomes of cognitive behavioural therapy for social anxiety disorder: A meta-analysis of randomised controlled trials",m:"Kindred et al., 2022 · Journal of Anxiety Disorders · 25 studies · social anxiety g=0.74, gains maintained ≥12 months",u:"https://consensus.app/papers/details/c87a1c0f306b51839c4a32eca567f2b6/"},
+ {n:6,t:"Efficacy of exposure versus cognitive therapy in anxiety disorders: systematic review and meta-analysis",m:"Ougrin, 2011 · BMC Psychiatry · 20 RCTs, N=1,308",u:"https://consensus.app/papers/details/fd1f34d018595843b569db5276a6b2dc/"},
+ {n:7,t:"A Meta-analysis to Guide the Enhancement of CBT for Childhood Anxiety: Exposure Over Anxiety Management",m:"Whiteside et al., 2019 · Clinical Child and Family Psychology Review · 75 studies · more in-session exposure → larger effects; relaxation → smaller effects",u:"https://consensus.app/papers/details/814d8cfd0b345f2294acabe4bf17ba3d/"},
+ {n:8,t:"Effectiveness of Unguided Internet-Based CBT for Subthreshold Social Anxiety Disorder in Adolescents and Young Adults: Multicenter RCT",m:"Matsumoto et al., 2023 · JMIR Pediatrics and Parenting · response 61% vs 24%, OR 4.97",u:"https://consensus.app/papers/details/e034fb774e9559afb4acf942a17cc8a9/"},
+ {n:9,t:"Internet and Computer-Based CBT for Anxiety and Depression in Adolescents and Young Adults: Systematic Review and Meta-Analysis",m:"Christ et al., 2020 · Journal of Medical Internet Research · anxiety g=0.44 vs passive controls",u:"https://consensus.app/papers/details/29b0596a252a5a538e4ad598aaf4ce22/"},
+ {n:10,t:"Cognitive behaviour therapy for social anxiety disorder: a systematic review and meta-analysis investigating different treatment formats",m:"Hall et al., 2024 · Australian Psychologist · 37 studies, N=3,234",u:"https://consensus.app/papers/details/43a3076253365ccdaa3efe6258c71b5c/"},
+ {n:11,t:"Psychotherapies for social anxiety disorder in adults: A systematic review and Bayesian network meta-analysis",m:"Sun et al., 2025 · Journal of Affective Disorders · 90 RCTs · Clark & Wells CBT ranked highest (SMD 1.42)",u:"https://consensus.app/papers/details/cdbecd354b5254a68a790d0604173795/"},
+ {n:12,t:"CBT for Anxiety Disorders in Youth: Efficacy, Moderators, and New Advances in Predicting Outcomes",m:"Pegg et al., 2022 · Current Psychiatry Reports",u:"https://consensus.app/papers/details/4a170d5399805990b749e85694465052/"},
+ {n:13,t:"Long-term effectiveness of cognitive behavioral therapy for youth with anxiety disorders",m:"Kodal et al., 2017 · Journal of Anxiety Disorders · N=139, ~3.9 yr follow-up · social anxiety had lower recovery odds",u:"https://consensus.app/papers/details/282afbf9bbdd5761bce3aabdcfe617aa/"},
+ {n:14,t:"Getting Comfortable with Physical Discomfort: A Scoping Review of Interoceptive Exposure to Bodily Sensations",m:"Farris et al., 2025 · Psychological Bulletin · 132 studies · no serious adverse events reported",u:"https://consensus.app/papers/details/1d0d39bb7fe95f799cc8706ad2c59349/"},
+ {n:15,t:"Interoceptive exposure exercises for social anxiety",m:"Dixon et al., 2015 · Journal of Anxiety Disorders · fears of blushing, sweating, trembling",u:"https://consensus.app/papers/details/0592c16921b055588d9f4cc7d0f92e8f/"},
+ {n:16,t:"Maximizing the efficacy of interoceptive exposure by optimizing inhibitory learning: a randomized controlled trial",m:"Deacon et al., 2013 · Behaviour Research and Therapy · N=120 · mediated by fear toleration and expectancy change",u:"https://consensus.app/papers/details/c4df11cf5e0059088410bb80e3a30254/"},
+ {n:17,t:"Effects of voluntary slow breathing on heart rate and heart rate variability: A systematic review and meta-analysis",m:"Laborde et al., 2022 · Neuroscience & Biobehavioral Reviews · 223 studies",u:"https://consensus.app/papers/details/cebeac6b23555acea104295364927817/"},
+ {n:18,t:"Influence of Respiratory Frequency of Slow-Paced Breathing on Vagally-Mediated Heart Rate Variability",m:"You et al., 2023 · Applied Psychophysiology and Biofeedback · 5–7 breaths/min all raised cardiac vagal activity",u:"https://consensus.app/papers/details/33988ac03ff75b94a50f6f5371365330/"},
+ {n:19,t:"Heart rate variability and slow-paced breathing: when coherence meets resonance",m:"Sévoz-Couche & Laborde, 2022 · Neuroscience & Biobehavioral Reviews · resonance ≈0.1 Hz",u:"https://consensus.app/papers/details/2db97cd4953751d6b7e682cae2d37420/"},
+ {n:20,t:"The Effect of Slow-Paced Breathing on Cardiovascular and Emotion Functions: A Meta-Analysis and Systematic Review",m:"Shao et al., 2024 · Mindfulness · 31 studies · robust HRV effects; effect on perceived stress only marginal",u:"https://consensus.app/papers/details/8968910f113c5d8f834fb70d97c4dabb/"},
+ {n:21,t:"Effect of exercise on depression and anxiety symptoms: systematic umbrella review with meta-meta-analysis",m:"Munro et al., 2026 · British Journal of Sports Medicine · 79,551 participants · anxiety SMD −0.47; largest mood benefits in ages 18–30",u:"https://consensus.app/papers/details/89df37db79de58bb857a1c43f3f0f562/"},
+ {n:22,t:"Effectiveness of physical activity interventions on undergraduate students' mental health: systematic review and meta-analysis",m:"Huang et al., 2024 · Health Promotion International · anxiety SMD −0.88 (high heterogeneity)",u:"https://consensus.app/papers/details/dd41f889ab8350c9ac14b51fccc6564c/"},
+ {n:23,t:"Resistance training and combined resistance and aerobic training as a treatment of depression and anxiety symptoms in young people",m:"Marinelli et al., 2024 · Early Intervention in Psychiatry · ≤26 years · anxiety g=−1.02",u:"https://consensus.app/papers/details/dfab365b6d0e52d5afee98dd9e8a1353/"},
+ {n:24,t:"Running as Interoceptive Exposure for Decreasing Anxiety Sensitivity: Replication and Extension",m:"Sabourin et al., 2015 · Cognitive Behaviour Therapy · change came from cognitive/affective reactions, not the sensations themselves",u:"https://consensus.app/papers/details/388ad809cc0b59cd8ead2ecee1061109/"},
+ {n:25,t:"Longitudinal treatment mediation of traditional CBT and acceptance and commitment therapy for anxiety disorders",m:"Arch et al., 2012 · Behaviour Research and Therapy · defusion mediated worry, quality of life, avoidance and depression across both treatments",u:"https://consensus.app/papers/details/16e84fc0fedd5ffdbdcb490b9bb3bb25/"},
+ {n:26,t:"Process of change and efficacy of ACT for anxiety and depression symptoms in adolescents: A meta-analysis of RCTs",m:"López-Pinar et al., 2024 · Journal of Affective Disorders · 27 RCTs, N=2,860 · psychological flexibility predicted improvement",u:"https://consensus.app/papers/details/3a42f732869050c58050e4882cffd606/"},
+ {n:27,t:"Putting Feelings Into Words: Affect Labeling Disrupts Amygdala Activity in Response to Affective Stimuli",m:"Lieberman et al., 2007 · Psychological Science · amygdala ↓, right VLPFC ↑, inversely correlated",u:"https://consensus.app/papers/details/b52e5a5d54185903b783e17ddfa6164f/"},
+ {n:28,t:"Putting Feelings Into Words: Affect Labeling as Implicit Emotion Regulation",m:"Torre & Lieberman, 2018 · Emotion Review",u:"https://consensus.app/papers/details/a36322d597f0544ba34a65e5f647cec3/"},
+ {n:29,t:"Affect labeling enhances exposure effectiveness for public speaking anxiety",m:"Niles et al., 2015 · Behaviour Research and Therapy · greatest benefit in those with the largest emotion-regulation deficits",u:"https://consensus.app/papers/details/665c440e4ba0534696f5af51e95010b9/"},
+ {n:30,t:"Feelings Into Words: Contributions of Language to Exposure Therapy",m:"Kircanski et al., 2012 · Psychological Science · reduced skin conductance at 1-week post-test, new spider, new context",u:"https://consensus.app/papers/details/0d9dfd9adeae5118b18adf967449a252/"},
+ {n:31,t:"Subjective Responses to Emotional Stimuli During Labeling, Reappraisal, and Distraction",m:"Lieberman et al., 2011 · Emotion · participants continued to predict labelling would increase distress even after experiencing the opposite",u:"https://consensus.app/papers/details/6fc4d2889d325337bd90adf62cfcda79/"},
+ {n:32,t:"Self-talk as a regulatory mechanism: how you do it matters",m:"Kross et al., 2014 · Journal of Personality and Social Psychology · 7 studies, N=585 · effects not moderated by trait social anxiety",u:"https://consensus.app/papers/details/2353b5c1eaf65dd8a0355ed4e6d1107b/"},
+ {n:33,t:"Third-person self-talk facilitates emotion regulation without engaging cognitive control: converging evidence from ERP and fMRI",m:"Moser et al., 2017 · Scientific Reports",u:"https://consensus.app/papers/details/740a515eb6c45c55a528058275816052/"},
+ {n:34,t:"Reflect on emotional events from an observer's perspective: a meta-analysis of experimental studies",m:"Guo, 2022 · Cognition and Emotion · 48 studies, 102 effect sizes · overall g=−0.26; strongest when written or spoken",u:"https://consensus.app/papers/details/1a527312d5e95bda9cd93babe7301d28/"},
+ {n:35,t:"Self-Compassion Interventions and Psychosocial Outcomes: a Meta-Analysis of RCTs",m:"Ferrari et al., 2019 · Mindfulness · 27 RCTs · anxiety g=0.57, self-criticism g=0.56, rumination g=1.37",u:"https://consensus.app/papers/details/ee7c9b0efe0e5e44869f441771046f5d/"},
+ {n:36,t:"Effectiveness of Self-Compassion Related Interventions for Reducing Self-Criticism: A Systematic Review and Meta-analysis",m:"Wakelin et al., 2021 · Clinical Psychology & Psychotherapy · 19 RCTs, N=1,350 · g=0.51",u:"https://consensus.app/papers/details/62ed4593266c5908b06864daf7a7bae2/"},
+ {n:37,t:"Self-compassion and Psychological Distress in Adolescents — a Meta-analysis",m:"Marsh et al., 2017 · Mindfulness · 19 studies, N=7,049 · r=−0.55",u:"https://consensus.app/papers/details/e3ae19c321a35509a73465d630044032/"},
+ {n:38,t:"On the Edge of Psychopathology: Strong Relations Between Reversed Self-compassion and Symptoms of Anxiety and Depression in Young People",m:"Muris et al., 2024 · Clinical Child and Family Psychology Review · harsh self-responding is a larger vulnerability than self-kindness is a protection",u:"https://consensus.app/papers/details/2ba69f8212205555baa32e7c6ca4afc4/"},
+ {n:39,t:"A Review of Self-Compassion as an Active Ingredient in the Prevention and Treatment of Anxiety and Depression in Young People",m:"Egan et al., 2021 · Administration and Policy in Mental Health · 50 studies + consultation with young people aged 14–24",u:"https://consensus.app/papers/details/9a47f0d0345c5384a72be192a732f5fa/"},
+ {n:40,t:"Effectiveness of Self-Compassion Related Therapies: a Systematic Review and Meta-analysis",m:"Wilson et al., 2018 · Mindfulness · 22 RCTs · effects not significant against active controls",u:"https://consensus.app/papers/details/a43515597ea1580dbf60f5b58a5d071a/"},
+ {n:41,t:"Self-focused attention and safety behaviours maintain social anxiety in adolescents: An experimental study",m:"Leigh & Clark, 2021 · PLoS ONE · N=57 · increased felt anxiety, observed anxiety and undermined performance",u:"https://consensus.app/papers/details/153b24c7eb795f74925a0418704097cd/"},
+ {n:42,t:"Cognitive and behavioural processes in adolescents with social anxiety disorder",m:"Leigh et al., 2023 · Behaviour Research and Therapy · N=193 across three groups",u:"https://consensus.app/papers/details/a72f0224a27059b1a85ba9d01184f52c/"},
+ {n:43,t:"Why social anxiety persists: an experimental investigation of the role of safety behaviours as a maintaining factor",m:"McManus et al., 2008 · Journal of Behavior Therapy and Experimental Psychiatry",u:"https://consensus.app/papers/details/a451bf32b8865262b24530e1f9165f91/"},
+ {n:44,t:"Examining two of the ingredients of Cognitive Therapy for adolescent social anxiety disorder: back-translation from a treatment trial",m:"Leigh et al., 2025 · Journal of Behavior Therapy and Experimental Psychiatry · dropping safety behaviours lowered anxiety and improved self-appraisal",u:"https://consensus.app/papers/details/dd8cd3c40f6258b599c10424269fd945/"},
+ {n:45,t:"Cognitive predictors of adolescent social anxiety",m:"Chiu et al., 2020 · Behaviour Research and Therapy · N=614, ages 11–14, prospective",u:"https://consensus.app/papers/details/e258185749be5277b975815fa5d3db2b/"},
+ {n:46,t:"Explaining the effects of treatment components in internet-based CBT for social anxiety disorder: a factorial mediation analysis",m:"Lopes et al., 2025 · Behaviour Research and Therapy · N=464 · safety-behaviour reduction mediated exposure; self-focused attention did not",u:"https://consensus.app/papers/details/3609098abd23589e98cc3c021a231a34/"},
+ {n:47,t:"Safety Behaviors in Adults With Social Anxiety: Review and Future Directions",m:"Piccirillo et al., 2016 · Behavior Therapy",u:"https://consensus.app/papers/details/d0dc182d01eb5370979f6a075de09077/"},
+ {n:48,t:"Cognitive Factors that Maintain Social Anxiety Disorder: a Comprehensive Model and its Treatment Implications",m:"Hofmann, 2007 · Cognitive Behaviour Therapy",u:"https://consensus.app/papers/details/5e78d8d2b0e45a3ea3586cf8fe7dfde6/"},
+ {n:49,t:"Sub-types of safety behaviours and their effects on social anxiety disorder",m:"Gray et al., 2019 · PLoS ONE · avoidance vs impression-management subtypes; both increased anxiety in the user",u:"https://consensus.app/papers/details/4f83fb9dc7b8515d8db4d711777fc651/"},
+ {n:50,t:"Self-Compassion and Social Anxiety: A Scoping Review",m:"Slivjak et al., 2024 · Mindfulness · 31 studies · robust inverse association; intervention evidence promising but limited",u:"https://consensus.app/papers/details/dc8f90e008dd5f5da7a20e4c0983ff4d/"},
+ {n:51,t:"Acceptance and Commitment Therapy as a Treatment for Anxiety and Depression: A Review",m:"Twohig & Levin, 2017 · Psychiatric Clinics of North America · 36 RCTs · outcomes mediated by psychological flexibility",u:"https://consensus.app/papers/details/cc2d2bb2ab0f5410a0b9bfac8b41ddff/"},
+ {n:52,t:"Self-Compassion: Theory, Method, Research, and Intervention",m:"Neff, 2022 · Annual Review of Psychology",u:"https://consensus.app/papers/details/bb5f44f8ca545cc2a345f7fe345358ff/"}
+];
+
+const EMOTIONS = ["dread","exposed","ashamed","panicked","tight","numb","restless","small","frantic","hollow","watched","braced","defeated","raw","trapped","jittery","foggy","furious","grief","lonely","humiliated","weary","sick","alert","frozen","desperate","envious","ridiculous"];
+
+const VALUES = ["Honesty","Being known","Curiosity","Creating things","Loyalty","Independence","Kindness","Courage","Craft","Learning","Justice","Playfulness","Steadiness","Beauty","Contribution","Adventure","Family","Rigour","Warmth","Freedom"];
+
+const SAFETY = ["Rehearsing sentences before I say them","Holding a cup or bag so my hands don't show","Wearing layers to hide sweating","Saying as little as possible","Sitting near the exit","Keeping my coat on","Avoiding eye contact","Talking very fast to get it over with","Only going if a specific person is there","Checking my reflection repeatedly","Arriving late so I don't have to mingle","Leaving early","Drinking to take the edge off","Scripting an excuse in advance","Keeping my phone in my hand","Wearing makeup I'd feel unable to leave without","Hiding my face with my hair","Agreeing with everything","Standing at the back","Not eating in front of people"];
+
+const ATTENTION = [
+ "Find three things in this room that are the same colour. Not similar. The same.",
+ "Listen for the furthest sound you can hear, then the nearest. Hold both at once for ten seconds.",
+ "Look at one person's shoes. Just the shoes. Guess how old they are.",
+ "Count the light sources. Include the ones you'd normally not call lights.",
+ "Find something in the room that someone made by hand.",
+ "Name the material of the four surfaces nearest to you.",
+ "Watch the person speaking and try to catch the exact word where their tone changed.",
+ "Find the oldest object in the room. Argue with yourself about it.",
+ "Track a single sound from the moment it starts to the moment it stops.",
+ "Find something slightly broken. Almost everything has something."
+];
+
+const STORIES = [
+ {t:"The Coffee",s:"On the difference between being frightened and being in danger",
+  b:`<p>She had been standing outside the café for four minutes. She knew it was four because she had watched the clock on the bank opposite go from 11:14 to 11:18, and each minute had cost her something.</p>
+     <p>The order was simple. She had said it in her head perhaps forty times on the walk over. A flat white and could she have oat milk. Eleven words. She had a degree. She had once, at seventeen, played the second movement of a Beethoven sonata in front of two hundred people without her hands shaking.</p>
+     <p>What frightened her was not the barista. It was the machinery — the way her voice would climb into her throat and thin out, the way her face would go hot in a manner she was convinced was visible from the street, the way she would hear herself say <em>sorry</em> for no reason and then hear the <em>sorry</em> replaying for the rest of the day.</p>
+     <p>At 11:19 she went in. She said the eleven words. Her voice did climb. Her face did go hot. The barista said "sure, that's four twenty" and turned around.</p>
+     <p>That was it. That was the whole event. She stood by the counter with her heart going like something trapped in a wall and waited for the part where it mattered, and the part where it mattered did not arrive.</p>
+     <p>She walked home turning it over. Not the relief — she had felt relief before, she knew it was cheap. Something more interesting. She had made a prediction, very specific, very confident, and she had been able to check it.</p>`,
+  m:`<p>Two mechanisms are visible here. The first is <strong>anxiety sensitivity</strong> — what she is actually frightened of is not the barista's judgement but her own bodily sensations, and specifically their visibility. Blushing, sweating and trembling are the sensations socially anxious people fear most, and they are the most public.<button class="cite" data-ref="15">15</button></p>
+     <p>The second is the mechanism that makes the whole story worth telling: <strong>expectancy violation</strong>. She noticed she had made a testable prediction. Modern exposure theory holds that this — not the reduction of fear during the exposure — is what produces durable change.<button class="cite" data-ref="16">16</button> Her heart was still hammering as she left. That was never the target.</p>`},
+
+ {t:"The Seminar",s:"On safety behaviours, and what they cost",
+  b:`<p>She had a system. Arrive six minutes late, so the mingling was already over. Sit in the second row from the back, aisle side. Keep her notebook open and her pen moving, because a person writing is a person occupied. Keep her water bottle in her left hand for the whole two hours. Never speak first. If asked something directly, answer briefly and look at a point slightly to the left of the asker's ear.</p>
+     <p>The system worked. She had got through eleven weeks of it. And she was, by the eleventh week, more frightened than she had been in the first.</p>
+     <p>Her tutor had written on an essay: <em>Interesting mind. I'd like to hear it in the room.</em> She had read it forty times and could not decide whether it was kind or a rebuke.</p>
+     <p>What she could not see — what nobody in the room could have told her, because they had never met her without the system — was that the system was doing the frightening. Every week she left with the same evidence she had arrived with: <em>I survived because I was careful.</em> Never once: <em>I was fine, and I wasn't careful.</em></p>
+     <p>The pen that never stopped moving was not protecting her from anything. It was making sure she never found out.</p>`,
+  m:`<p>This is the <strong>safety behaviour</strong> mechanism in its most complete form. Each manoeuvre is individually reasonable and collectively catastrophic, because together they guarantee that no disconfirming evidence can ever be collected.<button class="cite" data-ref="47">47</button></p>
+     <p>When socially anxious adolescents were experimentally instructed to drop self-focus and safety behaviours during a conversation, they felt less anxious, <em>appeared</em> less anxious to independent raters, and performed better — the exact opposite of what the behaviours were meant to achieve.<button class="cite" data-ref="41">41</button> In a factorial mediation trial with 464 participants, reduction in safety behaviour use was one of the key mechanisms explaining why exposure worked at all.<button class="cite" data-ref="46">46</button></p>
+     <p>The practical direction is uncomfortable and clear: the goal of the next seminar is not to feel less afraid. It is to put the pen down.</p>`},
+
+ {t:"The Front Door",s:"On the week the world contracts",
+  b:`<p>It never announces itself. There is no morning where you decide to stop.</p>
+     <p>There is a Tuesday you don't go because you genuinely have a headache. A Wednesday you don't go because you didn't go Tuesday and the thought of explaining is worse than the thought of missing. A Thursday where you tell yourself you'll go Friday. And then a fortnight where the building itself has acquired a quality, so that thinking about it produces the same drop in the stomach as standing outside it.</p>
+     <p>By the sixth week she was not avoiding a lecture theatre. She was avoiding the bus that went past it, then the road the bus went down, then the part of the afternoon in which people might message her.</p>
+     <p>Her mother said: <em>you just have to push through it.</em> Her mother was not wrong about the direction and was completely wrong about the size. Pushing through it meant, at that point, an act roughly equivalent to a stranger asking her to swim the Channel.</p>
+     <p>What eventually worked was smaller than anyone would have believed was worth doing. She walked to the end of her road and back. She did it because she had written down, in advance, what she thought would happen — <em>I'll have a panic attack and someone will see</em> — and she wanted to know whether it was true.</p>
+     <p>It was not true. Not the first time, not the fourth. Fourteen weeks later she was in a lecture theatre. Every rung of it was insultingly small and every rung of it was necessary.</p>`,
+  m:`<p>This is <strong>generalisation through negative reinforcement</strong>. The relief following each avoidance functions as a reward that strengthens avoiding, and because no corrective information is ever gathered, the fear extends outward by association to cues that were never frightening in themselves.</p>
+     <p>The intervention is <strong>graded exposure</strong>. Across youth anxiety trials, the amount of exposure delivered predicted the size of the treatment effect — and, notably, protocols that included relaxation training performed <em>worse</em> than those that omitted it.<button class="cite" data-ref="7">7</button> Comfort is not the active ingredient. Contact with the feared thing is.</p>
+     <p>The mother's instinct was right and her calibration was wrong. Steps too large produce failure, which is itself a further avoidance lesson. Steps small enough to feel faintly ridiculous are the ones that work.</p>`},
+
+ {t:"The Replay",s:"On the two hours after",
+  b:`<p>The event lasted forty minutes and the aftermath lasted nine days.</p>
+     <p>She had gone to the thing. She had done what everyone said to do. She had stayed, and talked, and even laughed once, genuinely, at something someone said about a cat.</p>
+     <p>And then she got home and it began. The forensic pass. The sentence where she had said <em>yeah, no, totally</em> and heard how it sounded. The three seconds where nobody spoke. The way she had laughed slightly too loudly at the cat, and how the laugh must have sounded to the person on the left, who had not been laughing.</p>
+     <p>By midnight she had constructed a version of the evening in which she had been an embarrassment. By the following Thursday the version was memory. It had replaced the evening. If you had asked her what happened, she would have told you, honestly, that it had gone badly.</p>
+     <p>Six other people were at that thing. Not one of them thought about it again.</p>`,
+  m:`<p><strong>Post-event processing.</strong> In a prospective study of 614 young people, post-event processing predicted later social anxiety over and above baseline levels.<button class="cite" data-ref="45">45</button> To be accurate about this: once negative social cognitions and safety behaviours were entered into the same model, post-event processing no longer predicted independently — so the replay may be less an engine than a symptom travelling with the engine. Either way it is worth interrupting.</p>
+     <p>Two things are known to interrupt it. The first is <strong>distanced self-talk</strong>: in Kross's studies, people who reflected using their own name rather than "I" engaged in significantly less maladaptive post-event processing, and the benefit held regardless of how socially anxious they were.<button class="cite" data-ref="32">32</button></p>
+     <p>The second is remembering that the review is not neutral observation. It is a search conducted by a system that has already decided what it will find.</p>`},
+
+ {t:"The Voice",s:"On the difference between a thought and a fact",
+  b:`<p>She could describe it precisely, which is unusual. Most people can't.</p>
+     <p>It was not a voice exactly. It was more like a running caption, present at all times, written in the second person and in her own idiom, so that it never occurred to her to doubt it. <em>You've done it again. Look at her face. She's being polite. Everyone in this room is being polite.</em></p>
+     <p>The therapist asked her to try something that struck her as childish. Say the sentence out loud, she said, and then say it again with four words in front of it: <em>I'm having the thought that.</em></p>
+     <p>She refused, at first, because it was embarrassing and because it was obviously not going to do anything.</p>
+     <p>Then she did it. <em>I'm having the thought that everyone in this room is being polite.</em></p>
+     <p>Something moved. Not much. Not enough to describe as relief. But for the first time in perhaps three years there was an inch of space between the sentence and the world, and she could see that it was a sentence — that it had a beginning and an end, that it was made of words, that somebody was saying it and that somebody was her.</p>
+     <p>She did not stop believing it. That was not what happened. What happened was that she stopped standing inside it.</p>`,
+  m:`<p>This is <strong>cognitive defusion</strong>. The exercise is deliberately not an argument: nothing is disputed, no evidence is weighed, no positive replacement is supplied. What changes is the relationship to the thought rather than its content.</p>
+     <p>It is better evidenced than its simplicity suggests. In a longitudinal mediation study of anxiety treatment, change in cognitive defusion significantly mediated post-treatment worry, quality of life, behavioural avoidance and depression — across <em>both</em> ACT and traditional CBT.<button class="cite" data-ref="25">25</button> It appears to be a shared engine rather than a school-specific technique.</p>
+     <p>Her instinct that it was childish and pointless is also documented. People consistently underestimate how much these verbal manoeuvres will help — and continue to underestimate them even after directly experiencing the benefit.<button class="cite" data-ref="31">31</button></p>`},
+
+ {t:"The Kinder Draft",s:"On why 'be nice to yourself' never worked",
+  b:`<p>She had been told to be kind to herself so many times that the phrase had lost all texture. It sat in the same category as <em>drink more water</em> — technically true, entirely inert.</p>
+     <p>The trouble was that kindness felt like a lie she was being asked to tell. She could not write <em>you're doing your best</em> without a part of her filing it, immediately, under things people say to the weak.</p>
+     <p>What finally moved was a smaller question, and a sharper one. Not <em>can you be kind to yourself</em>. Instead: <em>would you say that sentence to Nadia?</em></p>
+     <p>Nadia had failed the same module. Nadia had also not been able to go in for three weeks. If Nadia had said <em>I'm pathetic and everyone else copes</em>, she would have found it not merely untrue but offensive — a wild, obvious distortion, the kind of thing you interrupt.</p>
+     <p>She did not become kind to herself that day. She became something more achievable and, as it turned out, more useful: she became <em>less willing to say things about herself that she would consider slander if said about a friend</em>.</p>
+     <p>The warmth came later. About a year later. It was not the point.</p>`,
+  m:`<p>This maps onto a genuinely important finding. Self-compassion scales measure two distinguishable things — the presence of kindness and the absence of self-attack — and in young people, the <em>vulnerability</em> conferred by harsh self-responding is substantially larger than the <em>protection</em> conferred by self-kindness.<button class="cite" data-ref="38">38</button></p>
+     <p>Asked directly, young people said they would be more likely to engage with an intervention framed around reducing self-criticism than one framed around increasing self-kindness.<button class="cite" data-ref="39">39</button> Her resistance was not avoidance. It was accurate.</p>
+     <p>Interventions targeting self-criticism produce a moderate reduction in it (g ≈ 0.51),<button class="cite" data-ref="36">36</button> alongside moderate improvements in anxiety.<button class="cite" data-ref="35">35</button> Worth keeping proportionate: against active comparison conditions rather than waitlists, the advantage is much less clear.<button class="cite" data-ref="40">40</button></p>`}
+];
+
+/* ==========================================================
+   NAV
+   ========================================================== */
+function toTop(){ try{ window.scrollTo(0,0); }catch(e){} }
+
+
+
+/* ==========================================================
+   THE STUDIO — palette, motion, reading comfort
+   Preferences are kept on this device only, and only these
+   three. Nothing you write is ever stored.
+   ========================================================== */
+
+const PALETTES=[
+ {id:'understory', name:'Understory', dots:['#c9a86c','#8fa896','#0c0f15'], note:'Forest floor at night'},
+ {id:'nocturne',   name:'Nocturne',   dots:['#9fb6e8','#8b8fd0','#070a12'], note:'Cool, celestial, very low light'},
+ {id:'mulberry',   name:'Mulberry',   dots:['#e0a9ae','#b79ada','#1c1422'], note:'Deep plum, rose gold and lilac'},
+ {id:'vellum',     name:'Vellum',     dots:['#8a6320','#5c7a62','#f5f0e5'], note:'Light — old botanical paper'},
+ {id:'peony',      name:'Peony',      dots:['#a8455f','#5f7b5f','#fdf5f4'], note:'Light — blush paper and deep rose'},
+ {id:'tidal',      name:'Tidal',      dots:['#1f6f70','#487a60','#eff3f2'], note:'Light — sea glass and slate'}
+];
+
+const store={
+  get(k,d){ try{ return localStorage.getItem('understory.'+k) || d; }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem('understory.'+k,v); }catch(e){} }
+};
+
+(function studio(){
+  const root=document.documentElement;
+  const prefersStill = typeof window.matchMedia==='function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function apply(key,val){
+    root.dataset[key]=val;
+    store.set(key,val);
+    if(key==='motion') document.dispatchEvent(new CustomEvent('motionchange',{detail:val}));
+    sync();
+  }
+  function sync(){
+    document.querySelectorAll('#swatches .sw').forEach(b=>
+      b.classList.toggle('on', b.dataset.palette===root.dataset.palette));
+    document.querySelectorAll('#segMotion button').forEach(b=>
+      b.classList.toggle('on', b.dataset.motion===root.dataset.motion));
+    document.querySelectorAll('#segReading button').forEach(b=>
+      b.classList.toggle('on', b.dataset.reading===root.dataset.reading));
+  }
+
+  // build swatches
+  const sw=document.getElementById('swatches');
+  PALETTES.forEach(p=>{
+    const b=document.createElement('button');
+    b.className='sw'; b.dataset.palette=p.id; b.type='button';
+    b.title=p.note; b.setAttribute('aria-label',p.name+' — '+p.note);
+    b.innerHTML='<span class="dots">'+p.dots.map(c=>'<i style="background:'+c+'"></i>').join('')+
+                '</span><span class="nm">'+p.name+'</span>';
+    b.onclick=()=>apply('palette',p.id);
+    sw.appendChild(b);
+  });
+  document.querySelectorAll('#segMotion button').forEach(b=>b.onclick=()=>apply('motion',b.dataset.motion));
+  document.querySelectorAll('#segReading button').forEach(b=>b.onclick=()=>apply('reading',b.dataset.reading));
+
+  // restore
+  const valid=PALETTES.map(p=>p.id);
+  const savedP=store.get('palette','vellum');
+  root.dataset.palette = valid.includes(savedP)?savedP:'vellum';
+  root.dataset.motion  = store.get('motion',  prefersStill?'still':'flowing');
+  root.dataset.reading = store.get('reading','comfortable');
+  sync();
+
+  // open / close
+  const panel=document.getElementById('studio'), btn=document.getElementById('studioBtn');
+  function open(v){ panel.classList.toggle('on',v); btn.setAttribute('aria-expanded',v?'true':'false'); }
+  btn.onclick=e=>{ e.stopPropagation(); open(!panel.classList.contains('on')); };
+  document.addEventListener('click',e=>{ if(!panel.contains(e.target) && e.target!==btn) open(false); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') open(false); });
+})();
+
+const VIEWS=[["threshold","Start"],["body","Body"],["mind","Mind"],["world","World"],["practices","Practice"],["stories","Stories"],["evidence","Sources"]];
+const navEl=document.getElementById('nav');
+VIEWS.forEach(([id,label])=>{
+  const b=document.createElement('button'); b.textContent=label; b.dataset.v=id;
+  b.onclick=()=>go(id); navEl.appendChild(b);
+});
+function go(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on', v.id==='v-'+id));
+  navEl.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.v===id));
+  toTop();
+}
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]'); if(g){ go(g.dataset.go); }
+  const c=e.target.closest('.cite');
+  if(c){ go('evidence'); setTimeout(()=>{
+    const el=document.getElementById('ref-'+c.dataset.ref);
+    if(el){ el.scrollIntoView({block:'center'}); el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),2600); }
+  },90); }
+});
+go('threshold');
+
+/* ==========================================================
+   HERO FLOW FIELD  — generative contour lines
+   ========================================================== */
+(function(){
+  const svg=document.getElementById('field');
+  const W=1200,H=800, NS='http://www.w3.org/2000/svg';
+  svg.setAttribute('viewBox','0 0 '+W+' '+H);
+
+  // faint orbital geometry
+  const g0=document.createElementNS(NS,'g'); g0.setAttribute('opacity','.20');
+  [{cx:930,cy:230,r:180},{cx:930,cy:230,r:262},{cx:930,cy:230,r:96}].forEach(o=>{
+    const c=document.createElementNS(NS,'ellipse');
+    c.setAttribute('cx',o.cx);c.setAttribute('cy',o.cy);c.setAttribute('rx',o.r);c.setAttribute('ry',o.r*0.62);
+    c.setAttribute('fill','none');c.setAttribute('class','sv-violet');c.setAttribute('stroke-width','.7');
+    g0.appendChild(c);
+  });
+  const star=document.createElementNS(NS,'circle');
+  star.setAttribute('cx',930);star.setAttribute('cy',230);star.setAttribute('r',2.6);star.setAttribute('class','sf-brass');
+  g0.appendChild(star); svg.appendChild(g0);
+
+  // contour flow lines
+  const g=document.createElementNS(NS,'g'); svg.appendChild(g);
+  const N=34, paths=[];
+  for(let i=0;i<N;i++){
+    const p=document.createElementNS(NS,'path');
+    const t=i/(N-1);
+    p.setAttribute('fill','none');
+    p.setAttribute('class', i%7===0 ? 'sv-brass' : (i%5===0?'sv-sage':'sv-line'));
+    p.setAttribute('stroke-width', i%7===0?'.85':(i%5===0?'.7':'.9'));
+    p.setAttribute('opacity', (0.16+0.5*Math.sin(t*Math.PI)).toFixed(3));
+    g.appendChild(p); paths.push(p);
+  }
+  // single-line botanical sprig, hand-authored
+  const sprig=document.createElementNS(NS,'path');
+  sprig.setAttribute('d','M150 720 C160 620 175 540 205 470 C222 428 250 392 286 366 M205 470 C170 452 150 414 148 372 C186 380 208 418 205 470 M232 414 C258 388 268 344 258 306 C226 328 218 372 232 414 M258 348 C292 344 322 318 334 284 C300 280 268 306 258 348');
+  sprig.setAttribute('fill','none'); sprig.setAttribute('class','sv-sage');
+  sprig.setAttribute('stroke-width','1'); sprig.setAttribute('stroke-linecap','round');
+  sprig.setAttribute('opacity','.30');
+  svg.appendChild(sprig);
+
+  let ph=0;
+  function draw(){
+    for(let i=0;i<N;i++){
+      const t=i/(N-1), y0=60+t*(H-40);
+      let d='M -60 '+y0.toFixed(1);
+      for(let x=-60;x<=W+60;x+=34){
+        const k=x/W;
+        const y = y0
+          + 52*Math.sin(k*2.1 + ph*0.55 + t*3.4)
+          + 26*Math.sin(k*4.7 - ph*0.36 + t*6.1)
+          + 13*Math.sin(k*9.3 + ph*0.9  + t*2.2);
+        d+=' L '+x+' '+y.toFixed(1);
+      }
+      paths[i].setAttribute('d',d);
+    }
+  }
+  draw();
+
+  // ambient drift, governed by the studio's motion setting
+  let raf=null;
+  function loop(){ ph+=0.0055; draw(); raf=requestAnimationFrame(loop); }
+  function setMotion(mode){
+    const flow = mode!=='still';
+    if(flow && raf===null){ raf=requestAnimationFrame(loop); }
+    if(!flow && raf!==null){ cancelAnimationFrame(raf); raf=null; }
+  }
+  setMotion(document.documentElement.dataset.motion);
+  document.addEventListener('motionchange', e=>setMotion(e.detail));
+})();
+
+/* ==========================================================
+   BREATHING ORB
+   ========================================================== */
+(function(){
+  const NS='http://www.w3.org/2000/svg', orb=document.getElementById('orb');
+  orb.innerHTML='';
+  const defs=document.createElementNS(NS,'defs');
+  defs.innerHTML='<radialGradient id="bg1"><stop class="gs-a" offset="0%" stop-opacity=".22"/><stop class="gs-b" offset="70%" stop-opacity=".06"/><stop class="gs-c" offset="100%" stop-opacity="0"/></radialGradient>';
+  orb.appendChild(defs);
+
+  const glow=document.createElementNS(NS,'circle');
+  glow.setAttribute('cx',200);glow.setAttribute('cy',200);glow.setAttribute('r',150);glow.setAttribute('fill','url(#bg1)');
+  orb.appendChild(glow);
+
+  // static outer ticks
+  const ticks=document.createElementNS(NS,'g'); ticks.setAttribute('opacity','.35');
+  for(let i=0;i<60;i++){
+    const a=i/60*Math.PI*2, r1=168, r2=i%5===0?158:163;
+    const l=document.createElementNS(NS,'line');
+    l.setAttribute('x1',200+Math.cos(a)*r1);l.setAttribute('y1',200+Math.sin(a)*r1);
+    l.setAttribute('x2',200+Math.cos(a)*r2);l.setAttribute('y2',200+Math.sin(a)*r2);
+    l.setAttribute('class', i%5===0?'sv-brass':'sv-line'); l.setAttribute('stroke-width','.8');
+    ticks.appendChild(l);
+  }
+  orb.appendChild(ticks);
+
+  // rotating petal rings (organic + celestial)
+  const spin=document.createElementNS(NS,'g'); orb.appendChild(spin);
+  for(let i=0;i<10;i++){
+    const e=document.createElementNS(NS,'ellipse');
+    e.setAttribute('cx',200);e.setAttribute('cy',200);e.setAttribute('rx',118);e.setAttribute('ry',44);
+    e.setAttribute('fill','none');e.setAttribute('class', i%2?'sv-sage':'sv-violet');
+    e.setAttribute('stroke-width','.7');e.setAttribute('opacity','.28');
+    e.setAttribute('transform','rotate('+(i*18)+' 200 200)');
+    spin.appendChild(e);
+  }
+  const core=document.createElementNS(NS,'circle');
+  core.setAttribute('cx',200);core.setAttribute('cy',200);core.setAttribute('r',30);
+  core.setAttribute('fill','none');core.setAttribute('class','sv-brass');core.setAttribute('stroke-width','1');
+  orb.appendChild(core);
+
+  const arc=document.createElementNS(NS,'circle');
+  arc.setAttribute('cx',200); arc.setAttribute('cy',200); arc.setAttribute('r',146);
+  arc.setAttribute('fill','none'); arc.setAttribute('class','sv-brass');
+  arc.setAttribute('stroke-width','2.2'); arc.setAttribute('stroke-linecap','round');
+  arc.setAttribute('transform','rotate(-90 200 200)'); arc.setAttribute('opacity','0');
+  orb.appendChild(arc);
+
+  const ring=document.createElementNS(NS,'circle');
+  ring.setAttribute('cx',200);ring.setAttribute('cy',200);ring.setAttribute('r',60);
+  ring.setAttribute('fill','none');ring.setAttribute('class','sv-bone');ring.setAttribute('stroke-width','1.4');
+  ring.setAttribute('opacity','.85');
+  orb.appendChild(ring);
+
+  const phaseEl=document.getElementById('bPhase'), cntEl=document.getElementById('bCount');
+  const rate=document.getElementById('bRate'), rateVal=document.getElementById('bRateVal');
+
+  /* Resting shape, and the shape at the very start of an in-breath.
+     These differ, so moving between them must be eased rather than snapped. */
+  const REST={r:60, core:30, glow:150, op:.85};
+  const LEAD=900, SETTLE=800;           // ms to ease in / ease out
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const ease=t=>0.5-0.5*Math.cos(Math.PI*Math.min(Math.max(t,0),1));
+
+  let mode='idle';                      // idle | lead | run | settle
+  let t0=0, modeT0=0, cycles=-1, raf=null, spinA=0;
+  let from={...REST}, cur={...REST}, curCycle=60000/5.5, lastTs=0;
+
+  function paint(r,c,g,op){
+    cur={r,core:c,glow:g,op};
+    ring.setAttribute('r',r.toFixed(1));
+    ring.setAttribute('opacity',op.toFixed(2));
+    core.setAttribute('r',c.toFixed(1));
+    glow.setAttribute('r',g.toFixed(1));
+  }
+  paint(REST.r,REST.core,REST.glow,REST.op);
+
+  /* Four phases. The hold and the rest are real pauses, long enough to feel. */
+  let holdSet=1;                                  // 0 none · 1 short · 2 longer
+  function phases(){
+    const cycle=60000/(rate.value/10);
+    const H=[0,0.14,0.22][holdSet];
+    const P=H?0.06:0.05;                          // brief rest at the bottom
+    const inF=(1-H-P)*0.44;                       // in-breath is the shorter half
+    return { cycle, inh:cycle*inF, hold:cycle*H, exh:cycle*(1-H-P-inF), pause:cycle*P };
+  }
+  function shapeAt(elapsed){
+    const ph=phases(), e=elapsed%ph.cycle;
+    let p, label, phase, prog=0;
+    if(e < ph.inh){
+      p=e/ph.inh; phase='in'; label='Breathe in';
+    } else if(e < ph.inh+ph.hold){
+      p=1; phase='hold'; prog=(e-ph.inh)/ph.hold; label='Hold — softly, no strain';
+    } else if(e < ph.inh+ph.hold+ph.exh){
+      const q=(e-ph.inh-ph.hold)/ph.exh; p=1-q; phase='out'; label='Breathe out — slowly';
+    } else {
+      p=0; phase='pause'; prog=(e-ph.inh-ph.hold-ph.exh)/ph.pause; label='Rest';
+    }
+    const k=ease(p);
+    return { r:52+k*94, core:22+k*16, glow:96+k*74, op:0.45+k*0.5,
+             label, cycle:ph.cycle, phase, prog };
+  }
+
+  function frame(ts){
+    lastTs=ts;
+    spinA+=0.055; spin.setAttribute('transform','rotate('+spinA.toFixed(2)+' 200 200)');
+
+    if(mode==='lead'){                                   // rest -> start of in-breath
+      if(!modeT0) modeT0=ts;
+      const k=ease((ts-modeT0)/LEAD), s=shapeAt(0);
+      paint(lerp(from.r,s.r,k), lerp(from.core,s.core,k), lerp(from.glow,s.glow,k), lerp(from.op,s.op,k));
+      arc.setAttribute('opacity','0');
+      if(ts-modeT0>=LEAD){ mode='run'; t0=ts; cycles=-1; }
+    }
+    else if(mode==='run'){
+      const el=ts-t0, s=shapeAt(el);
+      curCycle=s.cycle;
+      const c=Math.floor(el/s.cycle);
+      if(c!==cycles){ cycles=c; cntEl.textContent='Breath '+(cycles+1); }
+      paint(s.r,s.core,s.glow,s.op);
+      if(phaseEl.textContent!==s.label) phaseEl.textContent=s.label;
+      // during a pause the orb is deliberately still, so trace the time instead
+      if(s.phase==='hold' || s.phase==='pause'){
+        const C=2*Math.PI*s.r;
+        arc.setAttribute('r',s.r.toFixed(1));
+        arc.setAttribute('stroke-dasharray',C.toFixed(1));
+        arc.setAttribute('stroke-dashoffset',(C*(1-s.prog)).toFixed(1));
+        arc.setAttribute('opacity','.9');
+      } else arc.setAttribute('opacity','0');
+    }
+    else if(mode==='settle'){                            // wherever it was -> rest
+      if(!modeT0) modeT0=ts;
+      const k=ease((ts-modeT0)/SETTLE);
+      paint(lerp(from.r,REST.r,k), lerp(from.core,REST.core,k),
+            lerp(from.glow,REST.glow,k), lerp(from.op,REST.op,k));
+      arc.setAttribute('opacity','0');
+      if(ts-modeT0>=SETTLE){ mode='idle'; }
+    }
+
+    if(mode==='idle'){ raf=null; return; }               // nothing moving, stop the loop
+    raf=requestAnimationFrame(frame);
+  }
+  function run(){ if(raf===null) raf=requestAnimationFrame(frame); }
+
+  /* changing pace mid-breath must not jump the phase */
+  rate.oninput=()=>{
+    rateVal.textContent=(rate.value/10).toFixed(1);
+    if(mode==='run'){
+      const frac=((lastTs-t0)%curCycle)/curCycle;
+      const next=60000/(rate.value/10);
+      t0=lastTs-frac*next; curCycle=next;
+      cycles=Math.floor((lastTs-t0)/next);
+    }
+  };
+
+  document.querySelectorAll('#segHold button').forEach(b=>{
+    b.onclick=()=>{
+      holdSet=+b.dataset.hold;
+      document.querySelectorAll('#segHold button').forEach(x=>x.classList.toggle('on',x===b));
+      if(mode==='run'||mode==='lead'){         // ease back to the top of a fresh breath
+        from={...cur}; mode='lead'; modeT0=0; cntEl.textContent='Breath 1';
+      }
+    };
+  });
+  document.querySelector('#segHold button[data-hold="1"]').classList.add('on');
+
+  document.getElementById('bStart').onclick=()=>{
+    if(mode==='run'||mode==='lead') return;
+    from={...cur};
+    mode='lead'; modeT0=0;
+    phaseEl.textContent='Settle';
+    cntEl.textContent='Breath 1';
+    run();
+  };
+  document.getElementById('bStop').onclick=()=>{
+    if(mode==='idle'||mode==='settle') return;
+    const n=cycles+1;
+    from={...cur};
+    mode='settle'; modeT0=0;
+    phaseEl.innerHTML='&nbsp;';
+    cntEl.textContent = n>0 ? n+(n===1?' breath. That counts.':' breaths. That counts.') : 'Ready';
+    run();
+  };
+  })();
+
+/* ==========================================================
+   AFFECT LABELLING
+   ========================================================== */
+(function(){
+  const box=document.getElementById('emoList'), out=document.getElementById('emoOut'), note=document.getElementById('emoNote');
+  let sel=[];
+  EMOTIONS.forEach(w=>{
+    const b=document.createElement('button'); b.textContent=w;
+    b.onclick=()=>{
+      const i=sel.indexOf(w);
+      if(i>-1) sel.splice(i,1);
+      else { if(sel.length>=3) return; sel.push(w); }
+      box.querySelectorAll('button').forEach(x=>x.classList.toggle('on',sel.includes(x.textContent)));
+      render();
+    };
+    box.appendChild(b);
+  });
+  function render(){
+    if(!sel.length){ out.textContent=''; note.style.display='none'; return; }
+    out.textContent='Right now I feel '+sel.join('. I feel ')+'.';
+    note.style.display='block';
+  }
+})();
+
+/* ==========================================================
+   DISTANCED SELF-TALK
+   ========================================================== */
+document.getElementById('dGo').onclick=()=>{
+  const raw=document.getElementById('dIn').value.trim();
+  const name=(document.getElementById('dName').value.trim()||'She');
+  const mode=document.getElementById('dMode').value;
+  const out=document.getElementById('dOut');
+  if(!raw){ out.textContent='Write the thought first, in the words it actually uses.'; return; }
+  const S = mode==='name' ? name : 'You';
+  const poss = mode==='name' ? name+"'s" : 'your';
+  const obj  = mode==='name' ? name : 'you';
+  const refl = mode==='name' ? 'herself' : 'yourself';
+  const isV  = mode==='name' ? 'is' : 'are';
+  const wasV = mode==='name' ? 'was' : 'were';
+  const hasV = mode==='name' ? 'has' : 'have';
+  let s=' '+raw+' ';
+  const R=[
+    [/\bI'm\b/gi, S+' '+isV], [/\bI am\b/gi, S+' '+isV],
+    [/\bI've\b/gi, S+' '+hasV], [/\bI have\b/gi, S+' '+hasV],
+    [/\bI'll\b/gi, S+' will'], [/\bI will\b/gi, S+' will'],
+    [/\bI'd\b/gi, S+' would'], [/\bI was\b/gi, S+' '+wasV],
+    [/\bmyself\b/gi, refl], [/\bmy\b/gi, poss], [/\bmine\b/gi, poss],
+    [/\bI\b/g, S], [/\bme\b/gi, obj]
+  ];
+  R.forEach(([re,to])=>{ s=s.replace(re,to); });
+  if(mode==='name'){
+    s=s.replace(new RegExp('\\b'+name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+' (don\'t|doesn\'t)\\b','gi'),name+" doesn't");
+    s=s.replace(new RegExp('\\b'+name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+' (can\'t|cannot)\\b','gi'),name+" can't");
+    s=s.replace(/\b(\w+) (feel|think|know|want|need|hate|make|look|sound|belong|cope|manage)\b/g,(m,a,b)=>a===name?a+' '+b+'s':m);
+  }
+  if(mode==='you'){ s=s.replace(/(\S\s+)You\b/g,'$1you').replace(/(\S\s+)Your\b/g,'$1your'); }
+  s=s.trim().replace(/\s{2,}/g,' '); s=s.charAt(0).toUpperCase()+s.slice(1);
+  out.innerHTML=s+'<div class="small" style="margin-top:.9rem;font-family:var(--sans);color:var(--bone-3)">Read that aloud. Written or spoken is where the effect is strongest — silent pronoun-swapping does much less.<button class="cite" data-ref="34">34</button></div>';
+};
+
+/* ==========================================================
+   DEFUSION
+   ========================================================== */
+document.getElementById('fuGo').onclick=()=>{
+  const t=document.getElementById('fuIn').value.trim().replace(/[.]$/,'');
+  const out=document.getElementById('fuOut');
+  if(!t){ out.innerHTML='<div class="out">Type the sentence exactly as it arrives.</div>'; return; }
+  const layers=[
+    {l:'As it arrives', s:t+'.'},
+    {l:'One step back', s:'I\'m having the thought that '+t.charAt(0).toLowerCase()+t.slice(1)+'.'},
+    {l:'Two steps back', s:'I notice I\'m having the thought that '+t.charAt(0).toLowerCase()+t.slice(1)+'.'},
+    {l:'Named as what it is', s:'Here is my mind, doing the thing it does, producing the sentence: "'+t+'."'}
+  ];
+  out.innerHTML=layers.map(x=>'<div style="margin-top:1.4rem"><label>'+x.l+'</label><div class="out" style="margin-top:.2rem">'+x.s+'</div></div>').join('')
+   +'<p class="small" style="margin-top:1.6rem">Nothing here disputes the content. You are not being asked to believe it less. You are being asked to stand somewhere other than inside it — which is the process that mediated improvement across both ACT and CBT trials.<button class="cite" data-ref="25">25</button></p>';
+};
+
+/* ==========================================================
+   SELF-COMPASSION
+   ========================================================== */
+document.getElementById('scGo').onclick=()=>{
+  const t=document.getElementById('scIn').value.trim();
+  const who=document.getElementById('scWho').value.trim()||'someone you love';
+  const out=document.getElementById('scOut');
+  if(!t){ out.innerHTML='<div class="out">Write it exactly as you said it. Don\'t soften it for the page.</div>'; return; }
+  out.innerHTML=
+   '<div style="margin-top:1.4rem"><label>What you said</label><div class="out" style="margin-top:.2rem;border-left-color:var(--blush)">'+esc(t)+'</div></div>'+
+   '<div style="margin-top:1.6rem"><label>Now read it addressed to '+esc(who)+'</label><div class="out" style="margin-top:.2rem">“'+esc(who)+', '+esc(t.charAt(0).toLowerCase()+t.slice(1))+'”</div></div>'+
+   '<p class="small" style="margin-top:1.6rem">If the second version is unacceptable — if you would interrupt someone who said it — then the standard you are applying to yourself is not a high standard. It is a double one.</p>'+
+   '<p class="small">You do not have to feel warm toward yourself for this to work. The evidence points at reducing the attack rather than manufacturing kindness, and young people report they would engage far more readily with the former.<button class="cite" data-ref="39">39</button><button class="cite" data-ref="38">38</button></p>';
+};
+function esc(s){ return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* ==========================================================
+   ATTENTION TRAINING
+   ========================================================== */
+(function(){
+  let last=-1;
+  document.getElementById('atGo').onclick=()=>{
+    let i; do{ i=Math.floor(Math.random()*ATTENTION.length); } while(i===last && ATTENTION.length>1);
+    last=i;
+    document.getElementById('atOut').textContent=ATTENTION[i];
+    document.getElementById('atNote').textContent='Do it now, in the room you are in.';
+  };
+})();
+
+/* ==========================================================
+   VALUES
+   ========================================================== */
+(function(){
+  const box=document.getElementById('valList'), out=document.getElementById('valOut');
+  const act=document.getElementById('valAct'), fin=document.getElementById('valFinal');
+  let sel=[];
+  VALUES.forEach(v=>{
+    const b=document.createElement('button'); b.textContent=v;
+    b.onclick=()=>{
+      const i=sel.indexOf(v);
+      if(i>-1) sel.splice(i,1); else { if(sel.length>=3) return; sel.push(v); }
+      box.querySelectorAll('button').forEach(x=>x.classList.toggle('on',sel.includes(x.textContent)));
+      if(!sel.length){ out.textContent=''; act.style.display='none'; return; }
+      const list=sel.length===1?sel[0].toLowerCase():sel.slice(0,-1).join(', ').toLowerCase()+' and '+sel[sel.length-1].toLowerCase();
+      out.textContent='Anxiety only ever asks whether something is safe. These are what you want your life to be about: '+list+'.';
+      act.style.display='block';
+    };
+    box.appendChild(b);
+  });
+  document.getElementById('valGo').onclick=()=>{
+    const a=document.getElementById('valIn').value.trim();
+    if(!a){ fin.textContent='Make it smaller than feels worth writing down.'; return; }
+    fin.innerHTML='I will '+esc(a.charAt(0).toLowerCase()+a.slice(1))+' — not because I will feel ready, and not because the fear will have gone.'+
+     '<div class="small" style="margin-top:.9rem;font-family:var(--sans);color:var(--bone-3)">Values-directed action is a component of psychological flexibility, which statistically predicted symptom reduction in adolescent trials.<button class="cite" data-ref="26">26</button></div>';
+  };
+})();
+
+/* ==========================================================
+   LADDER
+   ========================================================== */
+(function(){
+  const list=document.getElementById('ladList'), empty=document.getElementById('ladEmpty');
+  const bel=document.getElementById('ladBel'), dif=document.getElementById('ladDif');
+  bel.oninput=()=>document.getElementById('ladBelVal').textContent=bel.value;
+  dif.oninput=()=>document.getElementById('ladDifVal').textContent=dif.value;
+  let rungs=[], id=0;
+
+  document.getElementById('ladAdd').onclick=()=>{
+    const sit=document.getElementById('ladSit').value.trim();
+    const pred=document.getElementById('ladPred').value.trim();
+    if(!sit){ document.getElementById('ladSit').focus(); return; }
+    rungs.push({id:++id, sit, pred, bel:+bel.value, dif:+dif.value, done:false, actual:'', bel2:null});
+    document.getElementById('ladSit').value=''; document.getElementById('ladPred').value='';
+    render();
+  };
+  function render(){
+    rungs.sort((a,b)=>a.dif-b.dif);
+    empty.style.display = rungs.length?'none':'block';
+    list.innerHTML='';
+    rungs.forEach((r,i)=>{
+      const d=document.createElement('div'); d.className='rung';
+      let inner='<div class="top"><span class="num">'+(i+1)+'</span><span class="sit">'+esc(r.sit)+'</span>'+
+        '<button class="x" data-del="'+r.id+'" title="remove">✕</button></div>'+
+        '<div class="bar"><i style="width:'+(r.dif*10)+'%"></i></div>'+
+        '<div class="meta">Difficulty '+r.dif+'/10'+(r.pred?' · Predicted: “'+esc(r.pred)+'”':'')+' · Belief '+r.bel+'/100</div>';
+      if(!r.done){
+        inner+='<div style="margin-top:1rem"><button class="btn sm" data-done="'+r.id+'">I did this — record what happened</button></div>'+
+          '<div id="rec-'+r.id+'" style="display:none;margin-top:1rem">'+
+          '<div class="field"><label>What actually happened</label><input type="text" id="act-'+r.id+'" placeholder="I stumbled once. She didn\'t react. Nobody looked."></div>'+
+          '<div class="field"><label>How much do I believe the prediction <em>now</em> — <span id="b2v-'+r.id+'" style="color:var(--brass)">'+r.bel+'</span>/100</label>'+
+          '<input type="range" id="b2-'+r.id+'" min="0" max="100" value="'+r.bel+'"></div>'+
+          '<button class="btn sm" data-save="'+r.id+'">Save</button></div>';
+      } else {
+        const delta=r.bel-r.bel2;
+        inner+='<div class="meta" style="margin-top:.7rem;color:var(--bone-2)">Actually happened: “'+esc(r.actual)+'”</div>'+
+          '<div class="meta">Before, you believed it '+r.bel+'/100. Now '+r.bel2+'/100. '+(delta>0?'<span class="delta">The prediction weakened by '+delta+' points.</span>':(delta===0?'No change yet — repeat this same rung before moving up.':'<span style="color:var(--blush)">The belief got stronger by '+(-delta)+' points. This rung may be too big, or a safety behaviour was in play.</span>'))+'</div>';
+      }
+      d.innerHTML=inner; list.appendChild(d);
+    });
+  }
+  list.addEventListener('click',e=>{
+    const del=e.target.closest('[data-del]'), done=e.target.closest('[data-done]'), save=e.target.closest('[data-save]');
+    if(del){ rungs=rungs.filter(r=>r.id!=del.dataset.del); render(); }
+    if(done){ const el=document.getElementById('rec-'+done.dataset.done); el.style.display='block'; done.style.display='none';
+      const sl=document.getElementById('b2-'+done.dataset.done);
+      sl.oninput=()=>document.getElementById('b2v-'+done.dataset.done).textContent=sl.value;
+    }
+    if(save){ const rid=save.dataset.save, r=rungs.find(x=>x.id==rid);
+      r.actual=document.getElementById('act-'+rid).value.trim()||'(not recorded)';
+      r.bel2=+document.getElementById('b2-'+rid).value; r.done=true; render();
+    }
+  });
+  document.getElementById('ladPrint').onclick=()=>{
+    if(!rungs.length){ empty.textContent='Add at least one rung before printing.'; return; }
+    document.body.classList.add('printing-ladder');
+    try{ window.print(); }catch(e){}
+    setTimeout(()=>document.body.classList.remove('printing-ladder'),400);
+  };
+  if(window.matchMedia){
+    try{ window.matchMedia('print').addEventListener('change',e=>{ if(!e.matches) document.body.classList.remove('printing-ladder'); }); }catch(e){}
+  }
+})();
+
+/* ==========================================================
+   SAFETY BEHAVIOUR AUDIT
+   ========================================================== */
+(function(){
+  const box=document.getElementById('sbList'), out=document.getElementById('sbOut');
+  let sel=[];
+  SAFETY.forEach(s=>{
+    const b=document.createElement('button'); b.textContent=s;
+    b.onclick=()=>{
+      const i=sel.indexOf(s); if(i>-1) sel.splice(i,1); else sel.push(s);
+      b.classList.toggle('on');
+      if(!sel.length){ out.innerHTML=''; return; }
+      const pick=sel[Math.floor(Math.random()*sel.length)];
+      out.innerHTML='You have named '+sel.length+'. Choose one — say, “'+esc(pick)+'” — and drop only that one, once.'+
+        '<div class="small" style="margin-top:.9rem;font-family:var(--sans);color:var(--bone-3)">Not all of them. One. Dropping safety behaviours during exposure is what mediated the treatment effect in a 464-person factorial trial.<button class="cite" data-ref="46">46</button></div>';
+    };
+    box.appendChild(b);
+  });
+})();
+
+/* ==========================================================
+   STORIES
+   ========================================================== */
+(function(){
+  const list=document.getElementById('storyList'), view=document.getElementById('storyView');
+  STORIES.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.innerHTML='<span class="t">'+s.t+'</span><span class="s">'+s.s+'</span>';
+    b.onclick=()=>{
+      document.getElementById('storyT').textContent=s.t;
+      document.getElementById('storyB').innerHTML=s.b;
+      document.getElementById('storyM').innerHTML=s.m;
+      list.style.display='none'; view.style.display='block';
+      toTop();
+    };
+    list.appendChild(b);
+  });
+  document.getElementById('storyBack').onclick=()=>{ view.style.display='none'; list.style.display='grid'; toTop(); };
+})();
+
+/* ==========================================================
+   REFERENCES
+   ========================================================== */
+(function(){
+  const box=document.getElementById('refList');
+  REFS.forEach(r=>{
+    const d=document.createElement('div'); d.className='ref'; d.id='ref-'+r.n;
+    d.innerHTML='<div class="n">'+r.n+'</div><div><div class="t"><a href="'+r.u+'" target="_blank" rel="noopener">'+r.t+'</a></div><div class="m">'+r.m+'</div></div>';
+    box.appendChild(d);
+  });
+})();
+</script>
+</body>
+</html>
