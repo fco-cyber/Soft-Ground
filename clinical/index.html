@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>The Understory — a companion for the anxious mind</title>
-<meta name="description" content="An evidence-based companion for young women living with anxiety, avoidance and a loud inner critic. Nothing you type is stored or sent anywhere.">
+<title>The Understory - for your support in your journey</title>
+<meta name="description" content="The Understory - for your support in your journey">
 <meta name="theme-color" content="#faf6ed">
 <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
@@ -422,6 +422,56 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
 .panel > .chip, .pcard > .pn{ display:inline-block; }
 .panel > h3, .pcard > h3{ margin-bottom:.7rem; }
 
+/* ---------- crisis block: collapsible, but never fully hidden ----- */
+.crisis details{ margin-top:.85rem; }
+.crisis summary{
+  cursor:pointer; list-style:none; display:inline-flex; align-items:center; gap:.55rem;
+  font-family:var(--sans); font-size:.88rem; font-weight:500; color:var(--blush);
+  padding:.4rem 0; border-radius:2px;
+}
+.crisis summary::-webkit-details-marker{ display:none; }
+.crisis summary::marker{ content:''; }
+.crisis summary:focus-visible{ outline:2px solid var(--blush); outline-offset:3px; }
+.crisis summary .sgn{
+  flex:none; width:.95rem; height:.95rem; position:relative; display:inline-block;
+}
+.crisis summary .sgn::before, .crisis summary .sgn::after{
+  content:''; position:absolute; background:var(--blush); transition:transform .3s var(--ease);
+}
+.crisis summary .sgn::before{ left:0; right:0; top:50%; height:1.5px; margin-top:-.75px; }
+.crisis summary .sgn::after{ top:0; bottom:0; left:50%; width:1.5px; margin-left:-.75px; }
+.crisis details[open] summary .sgn::after{ transform:rotate(90deg); }
+.crisis summary:hover{ text-decoration:underline; text-underline-offset:3px; }
+.crisis details > .inner{ padding-top:.5rem; }
+.crisis .urgent{ font-size:1rem !important; }
+
+/* ---------- collapsible blocks: native details element, no JS needed --- */
+details.fold{ border-bottom:1px solid var(--ink-line); }
+details.fold > summary{
+  cursor:pointer; list-style:none; display:flex; align-items:flex-start; gap:1rem;
+  padding:1.15rem .2rem; color:var(--bone); transition:color .3s;
+}
+details.fold > summary::-webkit-details-marker{ display:none; }
+details.fold > summary::marker{ content:''; }
+details.fold > summary:hover{ color:var(--brass); }
+details.fold > summary:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+details.fold .ftx{ flex:1; min-width:0; }
+details.fold .fnum{ display:block; font-family:var(--sans); font-size:.72rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--label); margin-bottom:.35rem; }
+details.fold .ftt{ display:block; font-family:var(--serif); font-size:1.28rem; line-height:1.3; }
+details.fold .fsub{ display:block; font-size:.9rem; line-height:1.5; color:var(--bone-3); margin-top:.3rem; }
+details.fold .sgn{ flex:none; width:1.05rem; height:1.05rem; margin-top:.5rem; position:relative; }
+details.fold .sgn::before, details.fold .sgn::after{
+  content:''; position:absolute; background:var(--brass-dim); transition:transform .4s var(--ease), background .3s; }
+details.fold .sgn::before{ left:0; right:0; top:50%; height:1px; margin-top:-.5px; }
+details.fold .sgn::after{ top:0; bottom:0; left:50%; width:1px; margin-left:-.5px; }
+details.fold[open] .sgn::after{ transform:rotate(90deg); }
+details.fold[open] .sgn::before, details.fold[open] .sgn::after{ background:var(--brass); }
+details.fold[open] > summary{ color:var(--brass); }
+details.fold .fbody{ padding:.1rem 0 1.8rem; }
+details.fold .fbody > *:last-child{ margin-bottom:0; }
+.foldset{ border-top:1px solid var(--ink-line); }
+
 /* --- misc ------------------------------------------------------ */
 .stack > * + *{ margin-top:2.6rem; }
 .tight{ max-width:var(--measure); }
@@ -575,8 +625,15 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
 
     <div class="crisis" style="margin-top:2rem">
       <h4>If tonight is worse than that</h4>
-      <p class="small" style="margin-bottom:.7rem">If you are thinking about hurting yourself, or you feel unable to keep yourself safe, please tell someone tonight. In Australia: <strong>Lifeline</strong> 13 11 14 or text 0477 13 11 14, any hour. <strong>Kids Helpline</strong> 1800 55 1800 (ages 5&ndash;25). <strong>Beyond Blue</strong> 1300 22 4636. <strong>13YARN</strong> 13 92 76 for Aboriginal and Torres Strait Islander people. <strong>Suicide Call Back Service</strong> 1300 659 467. In immediate danger, call <strong>000</strong>. Outside Australia, findahelpline.com lists services by country.</p>
-      <p class="small" style="margin-bottom:0">This is not a small ask and it is not an overreaction. Anxiety this severe is a legitimate medical reason to be seen — and a GP-issued Mental Health Treatment Plan brings subsidised psychology sessions within reach.</p>
+      <p class="small urgent" style="margin-bottom:.5rem">If you are thinking about hurting yourself, or you feel unable to keep yourself safe, please tell someone tonight.</p>
+      <p class="small urgent" style="margin-bottom:0"><strong>Lifeline 13 11 14</strong> &nbsp;·&nbsp; any hour, any day &nbsp;·&nbsp; or text 0477 13 11 14. In immediate danger, call <strong>000</strong>.</p>
+      <details>
+        <summary><span class="sgn" aria-hidden="true"></span>Other services, and what a GP can do</summary>
+        <div class="inner">
+          <p class="small" style="margin-bottom:.7rem"><strong>Kids Helpline</strong> 1800 55 1800 (ages 5&ndash;25). <strong>MensLine Australia</strong> 1300 78 99 78. <strong>Beyond Blue</strong> 1300 22 4636. <strong>13YARN</strong> 13 92 76 for Aboriginal and Torres Strait Islander people. <strong>Suicide Call Back Service</strong> 1300 659 467. Outside Australia, findahelpline.com lists services by country.</p>
+          <p class="small" style="margin-bottom:0">This is not a small ask and it is not an overreaction. Anxiety this severe is a legitimate medical reason to be seen &mdash; and a GP-issued Mental Health Treatment Plan brings subsidised psychology sessions within reach.</p>
+        </div>
+      </details>
     </div>
   </div>
 </section>
@@ -958,8 +1015,15 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
 
     <div class="crisis" style="margin-bottom:3rem">
       <h4>If things are worse than this page can hold</h4>
-      <p class="small" style="margin-bottom:.7rem">If you are thinking about hurting yourself, or you feel unable to keep yourself safe, please tell someone tonight. In Australia: <strong>Lifeline</strong> 13 11 14 or text 0477 13 11 14, any hour. <strong>Kids Helpline</strong> 1800 55 1800 (ages 5&ndash;25). <strong>Beyond Blue</strong> 1300 22 4636. <strong>13YARN</strong> 13 92 76 for Aboriginal and Torres Strait Islander people. <strong>Suicide Call Back Service</strong> 1300 659 467. In immediate danger, call <strong>000</strong>. Outside Australia, findahelpline.com lists services by country.</p>
-      <p class="small" style="margin-bottom:0">This is not a small ask and it is not an overreaction. Anxiety this severe is a legitimate medical reason to be seen — and a GP-issued Mental Health Treatment Plan brings subsidised psychology sessions within reach.</p>
+      <p class="small urgent" style="margin-bottom:.5rem">If you are thinking about hurting yourself, or you feel unable to keep yourself safe, please tell someone tonight.</p>
+      <p class="small urgent" style="margin-bottom:0"><strong>Lifeline 13 11 14</strong> &nbsp;·&nbsp; any hour, any day &nbsp;·&nbsp; or text 0477 13 11 14. In immediate danger, call <strong>000</strong>.</p>
+      <details>
+        <summary><span class="sgn" aria-hidden="true"></span>Other services, and what a GP can do</summary>
+        <div class="inner">
+          <p class="small" style="margin-bottom:.7rem"><strong>Kids Helpline</strong> 1800 55 1800 (ages 5&ndash;25). <strong>MensLine Australia</strong> 1300 78 99 78. <strong>Beyond Blue</strong> 1300 22 4636. <strong>13YARN</strong> 13 92 76 for Aboriginal and Torres Strait Islander people. <strong>Suicide Call Back Service</strong> 1300 659 467. Outside Australia, findahelpline.com lists services by country.</p>
+          <p class="small" style="margin-bottom:0">This is not a small ask and it is not an overreaction. Anxiety this severe is a legitimate medical reason to be seen &mdash; and a GP-issued Mental Health Treatment Plan brings subsidised psychology sessions within reach.</p>
+        </div>
+      </details>
     </div>
 
     <div id="refList"></div>
@@ -1227,6 +1291,9 @@ VIEWS.forEach(([id,label])=>{
 function go(id){
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on', v.id==='v-'+id));
   navEl.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.v===id));
+  // the footer belongs to the opening screen only, not to every section
+  const ft=document.querySelector('footer');
+  if(ft) ft.style.display = (id==='threshold') ? '' : 'none';
   toTop();
 }
 document.addEventListener('click',e=>{

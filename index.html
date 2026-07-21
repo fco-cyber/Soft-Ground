@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Soft Ground — somewhere to stand when everything is loud</title>
-<meta name="description" content="A gentle companion for anyone living with severe anxiety. Understand what is happening to you, take the fear apart, and find a way back. Nothing you write is stored or sent anywhere.">
+<title>Soft Ground - for your support in your journey</title>
+<meta name="description" content="Soft Ground - for your support in your journey">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#faf6ed" id="metaTheme">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
@@ -188,7 +188,7 @@ nav{
   border-bottom:1px solid var(--ink-line);
 }
 .navin{
-  width:min(var(--page),94vw); margin:0 auto; display:flex; align-items:center;
+  width:min(50rem,94vw); margin:0 auto; display:flex; align-items:center;
   gap:.4rem 1.1rem; min-height:58px; padding:.35rem 0; flex-wrap:wrap;
 }
 .mark{ display:flex; align-items:center; gap:.55rem; font-family:var(--serif); font-size:1.05rem; white-space:nowrap; letter-spacing:.04em; color:var(--bone); flex:none; }
@@ -529,6 +529,87 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
 .pwa .x{ flex:none; }
 @media (prefers-reduced-motion: reduce){ .pwa{ transition:none; } }
 
+/* ---------- crisis block: collapsible, but never fully hidden ----- */
+.crisis details{ margin-top:.85rem; }
+.crisis summary{
+  cursor:pointer; list-style:none; display:inline-flex; align-items:center; gap:.55rem;
+  font-family:var(--sans); font-size:.88rem; font-weight:500; color:var(--blush);
+  padding:.4rem 0; border-radius:2px;
+}
+.crisis summary::-webkit-details-marker{ display:none; }
+.crisis summary::marker{ content:''; }
+.crisis summary:focus-visible{ outline:2px solid var(--blush); outline-offset:3px; }
+.crisis summary .sgn{
+  flex:none; width:.95rem; height:.95rem; position:relative; display:inline-block;
+}
+.crisis summary .sgn::before, .crisis summary .sgn::after{
+  content:''; position:absolute; background:var(--blush); transition:transform .3s var(--ease);
+}
+.crisis summary .sgn::before{ left:0; right:0; top:50%; height:1.5px; margin-top:-.75px; }
+.crisis summary .sgn::after{ top:0; bottom:0; left:50%; width:1.5px; margin-left:-.75px; }
+.crisis details[open] summary .sgn::after{ transform:rotate(90deg); }
+.crisis summary:hover{ text-decoration:underline; text-underline-offset:3px; }
+.crisis details > .inner{ padding-top:.5rem; }
+.crisis .urgent{ font-size:1rem !important; }
+
+/* ---------- collapsible blocks: native details element, no JS needed --- */
+details.fold{ border-bottom:1px solid var(--ink-line); }
+details.fold > summary{
+  cursor:pointer; list-style:none; display:flex; align-items:flex-start; gap:1rem;
+  padding:1.15rem .2rem; color:var(--bone); transition:color .3s;
+}
+details.fold > summary::-webkit-details-marker{ display:none; }
+details.fold > summary::marker{ content:''; }
+details.fold > summary:hover{ color:var(--brass); }
+details.fold > summary:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+details.fold .ftx{ flex:1; min-width:0; }
+details.fold .fnum{ display:block; font-family:var(--sans); font-size:.72rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--label); margin-bottom:.35rem; }
+details.fold .ftt{ display:block; font-family:var(--serif); font-size:1.28rem; line-height:1.3; }
+details.fold .fsub{ display:block; font-size:.9rem; line-height:1.5; color:var(--bone-3); margin-top:.3rem; }
+details.fold .sgn{ flex:none; width:1.05rem; height:1.05rem; margin-top:.5rem; position:relative; }
+details.fold .sgn::before, details.fold .sgn::after{
+  content:''; position:absolute; background:var(--brass-dim); transition:transform .4s var(--ease), background .3s; }
+details.fold .sgn::before{ left:0; right:0; top:50%; height:1px; margin-top:-.5px; }
+details.fold .sgn::after{ top:0; bottom:0; left:50%; width:1px; margin-left:-.5px; }
+details.fold[open] .sgn::after{ transform:rotate(90deg); }
+details.fold[open] .sgn::before, details.fold[open] .sgn::after{ background:var(--brass); }
+details.fold[open] > summary{ color:var(--brass); }
+details.fold .fbody{ padding:.1rem 0 1.8rem; }
+details.fold .fbody > *:last-child{ margin-bottom:0; }
+.foldset{ border-top:1px solid var(--ink-line); }
+
+/* ---------- Help: reachable from every screen, one tap ----------- */
+.helpbtn{
+  flex:none; margin-left:.75rem; display:flex; align-items:center; gap:.4rem; cursor:pointer;
+  background:transparent; border:1px solid var(--blush); border-radius:999px;
+  padding:.34rem .8rem; line-height:1;
+  font-family:var(--sans); font-size:.76rem; letter-spacing:.08em; text-transform:uppercase;
+  font-weight:600; color:var(--blush); white-space:nowrap;
+  transition:background .35s var(--ease), color .35s;
+}
+.helpbtn:hover{ background:var(--blush); color:var(--ink); }
+.helppanel{
+  position:fixed; z-index:955; top:66px; right:max(4vw,1rem); width:min(27rem,92vw);
+  border:1px solid var(--blush); border-radius:4px;
+  background:linear-gradient(160deg,var(--panel-a),var(--panel-b));
+  backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4);
+  padding:1.35rem 1.45rem 1.25rem; box-shadow:0 24px 60px -20px var(--vignette);
+  opacity:0; transform:translateY(-10px) scale(.985); pointer-events:none;
+  transition:opacity .38s var(--ease), transform .38s var(--ease);
+  max-height:min(78vh,42rem); overflow-y:auto;
+}
+.helppanel.on{ opacity:1; transform:none; pointer-events:auto; }
+.helppanel h4{ color:var(--blush); font-size:1.05rem; margin-bottom:.65rem; }
+.helppanel p{ font-size:.86rem; line-height:1.6; color:var(--bone-2); margin-bottom:.9rem; max-width:none; }
+.helppanel p:last-child{ margin-bottom:0; }
+.helppanel p{ margin-bottom:.75rem; }
+.helppanel .hr{ margin:.9rem 0; }
+.helppanel .big{ font-size:.95rem; color:var(--bone); }
+.helppanel a{ color:var(--bone); text-decoration:none; border-bottom:1px solid var(--blush); }
+.helppanel a:hover{ color:var(--blush); }
+.helppanel .hr{ height:1px; background:var(--ink-line); margin:1.1rem 0; }
+
 /* --- misc ------------------------------------------------------ */
 .stack > * + *{ margin-top:2.6rem; }
 .tight{ max-width:var(--measure); }
@@ -594,6 +675,7 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
       Soft Ground
     </div>
     <div class="navlinks" id="nav"></div>
+    <button class="helpbtn" id="helpBtn" aria-expanded="false">Help now</button>
     <button class="studiobtn" id="studioBtn" aria-expanded="false" title="Change the colours, motion and text size">
       <svg viewBox="0 0 34 24" aria-hidden="true">
         <circle class="a" cx="9"  cy="12" r="6.5"/>
@@ -603,6 +685,18 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
     </button>
   </div>
 </nav>
+
+<div class="helppanel" id="helpPanel" role="dialog" aria-label="Getting help now">
+  <h4>If you need someone now</h4>
+  <p>Talking to someone helps, and it does not have to be a big conversation. These lines are free, confidential, and answered by people who do this all day.</p>
+  <p class="big"><strong><a href="tel:131114">Lifeline 13 11 14</a></strong><br>Any hour, any day. Or text 0477 13 11 14.</p>
+  <p class="big"><strong><a href="tel:1800551800">Kids Helpline 1800 55 1800</a></strong><br>Free, any hour, if you are aged 5 to 25.</p>
+  <div class="hr"></div>
+  <p><strong><a href="tel:1300224636">Beyond Blue 1300 22 4636</a></strong><br><strong><a href="tel:139276">13YARN 13 92 76</a></strong> for Aboriginal and Torres Strait Islander people.<br><strong><a href="tel:1300659467">Suicide Call Back Service 1300 659 467</a></strong><br><strong><a href="tel:000">Emergency 000</a></strong> if you or someone else is in immediate danger.</p>
+  <div class="hr"></div>
+  <p>If you are having thoughts of hurting yourself, or things feel unsafe, please ring one of these rather than sitting with it alone. That is exactly what they are there for, and you will not be wasting anyone's time.</p>
+  <p>Asking for help is not an overreaction. Your GP can help as well, and can write you a Mental Health Treatment Plan, which makes seeing a psychologist much cheaper.</p>
+</div>
 
 <div class="studio" id="studio" role="dialog" aria-label="Visual settings">
   <div class="grp">
@@ -698,11 +792,6 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
       <p><strong>That is what this app is for.</strong> Not to argue you out of the fear, but to show that part of your brain something it will actually learn from.</p>
     </div>
 
-    <div class="crisis" style="margin-top:2rem">
-      <h4>If things are worse than that today</h4>
-      <p class="small" style="margin-bottom:.7rem">If you are thinking about hurting yourself, or you do not feel able to keep yourself safe, please tell one person today. In Australia you can call <strong>Lifeline</strong> on 13 11 14 or text 0477 13 11 14, at any hour. If you are aged 5 to 25 you can call <strong>Kids Helpline</strong> on 1800 55 1800. <strong>Beyond Blue</strong> is 1300 22 4636. <strong>13YARN</strong> is 13 92 76, for Aboriginal and Torres Strait Islander people. The <strong>Suicide Call Back Service</strong> is 1300 659 467. If you or someone else is in immediate danger, call <strong>000</strong>.</p>
-      <p class="small" style="margin-bottom:0">Asking for help is not an overreaction. Your GP can help as well. A GP can write you a Mental Health Treatment Plan, which makes seeing a psychologist much cheaper, so it is worth asking about.</p>
-    </div>
   </div>
 </section>
 
@@ -836,45 +925,30 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
         <h3>The five steps</h3>
         <p style="color:var(--bone-3)">Read these slowly. Most people recognise themselves at about the third one.</p>
 
-        <div class="floor">
-          <span class="fl">One</span>
-          <div>
-            <h4>Something happened</h4>
-            <p class="small">Usually something small, and usually a long time ago. Someone laughed at the wrong moment. A teacher looked at you a certain way. You were asked to read aloud. There was a pause after you spoke that felt too long. It may have been so minor that nobody else remembers it, including the people involved.</p>
-          </div>
-        </div>
+        <details class="fold">
+          <summary><span class="ftx"><span class="fnum">One</span><span class="ftt">Something happened</span></span><span class="sgn" aria-hidden="true"></span></summary>
+          <div class="fbody"><p class="small">Usually something small, and usually a long time ago. Someone laughed at the wrong moment. A teacher looked at you a certain way. You were asked to read aloud. There was a pause after you spoke that felt too long. It may have been so minor that nobody else remembers it, including the people involved.</p></div>
+        </details>
 
-        <div class="floor">
-          <span class="fl">Two</span>
-          <div>
-            <h4>You decided what it meant</h4>
-            <p class="small">Then you did what everyone does when they are young. You decided what it meant about you, not about the situation. Something like: <em>I am the sort of person people laugh at.</em> Or: <em>there is something wrong with me and people can see it.</em> You were far too young to be making that judgement. You made it in about a second, and you have never gone back to check whether it was true.</p>
-          </div>
-        </div>
+        <details class="fold">
+          <summary><span class="ftx"><span class="fnum">Two</span><span class="ftt">You decided what it meant</span></span><span class="sgn" aria-hidden="true"></span></summary>
+          <div class="fbody"><p class="small">Then you did what everyone does when they are young. You decided what it meant about you, not about the situation. Something like: <em>I am the sort of person people laugh at.</em> Or: <em>there is something wrong with me and people can see it.</em> You were far too young to be making that judgement. You made it in about a second, and you have never gone back to check whether it was true.</p></div>
+        </details>
 
-        <div class="floor">
-          <span class="fl">Three</span>
-          <div>
-            <h4>You made rules to stay safe</h4>
-            <p class="small">Once you believed that, you made rules. <em>Never speak first. Always know exactly what you are going to say. Never stand out. Get it right or do not do it at all.</em> You never wrote these down. You just started living by them, until you stopped noticing they were choices.</p>
-          </div>
-        </div>
+        <details class="fold">
+          <summary><span class="ftx"><span class="fnum">Three</span><span class="ftt">You made rules to stay safe</span></span><span class="sgn" aria-hidden="true"></span></summary>
+          <div class="fbody"><p class="small">Once you believed that, you made rules. <em>Never speak first. Always know exactly what you are going to say. Never stand out. Get it right or do not do it at all.</em> You never wrote these down. You just started living by them, until you stopped noticing they were choices.</p></div>
+        </details>
 
-        <div class="floor">
-          <span class="fl">Four</span>
-          <div>
-            <h4>You started predicting disasters</h4>
-            <p class="small">Rules like that make you predict what will go wrong. You walk towards a room and you do not see the room. You see what you think is about to happen in it, in detail, with your face already burning. Your mind shows you a disaster in advance and presents it to you as information.</p>
-          </div>
-        </div>
+        <details class="fold">
+          <summary><span class="ftx"><span class="fnum">Four</span><span class="ftt">You started predicting disasters</span></span><span class="sgn" aria-hidden="true"></span></summary>
+          <div class="fbody"><p class="small">Rules like that make you predict what will go wrong. You walk towards a room and you do not see the room. You see what you think is about to happen in it, in detail, with your face already burning. Your mind shows you a disaster in advance and presents it to you as information.</p></div>
+        </details>
 
-        <div class="floor last">
-          <span class="fl">Five</span>
-          <div>
-            <h4>You stopped finding out</h4>
-            <p class="small">After enough of those predictions, you started avoiding the situations. This is the part that keeps it going. Because you avoided them, you never got to find out whether the predictions were right. So they were never corrected, and they still feel true today.</p>
-          </div>
-        </div>
+        <details class="fold">
+          <summary><span class="ftx"><span class="fnum">Five</span><span class="ftt">You stopped finding out</span></span><span class="sgn" aria-hidden="true"></span></summary>
+          <div class="fbody"><p class="small">After enough of those predictions, you started avoiding the situations. This is the part that keeps it going. Because you avoided them, you never got to find out whether the predictions were right. So they were never corrected, and they still feel true today.</p></div>
+        </details>
       </div>
 
       <div class="panel">
@@ -986,10 +1060,9 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
 
     <div class="stack">
 
-      <div class="pcard">
-        <span class="pn">Stage one</span>
-        <h3>Settle your body</h3>
-        <p class="pgoal">The aim is not to feel calm. It is to be less worn out than you are now.</p>
+      <details class="fold pfold">
+        <summary><span class="ftx"><span class="fnum">Stage one</span><span class="ftt">Settle your body</span></span><span class="sgn" aria-hidden="true"></span></summary>
+        <div class="fbody"><p class="pgoal">The aim is not to feel calm. It is to be less worn out than you are now.</p>
         <p>You cannot do frightening things when your body is exhausted, underfed and full of caffeine. This stage is dull, and it is the one that makes everything after it possible. Give it two weeks before you decide whether it is working.</p>
         <ul class="plist">
           <li>Breathe out slowly for three minutes, twice a day. Do this <strong>when you are calm, not when you are panicking.</strong> You are learning the skill now so that you have it later.</li>
@@ -998,13 +1071,11 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
           <li>Go to bed at roughly the same time each night. Roughly is fine.</li>
           <li>Halve your caffeine for two weeks and see what changes.</li>
           <li>Do one thing each week that has nothing to do with anxiety.</li>
-        </ul>
-      </div>
-
-      <div class="pcard">
-        <span class="pn">Stage two</span>
-        <h3>Work out what you are actually afraid of</h3>
-        <p class="pgoal">The aim is to turn one huge vague fear into a list of specific ones.</p>
+        </ul></div>
+      </details>
+      <details class="fold pfold">
+        <summary><span class="ftx"><span class="fnum">Stage two</span><span class="ftt">Work out what you are actually afraid of</span></span><span class="sgn" aria-hidden="true"></span></summary>
+        <div class="fbody"><p class="pgoal">The aim is to turn one huge vague fear into a list of specific ones.</p>
         <p>At the moment the anxiety probably feels enormous and impossible to describe. It is not one thing. It is a set of particular situations, particular predictions and particular habits. A fear you have named is always smaller than one you have not.</p>
         <ul class="plist">
           <li>Once a day, catch one prediction and write it down in plain words. For example: <em>I think I will go blank and everyone will notice.</em></li>
@@ -1012,13 +1083,11 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
           <li>If you notice one of your rules, write that down too. For example: <em>never speak first.</em></li>
           <li>Notice the times when it is less bad. Those moments are useful information and almost nobody thinks to look at them.</li>
         </ul>
-        <p class="small">Do not go looking for the original event from step one. If it comes to you, fine. If it does not, you lose nothing.</p>
-      </div>
-
-      <div class="pcard">
-        <span class="pn">Stage three</span>
-        <h3>Take small steps back</h3>
-        <p class="pgoal">The aim is to collect proof. You are not trying to become braver.</p>
+        <p class="small">Do not go looking for the original event from step one. If it comes to you, fine. If it does not, you lose nothing.</p></div>
+      </details>
+      <details class="fold pfold">
+        <summary><span class="ftx"><span class="fnum">Stage three</span><span class="ftt">Take small steps back</span></span><span class="sgn" aria-hidden="true"></span></summary>
+        <div class="fbody"><p class="pgoal">The aim is to collect proof. You are not trying to become braver.</p>
         <p>Here is the whole method. Decide what you think will happen. Go and do it. Find out what actually happens. You are running a small test on an old belief.</p>
         <ul class="plist">
           <li>Choose something very small. Then make it smaller. If it does not feel slightly silly, it is still too big.</li>
@@ -1027,22 +1096,19 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
           <li>Write down what actually happened, using plain words and no judgements about yourself.</li>
           <li>Do the same step several times before moving to a harder one. Doing it once proves nothing. Doing it four times starts to prove something.</li>
           <li>At some point, drop one of your small coping habits for one attempt, and see what it costs you.</li>
-        </ul>
-      </div>
-
-      <div class="pcard last">
-        <span class="pn">Stage four</span>
-        <h3>Widen it out</h3>
-        <p class="pgoal">The aim is to get your life back, which is not the same as feeling calm.</p>
+        </ul></div>
+      </details>
+      <details class="fold pfold">
+        <summary><span class="ftx"><span class="fnum">Stage four</span><span class="ftt">Widen it out</span></span><span class="sgn" aria-hidden="true"></span></summary>
+        <div class="fbody"><p class="pgoal">The aim is to get your life back, which is not the same as feeling calm.</p>
         <p>Once things start moving, there is a risk of building a slightly bigger but still small life: one shop, one route, one safe friend. So you deliberately vary things.</p>
         <ul class="plist">
           <li>Repeat a step you have already done, but change one thing about it. A different place, a different person or a different time of day.</li>
           <li>Keep doing things while you still feel afraid. That was always the skill.</li>
           <li>Let bad days be bad days. A hard week does not mean the whole thing has stopped working, even though it will feel like that at the time.</li>
           <li>Start choosing things because you want to do them, not because they are practice. That is what recovery actually feels like.</li>
-        </ul>
-      </div>
-
+        </ul></div>
+      </details>
       <div class="panel">
         <span class="chip b">For today only</span>
         <h3>What are you doing today?</h3>
@@ -1253,14 +1319,7 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
       <h2>Something to read<br><em>for the day you are having</em></h2>
       <p class="lede">Some of these are for the middle of the night. One is for after you have cancelled. One is for a day when things are going well, which can be difficult in its own way. Read whichever one fits.</p>
     </div>
-    <div class="storylist" id="letterList"></div>
-    <div id="letterView" style="display:none;margin-top:3rem">
-      <button class="btn sm" id="letterBack">Back to all letters</button>
-      <div style="margin-top:2rem">
-        <h2 id="letterT"></h2>
-        <div class="story" id="letterB"></div>
-      </div>
-    </div>
+    <div class="acclist" id="letterList"></div>
     <hr class="hair">
   </div>
 </section>
@@ -1279,26 +1338,11 @@ footer{ border-top:1px solid var(--ink-line); margin-top:6rem; padding:3rem 0 4r
 
 <footer>
   <div class="wrap">
-    <div class="grid g2">
-      <div>
-        <div class="mark" style="margin-bottom:1.2rem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" style="width:20px;height:20px">
-            <path d="M12 22 V8"/><path d="M12 14c0-3.6 2.6-6.4 6-6.6-.2 3.8-2.6 6.6-6 6.6z"/><path d="M12 11C12 7.6 9.6 4.8 6.2 4.4 6.4 8 8.8 11 12 11z"/>
-          </svg>
-          Soft Ground
-        </div>
-        <p class="small">Everything here is based on what is known to help with anxiety, written in ordinary language. It is a self-help guide. It is not a diagnosis and it is not treatment. If this has been going on a long time, or it is taking things from you that you want back, tell a doctor as well.</p>
-      </div>
-      <div>
-        <h4>Your privacy</h4>
-        <p class="small">This is one file running in your browser. Nothing you write is stored, sent or seen by anyone. Not your steps, not your thoughts. If you close the tab it is gone, so print your steps if you want to keep them.</p>
-        <p class="small">Three settings are remembered on this device only: your colours, whether you want the background to move, and your text size.</p>
-        <div class="crisis" style="margin-top:1.6rem;padding:1.1rem 1.3rem">
-          <h4 style="margin-bottom:.4rem">If you need someone now</h4>
-          <p class="small" style="margin-bottom:0">In Australia: <strong>Lifeline</strong> 13 11 14, or text 0477 13 11 14, any hour. <strong>Kids Helpline</strong> 1800 55 1800 if you are 5 to 25. <strong>Beyond Blue</strong> 1300 22 4636. <strong>13YARN</strong> 13 92 76. In immediate danger, call <strong>000</strong>.</p>
-        </div>
-      </div>
+    <div class="mark" style="margin-bottom:1.1rem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" style="width:20px;height:20px"><path d="M12 22 V8"/><path d="M12 14c0-3.6 2.6-6.4 6-6.6-.2 3.8-2.6 6.6-6 6.6z"/><path d="M12 11C12 7.6 9.6 4.8 6.2 4.4 6.4 8 8.8 11 12 11z"/></svg>
+      Soft Ground
     </div>
+    <p class="small" style="max-width:var(--measure)">Everything here is based on what is known to help with anxiety, written in ordinary language. It is a self-help guide. It is not a diagnosis and it is not treatment. If this has been going on a long time, or it is taking things from you that you want back, tell a doctor as well. This is one file running in your browser. Nothing you write is stored, sent or seen by anyone, and closing the tab clears it, so print your steps if you want to keep them. Three settings are remembered on this device only: your colours, whether the background moves, and your text size.</p>
   </div>
 </footer>
 
@@ -1488,6 +1532,19 @@ window.addEventListener('load', syncNavHeight);
   window.addEventListener('appinstalled',()=>{ box.classList.remove('on'); });
 })();
 
+
+/* ==========================================================
+   HELP — available from every screen, opens without leaving the page
+   ========================================================== */
+(function(){
+  const panel=document.getElementById('helpPanel'), btn=document.getElementById('helpBtn');
+  if(!panel||!btn) return;
+  function open(v){ panel.classList.toggle('on',v); btn.setAttribute('aria-expanded',v?'true':'false'); }
+  btn.onclick=e=>{ e.stopPropagation(); open(!panel.classList.contains('on')); };
+  document.addEventListener('click',e=>{ if(!panel.contains(e.target) && e.target!==btn) open(false); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') open(false); });
+})();
+
 /* ==========================================================
    THE STUDIO — palette, motion, reading comfort
    Preferences are kept on this device only, and only these
@@ -1568,6 +1625,9 @@ VIEWS.forEach(([id,label])=>{
 function go(id){
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on', v.id==='v-'+id));
   navEl.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.v===id));
+  // the footer belongs to the opening screen only, not to every section
+  const ft=document.querySelector('footer');
+  if(ft) ft.style.display = (id==='here') ? '' : 'none';
   toTop();
 }
 document.addEventListener('click',e=>{
@@ -2279,25 +2339,35 @@ const REFLECTIONS = [
 })();
 
 /* ==========================================================
-   LETTERS
+   LETTERS — same collapsible component as the readings
    ========================================================== */
 (function(){
-  const list=document.getElementById('letterList'), view=document.getElementById('letterView');
-  const lhead=document.querySelector('#v-letters .sechead');
-  LETTERS.forEach(s=>{
-    const b=document.createElement('button');
-    b.innerHTML='<span class="t">'+s.t+'</span><span class="s">'+s.s+'</span>';
-    b.onclick=()=>{
-      document.getElementById('letterT').textContent=s.t;
-      document.getElementById('letterB').innerHTML=s.b;
-      list.style.display='none'; lhead.style.display='none';
-      view.style.display='block'; toTop();
-    };
-    list.appendChild(b);
+  const list=document.getElementById('letterList');
+  const items=[];
+  function close(it){
+    it.el.classList.remove('on');
+    it.panel.style.maxHeight=it.panel.scrollHeight+'px';
+    requestAnimationFrame(()=>{ it.panel.style.maxHeight='0px'; });
+    it.btn.setAttribute('aria-expanded','false');
+  }
+  function open(it){
+    items.forEach(o=>{ if(o!==it && o.el.classList.contains('on')) close(o); });
+    it.el.classList.add('on');
+    it.panel.style.maxHeight=it.panel.scrollHeight+'px';
+    it.btn.setAttribute('aria-expanded','true');
+    setTimeout(()=>{ if(it.el.classList.contains('on')) it.panel.style.maxHeight='none'; },520);
+  }
+  LETTERS.forEach(r=>{
+    const el=document.createElement('div'); el.className='acc';
+    el.innerHTML='<button class="accbtn" aria-expanded="false">'+
+      '<span class="acctx"><span class="acct">'+r.t+'</span>'+
+      '<span class="accs">'+r.s+'</span></span>'+
+      '<span class="accsign" aria-hidden="true"></span></button>'+
+      '<div class="accpanel"><div class="accinner"><div class="story">'+r.b+'</div></div></div>';
+    const it={el, btn:el.querySelector('.accbtn'), panel:el.querySelector('.accpanel')};
+    it.btn.onclick=()=>{ el.classList.contains('on') ? close(it) : open(it); };
+    items.push(it); list.appendChild(el);
   });
-  document.getElementById('letterBack').onclick=()=>{
-    view.style.display='none'; list.style.display='grid'; lhead.style.display='grid'; toTop();
-  };
 })();
 
 /* ==========================================================

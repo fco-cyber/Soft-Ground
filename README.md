@@ -41,6 +41,11 @@ Service workers need `https://` or `localhost`. Opening `index.html` directly wi
 
 ## Deploy to GitHub Pages
 
+> **If your site shows only the repository name and a one-line description,
+> the files did not upload.** `index.html` must be at the top level of the
+> repository. See **[DEPLOY.md](DEPLOY.md)** for step-by-step instructions.
+
+
 1. Push this repository to GitHub.
 2. **Settings → Pages → Source: GitHub Actions.**
 3. Push to `main`. The included workflow publishes the site.
@@ -84,6 +89,29 @@ The exercises are drawn from what has evidence behind it: graded exposure with e
 The reflections are deliberately **not** affirmations. There is no "I am confident" or "I am enough" anywhere. Statements that contradict what someone actually believes tend not to help people with low self-worth, and specific situational statements do better than global claims about the self. Every line is written to be something a reader could agree with on a bad day.
 
 Source references are in `clinical/index.html`.
+
+## Keep it discreet
+
+The app name is the only thing that shows outside it. There is no subtitle in
+the page title, the link preview, the home-screen label or the app switcher,
+and the title and description read only:
+
+> for your support in your journey
+
+That is deliberate. Someone glancing at a phone on a train, or seeing a link
+preview in a message, should not be able to tell what this is about. Not
+wanting to be seen as "the one with the problem" is one of the main reasons
+people never open a resource like this, so the packaging must not undo the
+content.
+
+**Two things you control, not the code:**
+
+1. **Your repository description on GitHub.** This appears in link previews of
+   the repo and on the repo page. Keep it neutral, or leave it blank.
+2. **Your repository name**, which becomes part of the URL.
+
+If you want it fully unremarkable, name the repo something plain and set no
+description.
 
 ## Limits
 

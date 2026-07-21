@@ -15,4 +15,12 @@ grep -q "serviceWorker" index.html && echo "  ok    index registers the service 
 grep -q "13 11 14" index.html && echo "  ok    crisis numbers present" || { echo "  MISS  crisis numbers"; fail=1; }
 v=$(grep -o "VERSION = '[^']*'" sw.js | head -1)
 echo "  note  service worker $v  (bump this after editing the app)"
+# the failure mode that actually bites: uploading the folder instead of its contents
+if [ ! -f index.html ]; then
+  echo ""
+  echo "  index.html is not here. If you are in a repository, the files were"
+  echo "  probably uploaded inside a folder. GitHub Pages will show only your"
+  echo "  README until index.html sits at the top level. See DEPLOY.md."
+  fail=1
+fi
 [ $fail -eq 0 ] && echo "PASS" || { echo "FAIL"; exit 1; }
